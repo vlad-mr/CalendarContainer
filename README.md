@@ -1,5 +1,7 @@
 # CalendarContainer
 
+Main container local repo for plugins integration
+
 ## Requirements: 
 
 1. **iOS 14+ / Swift 5.5**
