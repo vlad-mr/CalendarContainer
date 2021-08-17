@@ -4,7 +4,7 @@ Main container local repo for plugins integration
 
 ## Requirements: 
 
-1. **iOS 14+ / Swift 5.5**
+1. **iOS 11+ / Swift 5.0**
 
 2. **Xcode 12 or 13 beta**
 
