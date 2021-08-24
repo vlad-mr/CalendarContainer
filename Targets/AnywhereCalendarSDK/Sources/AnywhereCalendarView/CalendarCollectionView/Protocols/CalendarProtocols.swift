@@ -9,25 +9,24 @@
 import Foundation
 import UIKit
 #if canImport(CalendarUtils)
-import CalendarUtils
+    import CalendarUtils
 #endif
 
 public protocol CalendarActionDelegate: class {
-    
     func didSelectCell(for item: CalendarItem)
-    func didTapCalendar(on date: Date, atTime timeInMins: Int, duration: Int, notifyCompletion: @escaping ()-> Void)
+    func didTapCalendar(on date: Date, atTime timeInMins: Int, duration: Int, notifyCompletion: @escaping () -> Void)
     func didTapOffHours(on date: Date, atTime timeInMins: Int)
     func didScroll(toDate date: Date)
     func didSwipeToCalendar(withDates dates: [Date])
     func showError(_ alertText: String)
     func refreshContent()
-    
+
     /// This method helps to configure any kind of action for the actionableView
     /// - Parameters:
     ///   - identifier: identifier for the action that has to performed
     ///   - section: index of the section
     func executeAction(withIdentifier identifier: String, at section: Int)
-    
+
     /// This method helps to configure any kind of action for the actionable view
     /// - Parameters:
     ///   - identifier: identifier for the action
@@ -39,25 +38,23 @@ public protocol CalendarActionDelegate: class {
 }
 
 public extension CalendarActionDelegate {
-    
-    func didTapOffHours(on date: Date, atTime timeInMins: Int) { }
-    func didSwipeToCalendar(withDates dates: [Date]) { }
-    func showError(_ alertText: String) { }
+    func didTapOffHours(on _: Date, atTime _: Int) {}
+    func didSwipeToCalendar(withDates _: [Date]) {}
+    func showError(_: String) {}
     func refreshContent() {}
-    func executeAction(withIdentifier identifier: String, at section: Int) {}
-    func executeAction(withIdentifier identifier: String, at indexPath: IndexPath) {}
-    func didScroll(toDate date: Date) {}
+    func executeAction(withIdentifier _: String, at _: Int) {}
+    func executeAction(withIdentifier _: String, at _: IndexPath) {}
+    func didScroll(toDate _: Date) {}
 }
 
 protocol CalendarLayoutDelegate: class {
-    
     var calendarScrollOffset: CGPoint? { get }
     func calendarViewDidScroll(_ scrollView: UIScrollView)
 }
 
 public enum CalendarLayoutType: Equatable {
     case daily, weekly, threeDay, custom(_: Int)
-    
+
     var numberOfDays: Int {
         switch self {
         case .daily:
@@ -66,7 +63,7 @@ public enum CalendarLayoutType: Equatable {
             return 7
         case .threeDay:
             return 3
-        case .custom(let days):
+        case let .custom(days):
             return days
         }
     }
@@ -78,43 +75,41 @@ public protocol CalendarDataProvider {
 }
 
 public protocol FullCalendarDataSource: class {
-    
     /*
      The Data Source can be initialized with the activeDates or the Page number
      If we get the dates, we can get the items for each date. Instead of completely depending on the application
      */
     var activeCalendarView: FullCalendarView? { get set }
-    
+
     var activeDates: [Date] { get }
-    
+
     var numberOfCalendarItems: Int { get }
-    
+
     func getCalendarItems(forSection section: Int) -> [CalendarItem]
-    
+
     func numberOfItems(inSection section: Int) -> Int
-    
+
     func getAvailability(forSection section: Int) -> [WorkingHour]
-    
+
     func shouldShowDayOff(forSection section: Int) -> Bool
-    
+
     func getAllDayEvents(forSection section: Int) -> [CalendarItem]
 }
 
 public extension FullCalendarDataSource {
-    
     var numberOfCalendarItems: Int {
         return 0
     }
-    
-    func getAvailability(forSection section: Int) -> [WorkingHour] {
+
+    func getAvailability(forSection _: Int) -> [WorkingHour] {
         return [WorkingHour(start: 540, end: 1439)]
     }
-    
-    func shouldShowDayOff(forSection section: Int) -> Bool {
+
+    func shouldShowDayOff(forSection _: Int) -> Bool {
         false
     }
-    
-    func getAllDayEvents(forSection section: Int) -> [CalendarItem] {
+
+    func getAllDayEvents(forSection _: Int) -> [CalendarItem] {
         return []
     }
 }
@@ -132,8 +127,8 @@ public protocol ConfigurableView: ActionableView {
     func configure(_ date: Date, at section: Int)
 }
 
-extension ConfigurableView {
-    public var actionDelegate: CalendarActionDelegate? {
+public extension ConfigurableView {
+    var actionDelegate: CalendarActionDelegate? {
         get {
             return nil
         }
@@ -182,9 +177,9 @@ extension Tappable where Self: TappableAllDayEventView {
 protocol CalendarPageDelegate {
     var calendarScrollOffSet: CGPoint { get }
     var numberOfDaysPerLayout: Int { get }
-    
+
     func reloadTimeHeader()
-    
+
     func didSelectItem(_ calendarItem: CalendarItem)
     func didTapView(on date: Date, atTime timeInMins: Int, for duration: Int)
     func setTimeHeaderScrollViewOffset(to calendarCollectionViewOffset: CGPoint)

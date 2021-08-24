@@ -6,22 +6,21 @@
 //  Copyright © 2020 FullCreative Pvt Ltd. All rights reserved.
 //
 
+import EventKit
 import Foundation
 import PromiseKit
-import EventKit
 
 protocol EventBaseVMProtocol {
-    
     var event: Event? { get set }
     var originalEventModel: EventModel? { get set }
     var editedEventModel: EventModel? { get set }
     var mode: EventActionType? { get set }
     var view: EventBaseVCProtocol? { get set }
     var delegate: EventBaseVMDelegateProtocol? { get set }
-    
+
     func viewDidLoad()
     func updateResponseStatus(_ responseStatus: ResponseStatus)
-    func deleteEvent(with type: RemoveEventActionType)    
+    func deleteEvent(with type: RemoveEventActionType)
     func saveEvent(with actionType: EventActionType, _ displayedEvent: EventDisplayModel, shouldCheckSlot: Bool)
 }
 
@@ -31,7 +30,6 @@ protocol EventBaseVMDelegateProtocol: class {
 }
 
 class EventBaseViewModel: EventBaseVMProtocol {
-    
     var view: EventBaseVCProtocol?
     var user: User?
     var event: Event?
@@ -39,33 +37,32 @@ class EventBaseViewModel: EventBaseVMProtocol {
     internal var editedEventModel: EventModel?
 
     weak var delegate: EventBaseVMDelegateProtocol?
-    
+
     var mode: EventActionType?
-    
+
     init() {
-        self.user = EventViewSDKConfiguration.current.user
+        user = EventViewSDKConfiguration.current.user
     }
-    
+
     func viewDidLoad() {
         guard let eventData = getDataForView() else {
             return
         }
         processDataToView(eventData)
     }
-    
+
     private func getDataForView() -> EventDisplayModel? {
-        
         guard mode == .update else {
             return createNewEvent()
         }
-        
+
         guard let event = event else {
             return nil
         }
-        
+
         let eventModel = EventModel(fromEvent: event)
-        self.originalEventModel = eventModel
-        self.editedEventModel = originalEventModel
+        originalEventModel = eventModel
+        editedEventModel = originalEventModel
 
         var rRule: String?
 //        if let parentId = eventModel.parentId {
@@ -74,7 +71,7 @@ class EventBaseViewModel: EventBaseVMProtocol {
 //                rRule = parrentRrule
 //            }
 //        }
-        
+
         var eventDisplayModel = EventDisplayModel(withEvent: eventModel)
         if let rule = rRule {
             eventDisplayModel.rRule = rule
@@ -85,40 +82,39 @@ class EventBaseViewModel: EventBaseVMProtocol {
             let isHost = createdBy == user.id
             eventDisplayModel.isHost = isHost
 //            eventDisplayModel.responseStatus = originalEventModel?.getResponseStatus(forId: user.id) ?? .pending
-        } 
+        }
         return eventDisplayModel
     }
-    
+
     private func createNewEvent() -> EventDisplayModel? {
         guard let appUser = user, let accountId = appUser.account else {
             assertionFailure("User Data missing in Event Base Flow")
             return nil
         }
-        
+
         let currentDate = view?.selectedDate ?? Date()
         let (startTime, endTime) = DateUtils.getUpcomingTimeRangeInMilliSec(forDate: currentDate)
-        
+
         let defaultEvent = EventModel(id: "", parentId: nil, merchant: accountId, calendar: accountId, startTime: startTime, endTime: endTime, maxSeats: 1, service: [], consumer: [], provider: [appUser.id], resource: [], bookingId: nil, title: "", createdBy: appUser.id, location: nil, createdTime: startTime, updatedTime: startTime, startDateTime: Date(milliseconds: Int(startTime)).zuluString, endDateTime: Date(milliseconds: Int(endTime)).zuluString)
-        
+
         originalEventModel = defaultEvent
         editedEventModel = originalEventModel
         let eventToDisplay = EventDisplayModel(withEvent: defaultEvent)
-        
+
         return eventToDisplay
     }
-    
+
     private func processDataToView(_ data: EventDisplayModel) {
         view?.loadEventData(data)
     }
 
     // MARK: - HANDLE EVENT CRUD METHODS TASK
-    func updateResponseStatus(_ responseStatus: ResponseStatus) {
-    }
-    
-    func deleteEvent(with type: RemoveEventActionType) {
-    }
-    func saveEvent(with actionType: EventActionType, _ displayedEvent: EventDisplayModel, shouldCheckSlot: Bool) {
-    }
+
+    func updateResponseStatus(_: ResponseStatus) {}
+
+    func deleteEvent(with _: RemoveEventActionType) {}
+
+    func saveEvent(with _: EventActionType, _: EventDisplayModel, shouldCheckSlot _: Bool) {}
 }
 
 enum RemoveEventActionType {

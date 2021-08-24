@@ -24,7 +24,7 @@ protocol CustomFryquencyPickerViewModelProtocol {
 protocol CustomFryquencyViewModelProtocol {
     var tableViewData: [CustomFrequencyHeaderModel] { get }
     var pickerData: [[String]] { get }
-    
+
     func viewDidLoad()
 }
 
@@ -39,23 +39,23 @@ class CustomFryquencyViewModel: CustomFryquencyViewModelProtocol {
     init(view: CustomFryquencyVCProtocol) {
         self.view = view
     }
-    
+
     var tableViewData: [CustomFrequencyHeaderModel] {
         return model.getTableViewData()
     }
-    
+
     var pickerData: [[String]] {
         return model.getPickerData()
     }
-    
+
     lazy var editedRule = RecurrenceRule(frequency: .daily) {
         didSet {
             let descriptionData = [
                 String(editedRule.interval),
-                editedRule.frequency.toPickerTitleStyleString()
+                editedRule.frequency.toPickerTitleStyleString(),
             ]
             view.updateRepeatCell(with: descriptionData.joined(separator: " "))
-            
+
             var dynamicTitle: String = ""
             if let endReccurrenceCount = editedRule.recurrenceEnd?.occurrenceCount, endReccurrenceCount != 0 {
                 dynamicTitle = "After \(endReccurrenceCount) occurrencess"
@@ -66,16 +66,15 @@ class CustomFryquencyViewModel: CustomFryquencyViewModelProtocol {
             view.updateEndReccurrenceCell(with: dynamicTitle.isEmpty ? "Never" : dynamicTitle)
         }
     }
-    
-    func viewDidLoad() {
-    }
-    
+
+    func viewDidLoad() {}
+
     private var newMode: RecurrenceFrequency = .daily {
         didSet {
             let tempInterval = editedRule.interval
             editedRule = .init(frequency: newMode)
             editedRule.interval = tempInterval
-            
+
             view.toggleCell(for: newMode)
         }
     }
@@ -85,11 +84,11 @@ extension CustomFryquencyViewModel: CustomFryquencyTableViewModelProtocol {
     func numberOfSections() -> Int {
         return tableViewData.count
     }
-    
+
     func numberOfRowsInSection(_ section: Int) -> Int {
         return tableViewData[section].cellModels.count
     }
-    
+
     func cellForRowAt(indexPath: IndexPath) -> CustomFrequencyCellModel {
         return tableViewData[indexPath.section].cellModels[indexPath.row]
     }
@@ -99,18 +98,18 @@ extension CustomFryquencyViewModel: CustomFryquencyPickerViewModelProtocol {
     func numberOfComponents() -> Int {
         return pickerData.count
     }
-    
+
     func numberOfRowsInComponent(_ component: Int) -> Int {
         return pickerData[component].count
     }
-    
+
     func titleForRow(_ row: Int, forComponent component: Int) -> String {
         return pickerData[component][row]
     }
-    
+
     func didSelectRow(_ row: Int, inComponent component: Int) {
         let componentData = pickerData[component][row]
-        
+
         if component == 0 {
             editedRule.interval = Int(componentData) ?? 0
         } else if component == 1 {

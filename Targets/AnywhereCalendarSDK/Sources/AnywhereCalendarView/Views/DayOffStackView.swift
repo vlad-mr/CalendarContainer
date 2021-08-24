@@ -8,20 +8,18 @@
 import UIKit
 
 class AllDayEventStackView: CalendarHeaderStackView {
-    
     override func updateView() {
-
-        self.distribution = .fill
+        distribution = .fill
         if !subviews.isEmpty {
-            for subview in self.subviews {
+            for subview in subviews {
                 subview.removeFromSuperview()
             }
         }
-        self.alignment = .top
+        alignment = .top
         for date in dates {
             let dayOffView = getAllDayView(forDate: date, shouldShowAllDayEvent: config.shouldHaveFloatingAllDayEvent, shouldShowDayOff: config.shouldHaveFloatingDayOff)
-            dayOffView.setupWidthAnchor(withConstant: (contentWidth + 1))
-            self.addArrangedSubview(dayOffView)
+            dayOffView.setupWidthAnchor(withConstant: contentWidth + 1)
+            addArrangedSubview(dayOffView)
         }
     }
 }

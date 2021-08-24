@@ -15,7 +15,7 @@ extension NibLoadable {
     static var nib: UINib {
         return UINib(nibName: name, bundle: Bundle(for: self))
     }
-    
+
     static var name: String {
         return String(describing: self)
     }
@@ -26,7 +26,7 @@ extension NibLoadable where Self: UIView {
         guard let view = nib.instantiate(withOwner: nil, options: nil).first as? Self else {
             fatalError()
         }
-        
+
         return view
     }
 }

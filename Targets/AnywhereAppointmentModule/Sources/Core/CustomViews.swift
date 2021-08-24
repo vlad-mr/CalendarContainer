@@ -12,49 +12,49 @@ import UIKit.UIView
 class RoundedView: UIView {
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.layer.cornerRadius = self.frame.height / 2
+        layer.cornerRadius = frame.height / 2
     }
 }
 
 class StatefulButton: UIButton {
-    
     enum Mode {
         case selected
         case unselected
     }
-    
+
     var mode: Mode = .unselected {
         didSet {
-            self.setupView()
+            setupView()
         }
     }
+
     var buttonColor: UIColor?
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.layer.cornerRadius = 10
+        layer.cornerRadius = 10
     }
-    
+
     override func layoutSubviews() {
         super.layoutSubviews()
         let value = isEnabled
-        self.isEnabled = value
+        isEnabled = value
     }
-    
+
     func configure(selectedModeTitle: String, unselectedModeTitle: String, color: UIColor? = AppDecor.MainColors.anytimeSolidBlue, mode: Mode = .unselected, icon: UIImage? = nil) {
         buttonColor = color
         self.mode = mode
-        self.setTitle(selectedModeTitle, for: .disabled)
-        self.setTitle(unselectedModeTitle, for: .normal)
+        setTitle(selectedModeTitle, for: .disabled)
+        setTitle(unselectedModeTitle, for: .normal)
         setupView()
         setIcon(icon: icon)
     }
-    
+
     func setIcon(icon: UIImage?) {
         setImage(icon, for: .disabled)
         semanticContentAttribute = .forceRightToLeft
     }
-    
+
     func setupView() {
         switch mode {
         case .selected:
@@ -65,97 +65,93 @@ class StatefulButton: UIButton {
             backgroundColor = buttonColor
         }
     }
-    
 }
 
 class RoundedButton: AnytimeButton {
-    
     enum Action {
         case edit(title: String = "Edit")
         case delete(title: String = "Delete")
         case custom(title: String, bgColor: UIColor?, textColor: UIColor?)
-        
+
         var title: String {
             switch self {
-            
-            case .edit(let title):
+            case let .edit(title):
                 return title
-            case .delete(let title):
+            case let .delete(title):
                 return title
-            case .custom(let title, _, _):
+            case let .custom(title, _, _):
                 return title
             }
         }
     }
-    
+
     var bgColor: UIColor = .gray {
         didSet {
             self.backgroundColor = bgColor
         }
     }
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.layer.cornerRadius = 10
+        layer.cornerRadius = 10
     }
-    
+
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        self.layer.cornerRadius = 10
+        layer.cornerRadius = 10
     }
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.layer.cornerRadius = 10
-        self.backgroundColor = UIColor(red: 150, green: 150, blue: 150).withAlphaComponent(0.7)
-        self.isEnabled = false
+        layer.cornerRadius = 10
+        backgroundColor = UIColor(red: 150, green: 150, blue: 150).withAlphaComponent(0.7)
+        isEnabled = false
         bgColor = AppDecor.MainColors.anytimeLightBlue
     }
-    
-    //Due the issue in iOS 12 we are overriding the layoutSubviews method to change the color
+
+    // Due the issue in iOS 12 we are overriding the layoutSubviews method to change the color
     override func layoutSubviews() {
         super.layoutSubviews()
         let value = isEnabled
-        self.isEnabled = value
+        isEnabled = value
     }
+
     override var isEnabled: Bool {
         didSet {
-            self.backgroundColor = isEnabled ? bgColor : UIColor(red: 150, green: 150, blue: 150).withAlphaComponent(0.7)
+            backgroundColor = isEnabled ? bgColor : UIColor(red: 150, green: 150, blue: 150).withAlphaComponent(0.7)
         }
     }
-    
+
     func configureButton(withTitle title: String, backgroundColor: UIColor?, textColor: UIColor?, fontSize size: CGFloat, shouldDropShadow: Bool = false, shouldShowBorder: Bool = false) {
         setTitle(title, for: .normal)
         setTitleColor(textColor, for: .normal)
         titleLabel?.font = AppDecor.Fonts.medium.withSize(size)
-        self.bgColor = backgroundColor ?? .white
+        bgColor = backgroundColor ?? .white
         if shouldShowBorder {
             setBorder()
         }
-        
+
         if shouldDropShadow {
-            self.dropShadow()
-        }
-    }
-    
-    private func setBorder() {
-        self.layer.borderColor = AppDecor.BorderColors.whiteBorder.cgColor
-        self.layer.borderWidth = 1
-    }
-    
-    func setup(forAction action: Action) {
-        switch action {
-            
-        case .edit:
-            self.setTitleColor(AppDecor.MainColors.anytimeSolidBlue, for: .normal)
-        case .delete:
-            self.setTitleColor(AppDecor.CardColors.sun, for: .normal)
-        case .custom( _, let bgColor, let textColor):
-            self.setTitleColor(textColor, for: .normal)
-            self.bgColor = bgColor ?? .blue
+            dropShadow()
         }
     }
 
+    private func setBorder() {
+        layer.borderColor = AppDecor.BorderColors.whiteBorder.cgColor
+        layer.borderWidth = 1
+    }
+
+    func setup(forAction action: Action) {
+        switch action {
+        case .edit:
+            setTitleColor(AppDecor.MainColors.anytimeSolidBlue, for: .normal)
+        case .delete:
+            setTitleColor(AppDecor.CardColors.sun, for: .normal)
+        case let .custom(_, bgColor, textColor):
+            setTitleColor(textColor, for: .normal)
+            self.bgColor = bgColor ?? .blue
+        }
+    }
 }
 
 extension RoundedButton {
@@ -174,32 +170,29 @@ extension RoundedButton {
 }
 
 class ShareButton: UIButton {
-    
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        self.titleLabel?.font = AppDecor.Fonts.medium.withSize(13)
-        self.layer.borderColor = AppDecor.BorderColors.whiteBorder.cgColor
-        self.layer.borderWidth = 1
-        self.layer.cornerRadius = 10
-        self.layer.shadowColor = UIColor.black.withAlphaComponent(0.7).cgColor
-        self.layer.shadowRadius = 2
+        titleLabel?.font = AppDecor.Fonts.medium.withSize(13)
+        layer.borderColor = AppDecor.BorderColors.whiteBorder.cgColor
+        layer.borderWidth = 1
+        layer.cornerRadius = 10
+        layer.shadowColor = UIColor.black.withAlphaComponent(0.7).cgColor
+        layer.shadowRadius = 2
         startAnimatingPressActions()
     }
-    
 }
 
 class AnytimeButton: UIButton {
-    
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         startAnimatingPressActions()
     }
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         startAnimatingPressActions()
     }
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
         startAnimatingPressActions()
@@ -207,84 +200,81 @@ class AnytimeButton: UIButton {
 }
 
 class LoginButton: UIButton {
-    
     override func awakeFromNib() {
         super.awakeFromNib()
         initializeButton()
-        self.addTarget(self, action: #selector(didTapButton(_:)), for: .touchUpInside)
+        addTarget(self, action: #selector(didTapButton(_:)), for: .touchUpInside)
     }
-    
+
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         initializeButton()
     }
-    
+
     var actionForButton: ((UIButton) -> Void)?
-    
+
     private var imageHeightConstraint: NSLayoutConstraint!
     private var imageWidthConstraint: NSLayoutConstraint!
     private var titleLeadingConstraint: NSLayoutConstraint!
     private var titleTrailingConstraint: NSLayoutConstraint!
     private var imageLeadingConstraint: NSLayoutConstraint!
-    
+
     private func initializeButton() {
-        self.titleLabel?.font = AppDecor.Fonts.H3
-        self.titleLabel?.textColor = UIColor.black.withAlphaComponent(0.9)
-        self.layer.borderColor = AppDecor.BorderColors.whiteBorder.cgColor
-        self.layer.borderWidth = 0.5
-        self.layer.cornerRadius = 8
-        self.titleLabel?.textAlignment = .center
-        
+        titleLabel?.font = AppDecor.Fonts.H3
+        titleLabel?.textColor = UIColor.black.withAlphaComponent(0.9)
+        layer.borderColor = AppDecor.BorderColors.whiteBorder.cgColor
+        layer.borderWidth = 0.5
+        layer.cornerRadius = 8
+        titleLabel?.textAlignment = .center
+
         setConstraints()
-        self.dropShadow()
+        dropShadow()
         startAnimatingPressActions()
     }
-    
+
     private func setConstraints() {
-        imageLeadingConstraint = self.imageView?.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20)
-        imageWidthConstraint = self.imageView?.widthAnchor.constraint(equalToConstant: 30)
-        imageHeightConstraint = self.imageView?.heightAnchor.constraint(equalToConstant: 30)
-        titleLeadingConstraint = self.titleLabel?.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20 + 30)
-        titleTrailingConstraint = self.titleLabel?.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -20)
-        self.imageView?.clipsToBounds = true
+        imageLeadingConstraint = imageView?.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20)
+        imageWidthConstraint = imageView?.widthAnchor.constraint(equalToConstant: 30)
+        imageHeightConstraint = imageView?.heightAnchor.constraint(equalToConstant: 30)
+        titleLeadingConstraint = titleLabel?.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20 + 30)
+        titleTrailingConstraint = titleLabel?.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20)
+        imageView?.clipsToBounds = true
         NSLayoutConstraint.activate([imageHeightConstraint, imageWidthConstraint, imageLeadingConstraint, titleTrailingConstraint, titleLeadingConstraint])
     }
-    
+
     private func setSizeConstraints(_ size: CGFloat) {
         imageWidthConstraint.constant = size
         imageHeightConstraint.constant = size
-        
+
         titleLeadingConstraint.constant = 20 + size
         titleTrailingConstraint.constant = -20
     }
-    
+
     func configureButton(withIcon icon: UIImage?, title: String, imageSize: CGFloat) {
-        
-        self.setTitle(title, for: .normal)
-        self.setImage(icon, for: .normal)
+        setTitle(title, for: .normal)
+        setImage(icon, for: .normal)
         setSizeConstraints(imageSize)
     }
-    
+
     @objc func didTapButton(_ sender: UIButton) {
         actionForButton?(sender)
     }
 }
 
 extension UIButton {
-    
     func startAnimatingPressActions() {
         addTarget(self, action: #selector(animateDown), for: [.touchDown, .touchDragEnter])
         addTarget(self, action: #selector(animateUp), for: [.touchDragExit, .touchCancel, .touchUpInside, .touchUpOutside])
     }
-    
+
     @objc private func animateDown(sender: UIButton) {
         animate(sender, transform: CGAffineTransform.identity.scaledBy(x: 0.95, y: 0.95))
     }
-    
+
     @objc private func animateUp(sender: UIButton) {
         animate(sender, transform: .identity)
     }
-    
+
     private func animate(_ button: UIButton, transform: CGAffineTransform) {
         UIView.animate(withDuration: 0.4,
                        delay: 0,
@@ -292,7 +282,7 @@ extension UIButton {
                        initialSpringVelocity: 3,
                        options: [.curveEaseInOut],
                        animations: {
-                        button.transform = transform
-            }, completion: nil)
+                           button.transform = transform
+                       }, completion: nil)
     }
 }

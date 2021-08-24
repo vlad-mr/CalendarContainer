@@ -6,8 +6,8 @@
 //  Copyright © 2021 FullCreative Pvt Ltd. All rights reserved.
 //
 
-import Foundation
 import EventKit
+import Foundation
 
 internal extension EKWeekday {
     func toTitle(_ prefix: Int?) -> String {
@@ -26,7 +26,7 @@ internal extension EKWeekday {
         }
         return String(tempTitle.prefix(value))
     }
-    
+
     func toSymbol() -> String {
         switch self {
         case .monday: return "MO"
@@ -65,7 +65,7 @@ internal extension EKWeekday {
     }
 }
 
-extension EKWeekday: Comparable { }
+extension EKWeekday: Comparable {}
 
 public func < (lhs: EKWeekday, rhs: EKWeekday) -> Bool {
     return lhs.toNumberSymbol() < rhs.toNumberSymbol()

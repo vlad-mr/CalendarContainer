@@ -5,8 +5,8 @@
 //  Created by Artem Grebinik on 10.08.2021.
 //
 
-import UIKit
 import SwiftDate
+import UIKit
 
 extension UIColor {
     convenience init(red: CGFloat, green: CGFloat, blue: CGFloat) {
@@ -15,23 +15,20 @@ extension UIColor {
 }
 
 extension UIFont {
-
     public enum MetropolisType: String {
         case semibold = "-Semibold"
         case medium = "-Medium"
         case bold = "-Bold"
         case regular = "-Regular"
     }
-    
+
     static func Metropolis(_ type: MetropolisType = .bold, size: CGFloat = UIFont.systemFontSize) -> UIFont? {
         return UIFont(name: "Metropolis\(type.rawValue)", size: size)
     }
 }
 
 extension UIImageView {
-    
     func setImage(forName name: String?, font: UIFont = AppDecor.Fonts.medium.withSize(20)) {
-
         var initials = ""
         guard let nameComponents = name?.components(separatedBy: " "), let firstWord = nameComponents.first, let firstLetter = firstWord.first else {
             return
@@ -40,7 +37,7 @@ extension UIImageView {
         //                initials += String(lastLetter).capitalized
         //        }
         initials += String(firstLetter).capitalized
-        let nameLabel = UILabel(frame: self.frame)
+        let nameLabel = UILabel(frame: frame)
         nameLabel.textAlignment = .center
         nameLabel.backgroundColor = AppDecor.getColor(forCharacter: firstLetter)
         nameLabel.textColor = .white
@@ -48,14 +45,14 @@ extension UIImageView {
 
         nameLabel.text = initials
         UIGraphicsBeginImageContext(frame.size)
-        guard  let currentContext = UIGraphicsGetCurrentContext() else {
+        guard let currentContext = UIGraphicsGetCurrentContext() else {
             return
         }
         nameLabel.layer.render(in: currentContext)
         guard let nameImage = UIGraphicsGetImageFromCurrentImageContext() else {
             return
         }
-        self.image = nameImage
+        image = nameImage
     }
 
     func setImage(forColorCode code: Int, size: CGSize = CGSize(width: 1, height: 1)) {
@@ -75,7 +72,7 @@ extension UIImage {
         let color = AppDecor.getCardColor(forCode: code)
         return getImage(forColor: color, size: size)
     }
-    
+
     static func getImage(forColor color: UIColor?, size: CGSize = CGSize(width: 1, height: 1)) -> UIImage? {
         guard let color = color else {
             return nil

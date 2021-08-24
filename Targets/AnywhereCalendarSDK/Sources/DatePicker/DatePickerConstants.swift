@@ -8,7 +8,6 @@
 import UIKit
 
 public struct DatePickerDimensions {
-    
     var weekHeaderHeight: CGFloat
     var monthTitleHeight: CGFloat
     var pickerDateHeight: CGFloat

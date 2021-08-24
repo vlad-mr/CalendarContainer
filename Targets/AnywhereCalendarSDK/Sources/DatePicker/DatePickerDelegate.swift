@@ -9,16 +9,14 @@ import Foundation
 import UIKit
 
 public protocol DatePickerDelegate: class {
-    
     /// This method is invoked when the user selects any date from the Picker
     /// - Parameter date: Date object
     func didSelect(date: Date)
-    
-    
+
     /// This method gives the title that can be updated for the picker
     /// - Parameter title: A string containing picker title
     func didUpdatePickerTitle(to title: String)
-    
+
     /// This method is invoked when there is a need for the calendar to extend or decrease in height
     /// - Parameter height: A CGFloat value to denote the height
     func didUpdatePickerHeight(to height: CGFloat)

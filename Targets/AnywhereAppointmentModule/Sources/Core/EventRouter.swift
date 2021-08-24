@@ -19,20 +19,17 @@ enum EventRoute {
 }
 
 class EventRouter: Router {
-    
     typealias AppRoute = EventRoute
 
     init() {}
-        
+
     public static var initialViewController: EventBaseNavigationController {
         let eventBaseNavigation = AnytimeNibs.eventBaseNavigation
         return eventBaseNavigation
     }
-    
+
     func route(to destination: EventRoute, from source: UIViewController, info: Any?) {
-        
         switch destination {
-            
         case .selectContacts: break
 //            let guestView = ContactListViewController()
 //            guestView.delegate = source as? ContactListDelegate
@@ -61,15 +58,16 @@ class EventRouter: Router {
 //            staticContactView.participantsList = participantsList
 //            source.navigationController?.pushViewController(staticContactView, animated: true)
 
-        case .selectFrequency: 
+        case .selectFrequency:
             let event = info as? EventDisplayModel
             let recurringView = AnywhereRecurringView.getRecurringView(
                 forInitialFrequency: event?.repeatMode ?? .doNotRepeat,
                 eventStartDate: event?.startDate ?? Date(),
-                delegate: source as? FrequencyVCDelegate)
+                delegate: source as? FrequencyVCDelegate
+            )
 
             source.navigationController?.pushViewController(recurringView, animated: true)
-            
+
         case .back:
             source.navigationController?.popViewController(animated: true)
         }

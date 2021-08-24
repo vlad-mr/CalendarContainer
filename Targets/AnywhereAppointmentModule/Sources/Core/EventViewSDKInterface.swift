@@ -13,33 +13,31 @@ public enum EventViewRoute {
     case updateEvent(event: Event?)
 }
 
-public class EventViewSDK {
-    
+public enum EventViewSDK {
     public static func updateATimezone(_ accountTimezoneId: String) {
         EventViewSDKConfiguration.current.accountTimezoneId = accountTimezoneId
     }
-    
+
     public static func updatUser(_ user: User) {
         EventViewSDKConfiguration.current.user = user
     }
-    
+
     public static func getEventView(viewMode: ViewMode, eventViewRoute: EventViewRoute, user: User?, accountTimezoneId: String?) -> EventBaseNavigationController {
-        
         let eventBaseNavigation = EventRouter.initialViewController
         guard let eventBaseView = eventBaseNavigation.topViewController as? EventBaseViewController else {
             fatalError("Event base navigation initialization failed!")
         }
-        
+
         eventBaseView.viewMode = viewMode
-     
+
         if let user = user {
             EventViewSDKConfiguration.current.user = user
         }
-        
+
         if let timezoneId = accountTimezoneId {
             EventViewSDKConfiguration.current.accountTimezoneId = timezoneId
         }
-        
+
         switch eventViewRoute {
         case let .createEvent(chosenDate):
             if let date = chosenDate {
@@ -47,14 +45,14 @@ public class EventViewSDK {
                 eventBaseView.selectedDate = date
             }
             return eventBaseNavigation
-            
+
         case let .updateEvent(updatingEvent):
             if let event = updatingEvent {
                 eventBaseView.eventActionType = .update
                 eventBaseView.viewModel?.event = event
                 eventBaseView.viewMode = .full
             }
-    
+
             return eventBaseNavigation
         }
     }
@@ -62,7 +60,7 @@ public class EventViewSDK {
 
 struct EventViewSDKConfiguration {
     var user: User?
-    
+
     var accountTimezoneId: String = TimeZone.current.identifier {
         didSet {
             guard accountTimezoneId.isNotEmpty else {
@@ -75,8 +73,8 @@ struct EventViewSDKConfiguration {
             SwiftDate.defaultRegion = region
         }
     }
-    
-    static var current: EventViewSDKConfiguration = EventViewSDKConfiguration()
+
+    static var current = EventViewSDKConfiguration()
 }
 
 public struct Event {
@@ -117,32 +115,33 @@ public struct Event {
 }
 
 public struct User {
-    
     // MARK: IDs
+
     var id: String
     //    var userId: String // not required, reference for FULL CONTACT
     //    var accountId: String
-    var type: String //change to use type
-    
+    var type: String // change to use type
+
     var branding: Bool
-    
+
     var link: String?
-    
+
     var description: String?
     var language: String
     var timezone: String
     var country: String?
     var avatar: String?
-    
+
     // MARK: User Infor
+
     var firstName: String?
     var lastName: String?
     var email: String?
     var apiKey: String?
-    
+
     var user: String?
     var account: String?
-    
+
     var fullName: String {
         guard let first = firstName?.trim() else {
             return ""
@@ -152,7 +151,7 @@ public struct User {
         }
         return first
     }
-    
+
     enum CodingKeys: String, CodingKey {
         case id
         //        case userId
@@ -169,7 +168,7 @@ public struct User {
         case email = "login"
         case avatar
         case apiKey
-        
+
         case user
         case account
     }

@@ -16,12 +16,10 @@ public struct SchedulingEngineApiResponse<Response: Codable>: Codable {
 }
 
 public enum APIError: String, Error {
-    
     case noNetwork = "No Internet Connection", invalidData = "Invalid Data", apiFailed = "API Failed", unknown = "Unknown"
     case missingData
-    
+
     func getErrorType(forString string: String) -> APIError {
-        
         guard let errorType = APIError(rawValue: string) else {
             return .unknown
         }
@@ -30,7 +28,6 @@ public enum APIError: String, Error {
 }
 
 extension APIError: LocalizedError {
-    
     public var errorDescription: String? {
         switch self {
         case .invalidData:

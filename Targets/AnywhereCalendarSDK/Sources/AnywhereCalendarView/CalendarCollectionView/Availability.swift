@@ -9,19 +9,18 @@
 import Foundation
 
 public struct UserAvailability: Codable, Equatable, Hashable {
-    
-    public var sunday: DayAvailability = DayAvailability(hours: [WorkingHour(start: 420, end: 1080)])
-    public var monday: DayAvailability = DayAvailability()
-    public var tuesday: DayAvailability = DayAvailability()
-    public var wednesday: DayAvailability = DayAvailability()
-    public var thursday: DayAvailability = DayAvailability()
-    public var friday: DayAvailability = DayAvailability()
-    public var saturday: DayAvailability = DayAvailability(hours: [])
-    
+    public var sunday = DayAvailability(hours: [WorkingHour(start: 420, end: 1080)])
+    public var monday = DayAvailability()
+    public var tuesday = DayAvailability()
+    public var wednesday = DayAvailability()
+    public var thursday = DayAvailability()
+    public var friday = DayAvailability()
+    public var saturday = DayAvailability(hours: [])
+
     private var weeklyAvailability: [DayAvailability] {
         [sunday, monday, tuesday, wednesday, thursday, friday, saturday]
     }
-    
+
     public init() {
         sunday = DayAvailability()
         monday = DayAvailability()
@@ -31,7 +30,7 @@ public struct UserAvailability: Codable, Equatable, Hashable {
         friday = DayAvailability()
         saturday = DayAvailability(hours: [])
     }
-    
+
     enum CodingKeys: String, CodingKey {
         case sunday = "SU"
         case monday = "MO"
@@ -41,7 +40,7 @@ public struct UserAvailability: Codable, Equatable, Hashable {
         case friday = "FR"
         case saturday = "SA"
     }
-    
+
     public func getAvailability(forDay day: Int) -> DayAvailability {
         guard day < 7 else {
             preconditionFailure("Invalid day value passed")
@@ -67,9 +66,7 @@ public struct UserAvailability: Codable, Equatable, Hashable {
     }
 }
 
-extension UserAvailability {
-    
-}
+extension UserAvailability {}
 
 public struct DayAvailability: Codable, Equatable, Hashable {
     var hours: [WorkingHour] = [WorkingHour()]
@@ -78,23 +75,25 @@ public struct DayAvailability: Codable, Equatable, Hashable {
 public struct WorkingHour: Codable, Equatable, Hashable {
     var start: Int = 540
     var end: Int = 1020
-    
+
     init() {
-        self.start = 0
-        self.end = 1439
+        start = 0
+        end = 1439
     }
+
     public init(start: Int, end: Int) {
         self.start = start
         self.end = end
     }
+
     var isLowerAndUpperBoundEqual: Bool {
-        return self.start == self.end
+        return start == end
     }
-    
+
     var boundsDifference: Int {
-        return self.end - self.start
+        return end - start
     }
-    
+
     func contains(_ element: Int) -> Bool {
         return ClosedRange(uncheckedBounds: (lower: start, upper: end)).contains(element)
     }

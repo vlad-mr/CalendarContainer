@@ -8,28 +8,26 @@
 import UIKit
 
 open class TappableView: UIView, Tappable {
-    
-    
-    open var action: (() -> Void)? = nil
-    
-    public override init(frame: CGRect) {
+    open var action: (() -> Void)?
+
+    override public init(frame: CGRect) {
         super.init(frame: frame)
         setup()
     }
-    
-    public override func awakeFromNib() {
+
+    override public func awakeFromNib() {
         setup()
     }
-    
-    required public init?(coder: NSCoder) {
+
+    public required init?(coder: NSCoder) {
         super.init(coder: coder)
         setup()
     }
-    
+
     private func setup() {
-        self.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTap)))
+        addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTap)))
     }
-    
+
     @objc func didTap() {
         action?()
     }

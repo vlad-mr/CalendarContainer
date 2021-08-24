@@ -7,11 +7,11 @@
 
 import Foundation
 
-public class AnywhereRecurringView {
+public enum AnywhereRecurringView {
     public static func getRecurringView(forInitialFrequency frequency: Frequency,
-                                 eventStartDate: Date,
-                                 delegate: FrequencyVCDelegate?) -> FrequencyViewController {
-        
+                                        eventStartDate: Date,
+                                        delegate: FrequencyVCDelegate?) -> FrequencyViewController
+    {
         let recurringView = FrequencyRouter.initialViewController
         recurringView.originalFrequencyMode = frequency
         recurringView.startEventDate = eventStartDate

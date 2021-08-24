@@ -26,39 +26,38 @@ protocol EndFryquencyPickerViewModelProtocol {
 protocol EndFryquencyViewModelProtocol {
     var tableViewData: [EndFrequencyHeaderModel] { get }
     var pickerData: [String] { get }
-    
+
     func viewDidLoad()
 }
 
 class EndReccurringViewModel: EndFryquencyViewModelProtocol {
-    
     private let model = EndFrequencyModel()
     var view: EndReccurringVCProtocol
 
     init(view: EndReccurringVCProtocol) {
         self.view = view
     }
-    
+
     var tableViewData: [EndFrequencyHeaderModel] {
         return model.getTableViewData()
     }
+
     var pickerData: [String] {
         return model.getPickerData()
     }
-    
-    func viewDidLoad() {
-        
-    }
+
+    func viewDidLoad() {}
 }
+
 extension EndReccurringViewModel: EndFryquencyTableViewModelProtocol {
     func numberOfSections() -> Int {
         return tableViewData.count
     }
-    
+
     func numberOfRowsInSection(_ section: Int) -> Int {
         return tableViewData[section].cellModels.count
     }
-    
+
     func cellForRowAt(indexPath: IndexPath) -> EndFrequencyCellModel {
         return tableViewData[indexPath.section].cellModels[indexPath.row]
     }
@@ -68,16 +67,16 @@ extension EndReccurringViewModel: EndFryquencyPickerViewModelProtocol {
     func numberOfComponents() -> Int {
         return 1
     }
-    
-    func numberOfRowsInComponent(_ component: Int) -> Int {
+
+    func numberOfRowsInComponent(_: Int) -> Int {
         return pickerData.count
     }
-    
-    func titleForRow(_ row: Int, forComponent component: Int) -> String {
+
+    func titleForRow(_ row: Int, forComponent _: Int) -> String {
         return pickerData[row]
     }
-    
-    func didSelectRow(_ row: Int, inComponent component: Int) {
+
+    func didSelectRow(_: Int, inComponent _: Int) {
 //        let componentData = pickerData[component][row]
 //
 //        if component == 0 {

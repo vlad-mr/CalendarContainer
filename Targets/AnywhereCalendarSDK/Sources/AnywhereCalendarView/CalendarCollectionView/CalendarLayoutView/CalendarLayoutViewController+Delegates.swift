@@ -7,13 +7,11 @@
 
 import UIKit
 #if canImport(CalendarUtils)
-import CalendarUtils
+    import CalendarUtils
 #endif
 
 extension CalendarLayoutViewController: UICollectionViewDelegate {
-    
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
             collectionView.deselectItem(at: indexPath, animated: true)
         }
@@ -22,9 +20,8 @@ extension CalendarLayoutViewController: UICollectionViewDelegate {
         }
         actionDelegate?.didSelectCell(for: calendarItem)
     }
-    
+
     public func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        
         guard let supplementaryElementKind = FullCalendarSupplementaryViewKind(rawValue: kind) else {
             return UICollectionReusableView()
         }
@@ -40,57 +37,52 @@ extension CalendarLayoutViewController: UICollectionViewDelegate {
         }
     }
 }
+
 extension CalendarLayoutViewController: DateHeaderCustomizationDelegate {
-    
     func getDateHeaderHeight(forDate date: Date) -> CGFloat {
-        
         let noOfAllDayEventsForDate = getNoOfAllDayEvents(forDate: date)
-        let heightToBeReduced = CGFloat(self.numberOfAllDayEvents - noOfAllDayEventsForDate) * viewConfig.calendarDimensions.allDayEventHeight
+        let heightToBeReduced = CGFloat(numberOfAllDayEvents - noOfAllDayEventsForDate) * viewConfig.calendarDimensions.allDayEventHeight
         return dateHeaderHeight - heightToBeReduced
     }
+
     func shouldShowDayOff(forDate date: Date) -> Bool {
-        
         guard let dataSource = dataSource, let section = dataSource.activeDates.firstIndex(of: date) else {
             return false
         }
-        
+
         return dataSource.shouldShowDayOff(forSection: section)
     }
-    
+
     func getHeaderView(forDate date: Date) -> ConfigurableDateHeader? {
-        
         guard let headerView = customizationProvider.dequeueCalendarHeader(at: 0) as? ConfigurableDateHeader else {
             return nil
         }
         headerView.configure(date, at: 0)
-        headerView.actionDelegate = self.actionDelegate
+        headerView.actionDelegate = actionDelegate
         return headerView
     }
-    
+
     func getDayOffView(forDate date: Date) -> ConfigurableAllDayEventView? {
-        
         guard let dataSource = dataSource, let section = dataSource.activeDates.firstIndex(of: date), dataSource.shouldShowDayOff(forSection: section) else {
             return nil
         }
-        
+
         return customizationProvider.getViewForDayOff(at: section)
     }
-    
+
     func getAllDayEventViews(forDate date: Date) -> [TappableAllDayEventView] {
-        
         guard let dataSource = dataSource, let section = dataSource.activeDates.firstIndex(of: date) else {
             return []
         }
-        
+
         let allDayEvents = dataSource.getAllDayEvents(forSection: section)
-        
+
         return allDayEvents.compactMap {
-            
             guard let allDayEventView = customizationProvider.getViewForAllDayEvent(at: section) as? TappableAllDayEventView else {
                 return nil
             }
             allDayEventView.actionDelegate = self.actionDelegate
-            
+
             if allDayEventView.action == nil {
                 allDayEventView.action = allDayEventView.tapAction
             }
@@ -100,31 +92,27 @@ extension CalendarLayoutViewController: DateHeaderCustomizationDelegate {
             return allDayEventView
         }
     }
-    
+
     func getNoOfAllDayEvents(forDate date: Date) -> Int {
-        
         guard let dataSource = dataSource, let section = dataSource.activeDates.firstIndex(of: date) else {
             return 0
         }
-        
+
         return dataSource.getAllDayEvents(forSection: section).count
     }
 }
 
-
 extension CalendarLayoutViewController: CalendarCollectionViewLayoutDelegate {
-    
     public func userAvailability(forSection: Int) -> [WorkingHour] {
         dataSource?.getAvailability(forSection: forSection) ?? []
     }
-    
+
     public var indexForCurrentTimeLine: Int? {
         dataSource?.activeDates.firstIndex(where: { $0.isToday })
     }
 }
 
 extension CalendarLayoutViewController: HeaderExpansionDelegate {
-    
     func didTap(onView view: UIView) {
         isHeaderExpanded = view == excessAllDayEventIndicatorStackView
     }

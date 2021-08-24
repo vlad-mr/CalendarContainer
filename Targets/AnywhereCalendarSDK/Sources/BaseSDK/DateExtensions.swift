@@ -16,7 +16,7 @@ extension DateFormatter {
         rfc3339DateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
         return rfc3339DateFormatter
     }()
-    
+
     static let standard: DateFormatter = {
         let en_US_POSIX = Locale(identifier: "en_US_POSIX")
         let stdDateFormatter = DateFormatter()
@@ -27,23 +27,22 @@ extension DateFormatter {
     }()
 }
 
-extension Date {
-    init?(fromZuluString zuluString: String) {
+public extension Date {
+    internal init?(fromZuluString zuluString: String) {
         guard let date = DateFormatter.zulu.date(from: zuluString) else {
             return nil
         }
         self = date
     }
-    
-    public init?(fromString dateString: String) {
+
+    init?(fromString dateString: String) {
         guard let date = DateFormatter.standard.date(from: dateString) else {
             return nil
         }
         self = date
     }
-    
-    public var standardDateString: String {
+
+    var standardDateString: String {
         DateFormatter.standard.string(from: self)
     }
 }
-

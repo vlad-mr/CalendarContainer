@@ -15,13 +15,13 @@ enum AppDecor {
         static let anytimeOrange = UIColor.appColor(.anytimeOrange)
         static let anytimeBrown = UIColor.appColor(.anytimeBrown)
     }
-    
-    struct BorderColors {
+
+    enum BorderColors {
         static let whiteBorder = UIColor.appColor(.whiteBorder)
         static let blueBorder = UIColor.appColor(.blueBorder)
     }
-    
-    struct NavBarIcons {
+
+    enum NavBarIcons {
         static let hamburgerMenu = UIImage(named: "Hamburger menu")
         static let downArrow = UIImage(named: "DownArrow")
         static let currentDate = UIImage(named: "Current date")
@@ -29,7 +29,7 @@ enum AppDecor {
         static let upArrow = UIImage(named: "UpArrow")
         static let backArrow = UIImage(named: "common_back_arrow")
     }
-    
+
     enum Icons {
         static let selectedCell = UIImage(named: "SelectedCell")
         static let unselectedCell = UIImage(named: "UnselectedCell")
@@ -43,7 +43,7 @@ enum AppDecor {
         static let declined = UIImage(named: "cancelled")
         static let pending = UIImage(named: "pending")
         static let locationIcon = UIImage(named: "LocationIcon")
-        
+
         static let addNotifications_inactive = UIImage(named: "AddNotificationsIcon-Inactive")
         static let repeatIcon = UIImage(named: "RepeatIcon")
         static let timezone = UIImage(named: "TimeZoneIcon")
@@ -53,14 +53,14 @@ enum AppDecor {
         static let crossCircle = UIImage(named: "close")
         static let setmoreEvent = UIImage(named: "event_setmore")
         static let inviteNewPerson = UIImage(named: "InviteNewPerson")
-        
-        struct Login {
+
+        enum Login {
             static let google = UIImage(named: "google_icon")
             static let microsoft = UIImage(named: "office_365_icon")
         }
     }
-    
-    struct CardColors {
+
+    enum CardColors {
         static let lightCeruleanBlue = UIColor.appColor(.lightCeruleanBlue)
         static let lightSeaGreen = UIColor.appColor(.lightSeaGreen)
         static let lightSlateBlue = UIColor.appColor(.lightSlateBlue)
@@ -82,9 +82,8 @@ enum AppDecor {
         static let seagull = UIColor.appColor(.seagull)
         static let flamingo = UIColor.appColor(.flamingo)
     }
-    
-    struct Fonts {
 
+    enum Fonts {
         static let semiBold: UIFont = {
             guard let semiBoldFont = UIFont.Metropolis(.semibold, size: 13) else {
                 assertionFailure("Missing SemiBold font asset")
@@ -129,8 +128,7 @@ enum AppDecor {
     }
 }
 
-struct AnytimeNibs {
-    
+enum AnytimeNibs {
     static var eventBaseNavigation: EventBaseNavigationController {
         let storyboard = UIStoryboard(name: "Events", bundle: nil)
         guard let vc = storyboard.instantiateViewController(withIdentifier: "EventBaseNavigationController") as? EventBaseNavigationController else {
@@ -138,7 +136,7 @@ struct AnytimeNibs {
         }
         return vc
     }
-    
+
     static var eventBaseTableView: EventBaseTableViewController {
         let storyboard = UIStoryboard(name: "Events", bundle: nil)
         guard let vc = storyboard.instantiateViewController(withIdentifier: "EventBaseTableViewController") as? EventBaseTableViewController else {
@@ -146,7 +144,7 @@ struct AnytimeNibs {
         }
         return vc
     }
-    
+
     static var eventDateCell: EventDateCell {
         let cell = EventDateCell.loadFromNib()
         return cell
@@ -156,64 +154,67 @@ struct AnytimeNibs {
         let cell = EventTitleDescriptionCell.loadFromNib()
         return cell
     }
-    
+
     static var textViewCell: TextViewCell {
         let cell = TextViewCell.loadFromNib()
         return cell
     }
+
     static var textFieldWithImage: TextFieldWithImageCell {
         let cell = TextFieldWithImageCell.loadFromNib()
         return cell
     }
+
     static var eventLinkCell: EventLinkCell {
         let cell = EventLinkCell.loadFromNib()
         return cell
     }
+
     static var guestCell: UITableViewCell {
         let cell = UITableViewCell()
         return cell
     }
-    
+
     static var hostButtonView: HostButtonView {
         let view = HostButtonView.loadFromNib()
         return view
     }
-    
+
     static var nonHostButtonView: NonHostButtonView {
         let view = NonHostButtonView.loadFromNib()
         return view
     }
-    
+
     static var frequencySelectionCell: FrequencySelectionCell {
         let cell = FrequencySelectionCell.loadFromNib()
         return cell
     }
-    
+
     static var iconIndicatorTableViewCell: IconIndicatorTableViewCell {
         let cell = IconIndicatorTableViewCell.loadFromNib()
         return cell
     }
-    
+
     static var yearControl: YearlyControl {
         let yearlyControl = YearlyControl.loadFromNib()
         return yearlyControl
     }
-    
+
     static var weekControl: WeekControl {
         let weekControl = WeekControl()
         return weekControl
     }
-    
+
     static var monthlyControl: MonthlyControl {
         let control = MonthlyControl.loadFromNib()
         return control
     }
-    
+
     static var customRepeatCell: CustomRepeatRecurrencyCell {
         let cell = CustomRepeatRecurrencyCell.loadFromNib()
         return cell
     }
-    
+
     static var titleSubtitleIndicatorCell: TitleSubtitleIndicatorCell {
         let cell = TitleSubtitleIndicatorCell.loadFromNib()
         return cell
@@ -221,23 +222,21 @@ struct AnytimeNibs {
 }
 
 extension AppDecor {
-    
     static var getRandomColor: UIColor? {
         let setOfColours: Set<UIColor?> = [MainColors.anytimeLightBlue, CardColors.fern, CardColors.bronco]
         return setOfColours.randomElement() ?? UIColor.white
     }
-    
+
     static func getColor(forCharacter char: Character) -> UIColor {
-        
         var colorId: Int = 10
         if char.isLetter {
             if let lowerCaseIndex = [
-                "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"
-                ].firstIndex(of: char) {
+                "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z",
+            ].firstIndex(of: char) {
                 colorId = lowerCaseIndex
             } else if let upperCaseIndex = [
-                "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"
-                ].firstIndex(of: char) {
+                "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z",
+            ].firstIndex(of: char) {
                 colorId = upperCaseIndex
             }
         } else if char.isNumber, let number = Int(char.lowercased()) {
@@ -247,7 +246,7 @@ extension AppDecor {
         }
         return AppDecor.getCardColor(forCode: colorId) ?? UIColor.green
     }
-    
+
     static func getCardColor(forCode code: Int) -> UIColor? {
         switch code % 20 {
         case 0: return AppDecor.CardColors.steelBlue

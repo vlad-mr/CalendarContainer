@@ -22,15 +22,13 @@ public extension ReusableView {
 }
 
 public protocol ReusableNib {
-    
     /// Defaultly the nibName and reuseIdentifier would be same - description to self, if the user wants they can provide different nibName and reuseIdentifier
     static var nibName: String { get }
     static func getNib() -> UINib?
 }
 
-extension ReusableNib where Self: UIView {
-    
-    public static var nibName: String {
+public extension ReusableNib where Self: UIView {
+    static var nibName: String {
         String(describing: self)
     }
 }

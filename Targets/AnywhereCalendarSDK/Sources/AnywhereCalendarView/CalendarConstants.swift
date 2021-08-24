@@ -10,19 +10,16 @@ import Foundation
 import UIKit
 
 public struct ScheduleViewDimensions {
-    
     let cellHeight: CGFloat
     let dateHeaderWidth: CGFloat
     let dateHeaderHeight: CGFloat
-    
+
     public init(cellHeight: CGFloat = 88, dateHeaderWidth: CGFloat = 70, dateHeaderHeight: CGFloat = 35) {
-        
         self.cellHeight = cellHeight
         self.dateHeaderWidth = dateHeaderWidth
         self.dateHeaderHeight = dateHeaderHeight
     }
 }
-
 
 public struct CalendarDimensions {
     var timeHeaderWidth: CGFloat = 56
@@ -32,9 +29,7 @@ public struct CalendarDimensions {
 }
 
 public extension CalendarDimensions {
-    
     static var defaultDimensions: Self {
-        
         return CalendarDimensions()
     }
 }

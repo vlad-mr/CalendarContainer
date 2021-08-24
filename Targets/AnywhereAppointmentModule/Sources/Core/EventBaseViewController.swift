@@ -6,10 +6,10 @@
 //  Copyright © 2020 FullCreative Pvt Ltd. All rights reserved.
 //
 
-import UIKit
-import MBProgressHUD
 import CustomViewPresenter
-//import AnywhereAppointmentModule
+import MBProgressHUD
+import UIKit
+// import AnywhereAppointmentModule
 
 protocol EventBaseVCProtocol: class {
     var eventToDisplay: EventDisplayModel? { get set }
@@ -25,9 +25,8 @@ enum EventViewMode {
 
 enum EventBaseCells {
     case name, dateTime, startDate, startDatePicker, endDate, endDatePicker, timeZone, repeatMode, guest, notifications, location, notes
-    
+
     var indexPath: IndexPath {
-        
         switch self {
         case .name:
             return IndexPath(row: 0, section: 0)
@@ -61,68 +60,62 @@ public enum ViewMode {
     case mini, full
 }
 
-public class EventBaseNavigationController: UINavigationController {
-    
-}
+public class EventBaseNavigationController: UINavigationController {}
 
 class EventBaseViewController: UIViewController {
-    
-    @IBOutlet weak var buttonView: EventDetailButtonView!
-    @IBOutlet weak var tableContainerView: UIView!
+    @IBOutlet var buttonView: EventDetailButtonView!
+    @IBOutlet var tableContainerView: UIView!
     var currentTimezone: String?
     var selectedDate: Date?
     lazy var eventBaseTableView: EventBaseTableViewController? = AnytimeNibs.eventBaseTableView
     var viewModel: EventBaseVMProtocol? = EventBaseViewModel()
-    
+
     var eventActionType: EventActionType = .create
     var router = EventRouter()
     var heightForMiniMode: CGFloat? = 342
     var viewMode: ViewMode = .mini
-    
+
     lazy var alertHUD: MBProgressHUD = getAlertHud(srcView: self.view)
     var keyboardHeight: CGFloat = 0
     var eventViewMode: EventViewMode = .host
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTableView()
         setupViewModel()
         buttonView.delegate = self
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setupObservers()
     }
-    
+
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         eventBaseTableView?.tableView.endEditing(true)
-        self.view.endEditing(true)
+        view.endEditing(true)
         removeObservers()
     }
-    
+
     private func setupViewModel() {
         viewModel?.view = self
         viewModel?.mode = eventActionType
         viewModel?.delegate = self
         viewModel?.viewDidLoad()
     }
-    
+
     private func setupObservers() {
-        
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
-    
+
     private func removeObservers() {
-        
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
     }
-    
+
     private func setupTableView() {
-        
         guard let eventBaseTableView = self.eventBaseTableView else {
             assertionFailure("Events Table View missing")
             return
@@ -131,38 +124,37 @@ class EventBaseViewController: UIViewController {
         eventBaseTableView.selectedDate = selectedDate
         eventBaseTableView.delegate = self
         eventBaseTableView.frequencyVCDelegate = self
-        eventBaseTableView.viewMode = self.viewMode
+        eventBaseTableView.viewMode = viewMode
         eventActionType == .update ? eventBaseTableView.setScrollEnabled(true) : eventBaseTableView.setScrollEnabled(false)
         embedViewController(eventBaseTableView, toContainerView: tableContainerView)
     }
-    
+
     func saveButtonAction(shouldCheckSlot: Bool = false) {
         guard let event = eventBaseTableView?.editedEvent else {
             return
         }
-        
-        self.view.endEditing(true)
+
+        view.endEditing(true)
         var loaderText = ""
-        
+
         if eventActionType == .create {
             let condition = event.rRule != nil
             loaderText = condition ? "Creating Recurring Event..." : "Creating Single Event..."
             alertHUD.showLoader(msg: loaderText)
-            
+
             condition ?
-                self.viewModel?.saveEvent(with: .recurringCreate, event, shouldCheckSlot: shouldCheckSlot) :
-                self.viewModel?.saveEvent(with: .create, event, shouldCheckSlot: shouldCheckSlot)
-            
+                viewModel?.saveEvent(with: .recurringCreate, event, shouldCheckSlot: shouldCheckSlot) :
+                viewModel?.saveEvent(with: .create, event, shouldCheckSlot: shouldCheckSlot)
+
         } else {
-            
             guard event.parentId != nil else {
                 let condition = eventToDisplay?.rRule == nil && event.rRule != nil
                 loaderText = condition ? "Single Event -> RECURRING..." : "Updating Single Event..."
                 alertHUD.showLoader(msg: loaderText)
-                
+
                 condition ?
-                    self.viewModel?.saveEvent(with: .eventToRecurring, event, shouldCheckSlot: shouldCheckSlot) :
-                    self.viewModel?.saveEvent(with: .update, event, shouldCheckSlot: shouldCheckSlot)
+                    viewModel?.saveEvent(with: .eventToRecurring, event, shouldCheckSlot: shouldCheckSlot) :
+                    viewModel?.saveEvent(with: .update, event, shouldCheckSlot: shouldCheckSlot)
 
                 return
             }
@@ -170,10 +162,10 @@ class EventBaseViewController: UIViewController {
             switch event.repeatMode {
             case .doNotRepeat:
                 loaderText = "Recurring Event -> SINGLE"
-                self.alertHUD.showLoader(msg: loaderText)
-                self.viewModel?.saveEvent(with: .recurringToEvent, event, shouldCheckSlot: shouldCheckSlot)
+                alertHUD.showLoader(msg: loaderText)
+                viewModel?.saveEvent(with: .recurringToEvent, event, shouldCheckSlot: shouldCheckSlot)
             default:
-                
+
                 guard event.rRule != eventToDisplay?.rRule else {
                     let cancelActionText = "Cancel"
                     let tailUpdateActionText = "Update This End All Futute"
@@ -181,7 +173,7 @@ class EventBaseViewController: UIViewController {
                     let alertTitleText = "Are you sure you want to update this event?"
                     let childUpdate = "Child recurring updating..."
                     let tailUpdate = "Tail updating..."
-                    
+
                     let alertButtons: [UIAlertControllerCommonInputData.Button] = [
                         .init(title: childUpdateActionText, action: {
                             self.alertHUD.showLoader(msg: childUpdate)
@@ -191,51 +183,48 @@ class EventBaseViewController: UIViewController {
                             self.alertHUD.showLoader(msg: tailUpdate)
                             self.viewModel?.saveEvent(with: .tail, event, shouldCheckSlot: shouldCheckSlot)
                         }),
-                        .init(title: cancelActionText, action: nil)
+                        .init(title: cancelActionText, action: nil),
                     ]
-                    
+
                     let commonInputData = UIAlertControllerCommonInputData(
                         title: alertTitleText,
                         message: String(),
-                        buttons: alertButtons)
-                    
+                        buttons: alertButtons
+                    )
+
                     showDeletionAlert(with: commonInputData)
                     return
                 }
-                
+
                 loaderText = "Tail updating..."
-                self.alertHUD.showLoader(msg: loaderText)
-                self.viewModel?.saveEvent(with: .tail, event, shouldCheckSlot: shouldCheckSlot)
+                alertHUD.showLoader(msg: loaderText)
+                viewModel?.saveEvent(with: .tail, event, shouldCheckSlot: shouldCheckSlot)
             }
         }
     }
-    
+
     @objc
-    private func keyboardWillShow(notification: Notification) {
-    }
-    
+    private func keyboardWillShow(notification _: Notification) {}
+
     @objc
-    private func keyboardWillHide(notification: Notification) {
-    }
-    
+    private func keyboardWillHide(notification _: Notification) {}
+
     private func toggleToFullView() {
         if viewMode == .mini {
             maximizeToFullScreen()
-            self.viewMode = .full
+            viewMode = .full
             eventBaseTableView?.viewMode = .full
         }
-        self.viewMode = .full
+        viewMode = .full
         eventBaseTableView?.setScrollEnabled(true)
     }
-    
+
     func didChangeToMaxMode() {
         toggleToFullView()
     }
-    
 }
 
 extension EventBaseViewController: CustomViewPresentable {
-    
     func didChangeToFullScreen() {
         viewMode = .full
         eventBaseTableView?.viewMode = .full
@@ -244,10 +233,9 @@ extension EventBaseViewController: CustomViewPresentable {
 }
 
 extension EventBaseViewController: EventBaseTableViewDelegateProtocol {
-    
     func didTapFrequency() {
         let info = eventBaseTableView?.editedEvent
-        
+
         if viewMode == .mini {
             maximizeToFullScreen()
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.75) {
@@ -257,48 +245,51 @@ extension EventBaseViewController: EventBaseTableViewDelegateProtocol {
             router.route(to: .selectFrequency, from: self, info: info)
         }
     }
-    
+
     func didTapDeleteButton() {
         let isRecurringMeeting = viewModel?.event?.parentId != nil
-        
+
         let deleteEventActionText = isRecurringMeeting ? "Delete This Event Only" : "Yes"
         let cancelActionText = isRecurringMeeting ? "Cancel" : "No"
         let deleteAllActionText = "Delete All Future Events"
         let wholeDelete = "Delete Whole"
         let additionalTitleText = isRecurringMeeting ? "This is repeating event." : ""
         let alertTitleText = "Are you sure you want to delete this event? \(additionalTitleText)"
-        
+
         var alertButtons: [UIAlertControllerCommonInputData.Button] = [
             .init(title: deleteEventActionText, action: {
                 self.alertHUD.showLoader(msg: "Deleting event..")
                 self.viewModel?.deleteEvent(with: .child)
-                
+
             }),
-            .init(title: cancelActionText, action: nil)
+            .init(title: cancelActionText, action: nil),
         ]
-        
+
         if isRecurringMeeting {
             alertButtons.insert(
                 .init(title: deleteAllActionText, action: {
                     self.alertHUD.showLoader(msg: "Deleting future events..")
                     self.viewModel?.deleteEvent(with: .tail)
                 }),
-                at: 1)
+                at: 1
+            )
             alertButtons.insert(
                 .init(title: wholeDelete, action: {
                     self.alertHUD.showLoader(msg: "Deleting whole recurring event..")
                     self.viewModel?.deleteEvent(with: .whole)
                 }),
-                at: 2)
+                at: 2
+            )
         }
         let commonInputData = UIAlertControllerCommonInputData(
             title: alertTitleText,
             message: String(),
-            buttons: alertButtons)
-        
+            buttons: alertButtons
+        )
+
         showDeletionAlert(with: commonInputData)
     }
-    
+
     func didTapTimezone() {
         if viewMode == .mini {
             toggleToFullView()
@@ -309,34 +300,33 @@ extension EventBaseViewController: EventBaseTableViewDelegateProtocol {
             router.route(to: .timezone, from: self, info: nil)
         }
     }
-    
+
     func didTapLink(_ link: String) {
         openLink(link)
     }
-    
+
     func didBeginEditing() {
         maximizeToFullScreen()
     }
-    
+
     func didUpdate(shouldSave: Bool) {
         buttonView.didUpdate(shouldSave: shouldSave)
     }
-    
+
     func didCopyLink() {
-        self.alertHUD.showText(msg: "Link Copied", detailMsg: "", duration: 1)
+        alertHUD.showText(msg: "Link Copied", detailMsg: "", duration: 1)
     }
-    
+
     func changeTimezone(newTimezone: String) {
         eventBaseTableView?.timezoneCell.setDescription(newTimezone)
     }
-    
+
     func saveEventInfo() {
         saveButtonAction()
     }
 }
 
 extension EventBaseViewController: EventBaseVCProtocol {
-    
     var eventToDisplay: EventDisplayModel? {
         get {
             eventBaseTableView?.eventToDisplay
@@ -345,14 +335,14 @@ extension EventBaseViewController: EventBaseVCProtocol {
             eventBaseTableView?.eventToDisplay = newValue
         }
     }
-    
+
     func loadEventData(_ event: EventDisplayModel) {
         var isHost = event.isHost
         if event.source == .setmore {
             isHost = false
         }
         eventBaseTableView?.editingEnabled = isHost
-        eventBaseTableView?.loadEventData(event, actionType: self.eventActionType)
+        eventBaseTableView?.loadEventData(event, actionType: eventActionType)
         currentTimezone = EventViewSDKConfiguration.current.accountTimezoneId
         eventViewMode = isHost ? .host : .nonHost
         buttonView.setResponseStatus(event.responseStatus)
@@ -367,31 +357,29 @@ extension EventBaseViewController: EventBaseVCProtocol {
 }
 
 extension EventBaseViewController: EventBaseVMDelegateProtocol {
-    
     func didUpdateResponseStatus(_ result: Result<Bool, Error>) {
         alertHUD.hideHud()
         switch result {
-        
         case .success(true):
             buttonView.setResponseStatus(.accepted)
         case .success(false):
             buttonView.setResponseStatus(.declined)
-        case .failure(let error):
+        case let .failure(error):
             alertHUD.showText(msg: "", detailMsg: error.localizedDescription, duration: 1)
         }
         alertHUD.hide(animated: true, afterDelay: 2)
     }
-    
+
     func didCompleteAction(_ result: Result<String, Error>) {
         alertHUD.hideHud()
         switch result {
-        case .success(let message):
+        case let .success(message):
             alertHUD.showText(msg: message, duration: 2)
             DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                 self.dismiss(animated: true, completion: nil)
             }
-            
-        case .failure(let error):
+
+        case let .failure(error):
             if let error = error as? AppError, error == AppError.slotNotAvailable {
                 showConflictAlert()
             } else {
@@ -400,33 +388,31 @@ extension EventBaseViewController: EventBaseVMDelegateProtocol {
         }
         alertHUD.hide(animated: true, afterDelay: 2)
     }
-    
+
     private func showConflictAlert() {
-        let conflictAlertController: UIAlertController = UIAlertController(title: "", message: "", preferredStyle: .actionSheet)
-        let message = NSMutableAttributedString(string: "Looks like you’re double-booked. Would you like to continue?", attributes: [ .font: AppDecor.Fonts.medium.withSize(15)])
+        let conflictAlertController = UIAlertController(title: "", message: "", preferredStyle: .actionSheet)
+        let message = NSMutableAttributedString(string: "Looks like you’re double-booked. Would you like to continue?", attributes: [.font: AppDecor.Fonts.medium.withSize(15)])
         conflictAlertController.setValue(message, forKey: "attributedMessage")
-        
-        conflictAlertController.addAction(UIAlertAction(title: "Yes", style: .default, handler: { (_) in
+
+        conflictAlertController.addAction(UIAlertAction(title: "Yes", style: .default, handler: { _ in
             self.saveButtonAction(shouldCheckSlot: false)
         }))
         conflictAlertController.addAction(UIAlertAction(title: "No", style: .default, handler: nil))
-        self.present(conflictAlertController, animated: true, completion: nil)
+        present(conflictAlertController, animated: true, completion: nil)
     }
-    
 }
 
 extension EventBaseViewController: EventDetailActionsDelegate {
-    
     func didTapAcceptButton() {
         alertHUD.showLoader(msg: "Accepting Invite...")
         viewModel?.updateResponseStatus(.accepted)
     }
-    
+
     func didTapDeclineButton() {
         alertHUD.showLoader(msg: "Declining Invite...")
         viewModel?.updateResponseStatus(.declined)
     }
-    
+
     func didTapSaveButton() {
         saveButtonAction()
     }

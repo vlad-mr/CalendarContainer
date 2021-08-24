@@ -9,7 +9,6 @@
 import Foundation
 import UIKit.UIColor
 
-
 public protocol CalendarItem {
     var id: String { get set }
     var title: String? { get set }
@@ -31,7 +30,7 @@ public struct AnywhereCalendarItem: CalendarItem {
     public var shouldAllowEditing: Bool = false
     public var isAllDay: Bool = false
     public var source: EventSource = .local
-    
+
     public init(
         withId id: String,
         title: String?,
@@ -56,21 +55,19 @@ public enum EventSource {
     case local
 }
 
-//public protocol FullCalendarCell {
-//    
+// public protocol FullCalendarCell {
+//
 //    var id: String { get set }
 //    var titleLabel: UILabel { get set }
 //    var iconView: UIImageView? { get set }
 //    var descriptionLabel: UILabel { get set }
-//}
+// }
 //
-//public protocol CalendarCustomizationProvider {
+// public protocol CalendarCustomizationProvider {
 //    func cell(forItem item: CalendarItem) -> FullCalendarCell
-//}
+// }
 
 protocol CalendarDelegate {
-    
     func didTapCalendar(at date: Date) // Date will be computed based on the timezone with which the SDK was initialized
     func didTapEvent(_ event: CalendarItem)
 }
-

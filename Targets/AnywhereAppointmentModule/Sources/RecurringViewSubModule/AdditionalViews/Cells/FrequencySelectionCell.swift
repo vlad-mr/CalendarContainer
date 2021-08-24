@@ -9,47 +9,47 @@
 import UIKit
 
 class FrequencySelectionCell: SeparatorTableViewCell, NibLoadable {
-    @IBOutlet weak var selectionView: UIImageView!
-    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet var selectionView: UIImageView!
+    @IBOutlet var titleLabel: UILabel!
 
     var isDurationSelected: Bool = false {
         didSet {
             selectionView.image = isDurationSelected ? AppDecor.Icons.selectedCell : AppDecor.Icons.unselectedCell
         }
     }
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.selectionStyle = .none
-        
-        self.titleLabel.font = AppDecor.Fonts.medium.withSize(15)
-        self.titleLabel.text = ""
-        self.titleLabel.textColor = .black
+        selectionStyle = .none
+
+        titleLabel.font = AppDecor.Fonts.medium.withSize(15)
+        titleLabel.text = ""
+        titleLabel.textColor = .black
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         // Configure the view for the selected state
     }
-    
+
     func configureCell(withTitle title: String, isSelected: Bool = false, shouldShowSeparator: Bool = false) {
-        
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineHeightMultiple = 1.22
-        
-        self.titleLabel.lineBreakMode = .byWordWrapping
-        self.titleLabel.attributedText = NSMutableAttributedString(
+
+        titleLabel.lineBreakMode = .byWordWrapping
+        titleLabel.attributedText = NSMutableAttributedString(
             string: title,
             attributes: [
                 NSAttributedString.Key.font: AppDecor.Fonts.medium.withSize(15),
-                NSAttributedString.Key.paragraphStyle: paragraphStyle
-            ])
+                NSAttributedString.Key.paragraphStyle: paragraphStyle,
+            ]
+        )
 
         separatorView.isHidden = !shouldShowSeparator
-        self.isDurationSelected = isSelected
+        isDurationSelected = isSelected
     }
-    
+
     func setTitle(_ title: String) {
-        self.titleLabel.text = title
+        titleLabel.text = title
     }
 }

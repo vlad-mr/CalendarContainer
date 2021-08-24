@@ -11,7 +11,6 @@ import SwiftyBeaver
 public let Logger = SwiftyBeaver.self
 
 func configureLogger() {
-
     let console = ConsoleDestination()
     console.format = "$C$L$c $N.$F():$l - $M $C$c"
 
@@ -24,6 +23,6 @@ func configureLogger() {
     Logger.addDestination(console)
 
     #if RELEASE
-    console.minLevel = .error
+        console.minLevel = .error
     #endif
 }

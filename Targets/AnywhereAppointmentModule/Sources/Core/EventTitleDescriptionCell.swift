@@ -9,30 +9,31 @@
 import UIKit
 
 class EventTitleDescriptionCell: EventCell, NibLoadable {
-    
-    @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var descriptionLabel: UILabel!
-    @IBOutlet weak var stackHeight: NSLayoutConstraint!
-    
+    @IBOutlet var titleLabel: UILabel!
+    @IBOutlet var descriptionLabel: UILabel!
+    @IBOutlet var stackHeight: NSLayoutConstraint!
+
     private var enabledStateTitle: String = ""
     private var emptyStateTitle: String = ""
-    
+
     var mode = CellMode.enabled {
         didSet {
             customizeCell(forMode: mode)
         }
     }
+
     enum CellMode {
         case enabled, disabled, empty
 //        case withOutDescription
     }
+
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
         customizeCell(forMode: mode)
-        self.separatorInset.right = .greatestFiniteMagnitude
+        separatorInset.right = .greatestFiniteMagnitude
     }
-    
+
     private func customizeCell(forMode mode: CellMode) {
         DispatchQueue.main.async {
             self.descriptionLabel.isHidden = false
@@ -57,7 +58,7 @@ class EventTitleDescriptionCell: EventCell, NibLoadable {
             }
         }
     }
-    
+
     func configureCell(withTitle enabledTitle: String, titleForEmptyState emptyTitle: String = "", icon: UIImage?, mode: CellMode = .enabled, shouldShowSeparator: Bool = false) {
         self.mode = mode
         enabledStateTitle = enabledTitle
@@ -67,21 +68,21 @@ class EventTitleDescriptionCell: EventCell, NibLoadable {
         separatorView.isHidden = !shouldShowSeparator
         customizeCell(forMode: mode)
     }
-    
+
     func setDescription(_ description: String) {
         mode = description.isEmpty ? .empty : .enabled
         customizeCell(forMode: mode)
         titleLabel.text = mode == .enabled ? enabledStateTitle : emptyStateTitle
         descriptionLabel.text = description
     }
-    
+
     func removeDescription() {
         customizeCell(forMode: .disabled)
         descriptionLabel.text = ""
     }
-    
+
     func updateContentStackHeight(height: CGFloat) {
         stackHeight.constant = height
-        self.layoutIfNeeded()
+        layoutIfNeeded()
     }
 }

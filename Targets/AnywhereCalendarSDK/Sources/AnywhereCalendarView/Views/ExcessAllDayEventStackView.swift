@@ -7,50 +7,50 @@
 
 import UIKit
 #if canImport(CalendarUtils)
-import CalendarUtils
+    import CalendarUtils
 #endif
 
-protocol HeaderExpansionDelegate: class  {
+protocol HeaderExpansionDelegate: class {
     func didTap(onView view: UIView)
 }
+
 class ExcessAllDayEventStackView: CalendarHeaderStackView {
-    
     weak var delegate: HeaderExpansionDelegate?
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupAction()
     }
-    
+
     required init(coder: NSCoder) {
         super.init(coder: coder)
         setupAction()
     }
-    
+
     func setupAction() {
-        self.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTap)))
+        addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTap)))
     }
-    
+
     @objc func didTap() {
         delegate?.didTap(onView: self)
     }
-    
+
     override func updateView() {
-        self.distribution = .fill
+        distribution = .fill
         if !subviews.isEmpty {
-            for subview in self.subviews {
+            for subview in subviews {
                 subview.removeFromSuperview()
             }
         }
-        
+
         for date in dates {
             let excessIndicatorView = getExcessAllDayEventView(forDate: date)
-            
-            self.addArrangedSubview(excessIndicatorView)
+
+            addArrangedSubview(excessIndicatorView)
         }
-        self.addVerticalSeparators(color: AnywhereCalendarView.mainSDK.theme.daySeparatorColor)
+        addVerticalSeparators(color: AnywhereCalendarView.mainSDK.theme.daySeparatorColor)
     }
-    
+
     private func getExcessAllDayEventView(forDate date: Date) -> UIView {
         let label = configure(UILabel()) {
             $0.textColor = AnywhereCalendarView.mainSDK.theme.subHeading
@@ -64,13 +64,13 @@ class ExcessAllDayEventStackView: CalendarHeaderStackView {
         guard let numberOfAllDayEvents = customizationProvider?.getNoOfAllDayEvents(forDate: date), numberOfAllDayEvents > config.numberOfAllDayEventInCollapsedMode else {
             return label
         }
-        
+
         switch config.moreAllDayEventConfiguration {
         case .count:
             label.text = "+\(numberOfAllDayEvents - config.numberOfAllDayEventInCollapsedMode)"
         case .more:
             label.text = "+ more"
-        case .custom(let text):
+        case let .custom(text):
             label.text = text
         }
         return label

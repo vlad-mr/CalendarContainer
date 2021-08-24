@@ -8,7 +8,6 @@
 import UIKit
 
 extension CalendarLayoutViewController {
-    
     func date(forSection section: Int) -> Date? {
         guard let calendarDataSource = dataSource else {
             preconditionFailure("Calendar Data Source cannot be nil")
@@ -19,7 +18,7 @@ extension CalendarLayoutViewController {
         }
         return dates[section]
     }
-    
+
     func calendarItem(forIndexPath indexPath: IndexPath) -> CalendarItem? {
         let calendarItems = getCalendarItems(forSection: indexPath.section)
         guard indexPath.row < calendarItems.count else {
@@ -27,20 +26,19 @@ extension CalendarLayoutViewController {
         }
         return calendarItems[indexPath.row]
     }
-    
+
     public func getCalendarItems(forSection section: Int) -> [CalendarItem] {
         guard let calendarItems = dataSource?.getCalendarItems(forSection: section) else {
             return []
         }
         return calendarItems
     }
-    
+
     public func getCalendarCell(forItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
         guard let calendarCell = customizationProvider.dequeueCalendarCell(forIndexPath: indexPath) as? ConfigurableCollectionCell else {
             return UICollectionViewCell()
         }
-        
+
         guard let calendarItem = calendarItem(forIndexPath: indexPath) else {
             return calendarCell
         }

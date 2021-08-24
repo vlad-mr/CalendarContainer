@@ -6,39 +6,36 @@
 //
 //
 
-import Foundation
 import CoreData
+import Foundation
 
 extension CodingUserInfoKey {
-	static let context = CodingUserInfoKey(rawValue: "context")!
+    static let context = CodingUserInfoKey(rawValue: "context")!
 }
 
-extension JSONDecoder {
-	public convenience init(context: NSManagedObjectContext) {
-		self.init()
-		self.userInfo[.context] = context
-	}
+public extension JSONDecoder {
+    convenience init(context: NSManagedObjectContext) {
+        self.init()
+        userInfo[.context] = context
+    }
 }
 
 @objc(Contact)
-public class BaseEntity: NSManagedObject { }
+public class BaseEntity: NSManagedObject {}
 
 extension BaseEntity {
-
     @nonobjc class func fetchRequest() -> NSFetchRequest<BaseEntity> {
         return NSFetchRequest<BaseEntity>(entityName: "Contact")
     }
 
-	@NSManaged public var id: String
-	@NSManaged var accountId: String
+    @NSManaged public var id: String
+    @NSManaged var accountId: String
     @NSManaged var name: String
     @NSManaged var createdAt: Int64
     @NSManaged var modifiedAt: Int64
-	@NSManaged var imageUrl: String?
+    @NSManaged var imageUrl: String?
     @NSManaged var color: String?
     @NSManaged var sortable: SortableContact?
 }
 
-extension BaseEntity: Identifiable {
-
-}
+extension BaseEntity: Identifiable {}

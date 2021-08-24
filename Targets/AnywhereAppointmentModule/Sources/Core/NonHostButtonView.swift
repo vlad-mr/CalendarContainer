@@ -13,16 +13,14 @@ protocol NonHostButtonViewDelegate: class {
 }
 
 class NonHostButtonView: UIView, NibLoadable {
-    
-    @IBOutlet weak var stackView: UIStackView!
-    @IBOutlet weak var acceptButton: StatefulButton!
-    @IBOutlet weak var declineButton: StatefulButton!
+    @IBOutlet var stackView: UIStackView!
+    @IBOutlet var acceptButton: StatefulButton!
+    @IBOutlet var declineButton: StatefulButton!
     weak var delegate: NonHostButtonViewDelegate?
-    
+
     var responseStatus: ResponseStatus = .pending {
         didSet {
             switch responseStatus {
-                
             case .accepted, .tentative:
                 acceptButton.mode = .selected
                 declineButton.mode = .unselected
@@ -35,22 +33,22 @@ class NonHostButtonView: UIView, NibLoadable {
             }
         }
     }
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
         setupView()
     }
-    
+
     func setupView() {
         acceptButton.configure(selectedModeTitle: "Accepted", unselectedModeTitle: "Accept", color: AppDecor.CardColors.fern, icon: AppDecor.Icons.tickCircle)
         declineButton.configure(selectedModeTitle: "Declined", unselectedModeTitle: "Decline", color: AppDecor.CardColors.mandy, icon: AppDecor.Icons.crossCircle)
     }
-    
-    @IBAction func didTapAcceptButton(_ sender: Any) {
+
+    @IBAction func didTapAcceptButton(_: Any) {
         delegate?.didTapAcceptButton()
     }
-    
-    @IBAction func didTapDecline(_ sender: Any) {
+
+    @IBAction func didTapDecline(_: Any) {
         delegate?.didTapDeclineButton()
     }
 }

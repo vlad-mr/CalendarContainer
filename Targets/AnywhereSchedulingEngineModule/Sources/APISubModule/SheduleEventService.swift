@@ -10,23 +10,22 @@ import Foundation
 import PromiseKit
 
 public protocol SheduleEventServiceProtocol {
-    
-    //Methods to fetch events
+    // Methods to fetch events
     func fetchEvents(withParam param: [String: Any], shouldRefresh: Bool, shouldLoadNext: Bool) -> Promise<EventFetchResponse>
     func fetchEvents(withIds eventIds: [String]) -> Promise<EventFetchResponse>
     func fetchRecurringEvent(withParentID parentId: String?) -> Promise<EventFetchResponse>
-    
-    //Method to create event
+
+    // Method to create event
     func createEvent(withParameters params: [String: Any]) -> Promise<EventModel>
     func createParrentConfigurationOfRecurringEvent(withParameters params: [String: Any]) -> Promise<Void>
-    
-    //Method to update event
+
+    // Method to update event
     func updateEvent(withParameters params: [String: Any]) -> Promise<EventModel>
-    
+
     func updateEventToRecurring(eventID: String, withParameters params: [String: Any]) -> Promise<Void>
     func updateRecurringToEvent(with parentId: String, withParameters params: [String: Any]) -> Promise<Void>
-    
-    //Method to delete the event
+
+    // Method to delete the event
     func deleteEvent(with params: [String: Any], id: String) -> Promise<Void>
     func deleteParrentConfigurationOfRecurringEvent(with params: [String: Any], id: String) -> Promise<Void>
     func deleteTail(with params: [String: Any], withParrentId parrentId: String, afterDate date: Date) -> Promise<Void>
@@ -34,16 +33,16 @@ public protocol SheduleEventServiceProtocol {
     func getParrentConfigurationOfRecurringEvent(withId id: String) -> Promise<Void>
     func updateRecurringEvent(with parentId: String, and params: [String: Any]) -> Promise<Void>
     func updateTail(withId params: [String: Any], withParrentId parrentId: String, afterDate date: Date) -> Promise<Void>
-    
-    //Method to set inform our availability to the event
+
+    // Method to set inform our availability to the event
     func updateResponse(forEvent eventId: String, withResponse responseStatus: ResponseStatus) -> Promise<EventModel>
-    
-    //Methods to save events into the local store
+
+    // Methods to save events into the local store
     func saveEvent(forResponse eventFetchResponse: EventFetchResponse?, shouldRefresh: Bool) -> Promise<EventFetchResponse>
     func saveEvents(_ eventModels: [EventModel]) -> Promise<[EventModel]>
     func saveEvent(_ eventModel: EventModel?) -> Promise<EventModel>
-    
-    //Mehtods to delete the events from the local store
+
+    // Mehtods to delete the events from the local store
     func deleteEventsFromLocalStore(withKeys keys: [String]) -> Promise<Void>
     func deleteEventsFromLocalStore(withParentIds parentIds: [String]) -> Promise<Void>
     func deleteEventsFromLocalStore(withCalendarIds calendarId: [String]) -> Promise<Void>
@@ -52,18 +51,19 @@ public protocol SheduleEventServiceProtocol {
 }
 
 final class SheduleEventService: SheduleEventServiceProtocol {
-    
     let api: EventsApiProtocol
     let dataStackProvider: AnywhereDataProviderType
-    
+
     init(api: EventsApiProtocol, dataStackProvider: AnywhereDataProviderType) {
         self.api = api
         self.dataStackProvider = dataStackProvider
     }
+
     var startTime = 0
     var endTime = 0
-    
+
     // MARK: Fetch Events by param
+
     func fetchEvents(withParam param: [String: Any], shouldRefresh: Bool = false, shouldLoadNext: Bool = true) -> Promise<EventFetchResponse> {
         if shouldRefresh {
             if let start = param["startTime"] as? Int {
@@ -95,9 +95,9 @@ final class SheduleEventService: SheduleEventServiceProtocol {
                     if let start = param["startTime"] as? Int, let end = param["endTime"] as? Int {
                         let startDate = Date(milliseconds: start)
                         let endDate = Date(milliseconds: end)
-                        
+
                         eventResponse.events
-                            .flatMap({ $0.provider })
+                            .flatMap { $0.provider }
                             .forEach { FetchedDatesInfo.shared.addFetchedDates(from: startDate, to: endDate, for: $0) }
                     }
                     promise.fulfill(eventResponse)
@@ -108,7 +108,7 @@ final class SheduleEventService: SheduleEventServiceProtocol {
             }
         }
     }
-    
+
     private func fetchMoreEvents(withParam param: [String: Any], promise: Resolver<EventFetchResponse>) {
         firstly {
             api.fetchEvents(withParam: param)
@@ -125,11 +125,10 @@ final class SheduleEventService: SheduleEventServiceProtocol {
                 if let start = param["startTime"] as? Int, let end = param["endTime"] as? Int {
                     let startDate = Date(milliseconds: start)
                     let endDate = Date(milliseconds: end)
-                    
-                    eventResponse.events
-                        .flatMap({ $0.provider })
-                        .forEach { FetchedDatesInfo.shared.addFetchedDates(from: startDate, to: endDate, for: $0) }
 
+                    eventResponse.events
+                        .flatMap { $0.provider }
+                        .forEach { FetchedDatesInfo.shared.addFetchedDates(from: startDate, to: endDate, for: $0) }
                 }
                 promise.fulfill(eventResponse)
             }
@@ -137,13 +136,13 @@ final class SheduleEventService: SheduleEventServiceProtocol {
             promise.reject($0)
             Logger.warning("Error in fetching events \($0)")
         }
-        
     }
-    
+
     // MARK: Fetch Events by eventIds
+
     func fetchEvents(withIds eventIds: [String]) -> Promise<EventFetchResponse> {
         var param: [String: Any] = ["limit": 30, "eventIds": eventIds]
-        return Promise {  promise in
+        return Promise { promise in
             firstly {
                 api.fetchEvents(withParam: param)
             }.compactMap { data in
@@ -164,8 +163,8 @@ final class SheduleEventService: SheduleEventServiceProtocol {
     }
 
     // MARK: Fetch Events by parentId
-    func fetchRecurringEvent(withParentID parentId: String?) -> Promise<EventFetchResponse> {
 
+    func fetchRecurringEvent(withParentID parentId: String?) -> Promise<EventFetchResponse> {
         return Promise { promise in
             guard let id = parentId else {
                 promise.reject(APIError.missingData)
@@ -193,9 +192,8 @@ final class SheduleEventService: SheduleEventServiceProtocol {
             }
         }
     }
-    
+
     func createEvent(withParameters params: [String: Any]) -> Promise<EventModel> {
-        
         return Promise<EventModel> { promise in
             firstly {
                 self.api.createEvent(withParameters: params)
@@ -213,7 +211,7 @@ final class SheduleEventService: SheduleEventServiceProtocol {
             }
         }
     }
-    
+
     func createParrentConfigurationOfRecurringEvent(withParameters params: [String: Any]) -> Promise<Void> {
         return Promise<Void> { promise in
             firstly {
@@ -234,7 +232,7 @@ final class SheduleEventService: SheduleEventServiceProtocol {
             }
         }
     }
-    
+
     private func validateResponse(_ response: SchedulingEngineApiResponse<[EventModel]>) -> Promise<[EventModel]> {
         return Promise<[EventModel]> { promise in
             guard let events = response.data else {
@@ -246,9 +244,8 @@ final class SheduleEventService: SheduleEventServiceProtocol {
             promise.fulfill(events)
         }
     }
-    
+
     func updateEvent(withParameters params: [String: Any]) -> Promise<EventModel> {
-        
         return Promise<EventModel> { promise in
             firstly {
                 self.api.updateEvent(withParameters: params)
@@ -266,7 +263,7 @@ final class SheduleEventService: SheduleEventServiceProtocol {
             }
         }
     }
-    
+
     func updateRecurringEvent(with parentId: String, and params: [String: Any]) -> Promise<Void> {
         return Promise<Void> { promise in
             firstly {
@@ -289,6 +286,7 @@ final class SheduleEventService: SheduleEventServiceProtocol {
             }
         }
     }
+
     func updateTail(withId params: [String: Any], withParrentId parrentId: String, afterDate date: Date) -> Promise<Void> {
         return Promise<Void> { promise in
             firstly {
@@ -308,13 +306,12 @@ final class SheduleEventService: SheduleEventServiceProtocol {
             }.catch {
                 promise.reject($0)
             }
-            
         }
     }
-    
+
     func updateRecurringToEvent(with parentId: String, withParameters params: [String: Any]) -> Promise<Void> {
         return Promise<Void> { promise in
-            
+
             firstly {
                 self.deleteParrentConfigurationFromLocalStore(withId: parentId)
             }.then {
@@ -335,10 +332,10 @@ final class SheduleEventService: SheduleEventServiceProtocol {
             }
         }
     }
-    
+
     func updateEventToRecurring(eventID: String, withParameters params: [String: Any]) -> Promise<Void> {
         return Promise<Void> { promise in
-            
+
             firstly {
                 self.deleteEventsFromLocalStore(withKeys: [eventID])
             }.then {
@@ -359,8 +356,9 @@ final class SheduleEventService: SheduleEventServiceProtocol {
             }
         }
     }
-    
+
     // MARK: Delete Events
+
     func deleteEvent(with params: [String: Any], id: String) -> Promise<Void> {
         return Promise<Void> { promise in
             firstly {
@@ -374,7 +372,7 @@ final class SheduleEventService: SheduleEventServiceProtocol {
             }
         }
     }
-    
+
     func deleteParrentConfigurationOfRecurringEvent(with params: [String: Any], id: String) -> Promise<Void> {
         return Promise<Void> { promise in
             firstly {
@@ -390,7 +388,7 @@ final class SheduleEventService: SheduleEventServiceProtocol {
             }
         }
     }
-    
+
     func deleteTail(with params: [String: Any], withParrentId parrentId: String, afterDate date: Date) -> Promise<Void> {
         return Promise<Void> { promise in
             firstly {
@@ -404,7 +402,7 @@ final class SheduleEventService: SheduleEventServiceProtocol {
             }
         }
     }
-    
+
     func updateResponse(forEvent eventId: String, withResponse responseStatus: ResponseStatus) -> Promise<EventModel> {
         return Promise<EventModel> { promise in
             firstly {
@@ -420,7 +418,7 @@ final class SheduleEventService: SheduleEventServiceProtocol {
             }
         }
     }
-    
+
     func getParrentConfigurationOfRecurringEvent(withId id: String) -> Promise<Void> {
         return Promise<Void> { promise in
             firstly {
@@ -436,16 +434,17 @@ final class SheduleEventService: SheduleEventServiceProtocol {
             }
         }
     }
-    
+
     // MARK: - Local Store methods
+
     func saveEvents(_ eventModels: [EventModel]) -> Promise<[EventModel]> {
         dataStackProvider.saveEvents(eventModels)
     }
-    
+
     func saveEvent(_ eventModel: EventModel?) -> Promise<EventModel> {
         dataStackProvider.saveEvent(eventModel)
     }
-    
+
     func saveEvent(forResponse eventFetchResponse: EventFetchResponse?, shouldRefresh: Bool = false) -> Promise<EventFetchResponse> {
         dataStackProvider.saveEvent(
             forResponse: eventFetchResponse,
@@ -454,31 +453,31 @@ final class SheduleEventService: SheduleEventServiceProtocol {
             endTime: endTime
         )
     }
-    
+
     func deleteEventsFromLocalStore(withKeys keys: [String]) -> Promise<Void> {
         dataStackProvider.deleteEventsFromLocalStore(withKeys: keys)
     }
-    
+
     func deleteEventsFromLocalStore(withParentIds parentIds: [String]) -> Promise<Void> {
         dataStackProvider.deleteEventsFromLocalStore(withParentIds: parentIds)
     }
-    
+
     func deleteEventsFromLocalStore(withParentIds parentIds: [String], andAfter date: Date) -> Promise<Void> {
         dataStackProvider.deleteEventsFromLocalStore(withParentIds: parentIds, andAfter: date)
     }
-    
+
     func deleteEventsFromLocalStore(withCalendarIds calendarIds: [String]) -> Promise<Void> {
         dataStackProvider.deleteEventsFromLocalStore(withCalendarIds: calendarIds)
     }
-    
+
     func saveParrents(_ events: [EventModel]) -> Promise<[EventModel]> {
         dataStackProvider.saveParrents(events)
     }
-    
+
     func saveParrents(_ parrentModels: ParrentConfigClass) -> Promise<Void> {
         dataStackProvider.saveParrents(parrentModels)
     }
-    
+
     func deleteParrentConfigurationFromLocalStore(withId id: String?) -> Promise<Void> {
         dataStackProvider.deleteParrentConfigurationFromLocalStore(withId: id)
     }

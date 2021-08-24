@@ -9,9 +9,8 @@
 import UIKit
 
 class TextFieldWithImageCell: EventTextFieldCell, NibLoadable {
-
-    @IBOutlet weak var sourceIconWidthContraint: NSLayoutConstraint!
-    @IBOutlet weak var sourceIcon: UIImageView!
+    @IBOutlet var sourceIconWidthContraint: NSLayoutConstraint!
+    @IBOutlet var sourceIcon: UIImageView!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -22,12 +21,12 @@ class TextFieldWithImageCell: EventTextFieldCell, NibLoadable {
 
         // Configure the view for the selected state
     }
-    
+
     func configureCell(withPlaceHolder placeholderText: String, icon: UIImage?, shouldShowSeparator: Bool = false, imageSize: CGFloat = 32, sourceIcon: UIImage?) {
         super.configureCell(withPlaceHolder: placeholderText, icon: icon, shouldShowSeparator: shouldShowSeparator, imageSize: imageSize)
         setSourceIcon(sourceIcon)
     }
-    
+
     func setSourceIcon(_ image: UIImage?) {
         guard let image = image else {
             sourceIconWidthContraint.constant = 0
@@ -36,5 +35,4 @@ class TextFieldWithImageCell: EventTextFieldCell, NibLoadable {
         sourceIconWidthContraint.constant = 16
         sourceIcon.image = image
     }
-
 }

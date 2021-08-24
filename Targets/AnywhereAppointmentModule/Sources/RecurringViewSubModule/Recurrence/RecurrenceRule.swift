@@ -6,16 +6,16 @@
 //  Copyright © 2021 FullCreative Pvt Ltd. All rights reserved.
 //
 
-import Foundation
 import EventKit
+import Foundation
 
 public struct RecurrenceRule: Equatable {
     public static func == (lhs: RecurrenceRule, rhs: RecurrenceRule) -> Bool {
         return lhs.toRRuleString().uppercased() == rhs.toRRuleString().uppercased()
     }
-    
+
     public var isCustomRule: Bool = false
-    
+
     /// The calendar of recurrence rule.
     public var calendar = Calendar.current
 
@@ -92,55 +92,54 @@ public struct RecurrenceRule: Equatable {
     public func toRRuleString() -> String {
         return RRule.stringFromRule(self)
     }
-    
+
     public func getTitle() -> String {
         return RRule.titleFromRule(self)
     }
-    
+
     public func getStaticRule(_ startEventDate: Date?) -> String? {
         guard let date = startEventDate else { return nil }
-        switch self.frequency {
+        switch frequency {
         case .daily:
             return RecurrenceRule(frequency: .daily).toRRuleString()
-            
+
         case .monthly:
             guard let ekWeekday = EKWeekday(rawValue: date.weekday) else { return nil }
-            
+
             let calendar = date.calendar
             var components = calendar.dateComponents([.year, .month, .weekdayOrdinal, .weekday], from: date)
             var suchDatesAtMonth: [Date] = []
-            for ordinal in 1..<6 { // maximum 5 occurrences
+            for ordinal in 1 ..< 6 { // maximum 5 occurrences
                 components.weekdayOrdinal = ordinal
                 guard let date = calendar.date(from: components) else { break }
                 if calendar.component(.month, from: date) != components.month! { break }
                 suchDatesAtMonth.append(date)
             }
-            
+
             guard let index = suchDatesAtMonth.firstIndex(where: { $0.day == date.day }) else { return nil }
             let dynamicWeekOfMonth = suchDatesAtMonth.last?.day == date.day ? -1 : index + 1
-            
+
             var monthly = RecurrenceRule(frequency: .monthly)
             monthly.byweekday = [ekWeekday]
             monthly.bysetpos = [dynamicWeekOfMonth]
             return monthly.toRRuleString()
-            
+
         case .weekly:
             guard let ekWeekday = EKWeekday(rawValue: date.weekday) else { return nil }
             var weekly = RecurrenceRule(frequency: .weekly)
             weekly.byweekday = [ekWeekday]
 
             return weekly.toRRuleString()
-            
+
         case .yearly:
             var annually = RecurrenceRule(frequency: .yearly)
             annually.bymonth = [date.day]
             annually.bymonthday = [date.month]
-        
+
             return annually.toRRuleString()
-            
+
         default:
             return nil
         }
-        
     }
 }

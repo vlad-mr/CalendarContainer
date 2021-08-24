@@ -18,35 +18,31 @@ public protocol CalendarCustomizationProviderDelegate: class {
 }
 
 public extension CalendarCustomizationProviderDelegate {
-    
-    func height(forRowAt indexPath: IndexPath) -> CGFloat? {
+    func height(forRowAt _: IndexPath) -> CGFloat? {
         return nil
     }
-    
-    func dayOffTitle(forSection section: Int) -> String? {
+
+    func dayOffTitle(forSection _: Int) -> String? {
         return nil
     }
 }
 
 public protocol CalendarSwipeActionDelegate: class {
-    
     func leadingSwipeActionsConfiguration(forRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration?
     func trailingSwipeActionsConfiguration(forRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration?
 }
 
-extension CalendarCustomizationProviderDelegate {
-    
-    public func reuseIdentifier(forHeaderAt section: Int) -> String? {
+public extension CalendarCustomizationProviderDelegate {
+    func reuseIdentifier(forHeaderAt _: Int) -> String? {
         return nil
     }
-    
-    public func reuseIdentifier(forFooterAt section: Int) -> String? {
+
+    func reuseIdentifier(forFooterAt _: Int) -> String? {
         return nil
     }
 }
 
 public class FullCalendarCustomizationProvider {
-    
     var calendarView: FullCalendarView
     var calendarCells: [ConfigurableCell.Type]
     var calendarNibs: [CalendarCellNib.Type]
@@ -59,15 +55,15 @@ public class FullCalendarCustomizationProvider {
     var allDayEventNib: TappableAllDayEventNib.Type?
     var dayOffView: ConfigurableAllDayEventView.Type?
     var dayOffNib: ConfigurableAllDayEventNib.Type?
-    
+
     weak var delegate: CalendarCustomizationProviderDelegate?
     public weak var swipeActionDelegate: CalendarSwipeActionDelegate?
-    
+
     private var registeredCells: [ConfigurableCell.Type] = []
     private var registeredHeaderFooterViews: [ConfigurableView.Type] = []
-    private var placeholderIdentifier: String? = nil
-    
-    required internal init(withCalendarView calendarView: FullCalendarView,
+    private var placeholderIdentifier: String?
+
+    internal required init(withCalendarView calendarView: FullCalendarView,
                            calendarCells: [ConfigurableCell.Type],
                            nibs: [CalendarCellNib.Type],
                            headerFooterViews: [ConfigurableView.Type],
@@ -77,80 +73,75 @@ public class FullCalendarCustomizationProvider {
                            allDayEventView: TappableAllDayEventView.Type?,
                            allDayEventNib: TappableAllDayEventNib.Type?,
                            dayOffView: ConfigurableAllDayEventView.Type? = nil,
-                           dayOffNib: ConfigurableAllDayEventNib.Type? = nil) {
-        
+                           dayOffNib: ConfigurableAllDayEventNib.Type? = nil)
+    {
         self.calendarView = calendarView
         self.calendarCells = calendarCells
-        self.calendarNibs = nibs
+        calendarNibs = nibs
         self.headerFooterViews = headerFooterViews
         self.headerFooterNibs = headerFooterNibs
-        
+
         self.placeholderNib = placeholderNib
         self.placeholderView = placeholderView
-        
+
         self.allDayEventView = allDayEventView
         self.allDayEventNib = allDayEventNib
-        
+
         self.dayOffView = dayOffView
         self.dayOffNib = dayOffNib
     }
-    
+
     func registerCalendarViews() {
-        
-        calendarCells.forEach({
-            self.calendarView.register($0.self, forCellWithReuseIdentifier: $0.reuseIdentifier
-            )
+        calendarCells.forEach {
+            self.calendarView.register($0.self, forCellWithReuseIdentifier: $0.reuseIdentifier)
             self.registeredCells.append($0)
-        })
-        
+        }
+
         calendarNibs.forEach {
             calendarView.register($0.getNib(), forCellWithReuseIdentifier: $0.reuseIdentifier)
             self.registeredCells.append($0)
         }
-        
+
         headerFooterViews.forEach {
             calendarView.register($0, forHeaderFooterViewReuseIdentifier: $0.reuseIdentifier)
             self.registeredHeaderFooterViews.append($0)
         }
-        
+
         headerFooterNibs.forEach {
             calendarView.register($0, forHeaderFooterViewReuseIdentifier: $0.reuseIdentifier)
             self.registeredHeaderFooterViews.append($0)
         }
-        
+
         registerPlaceHolder()
     }
-    
+
     private func registerPlaceHolder() {
-        
         if let placeholderView = self.placeholderView {
             calendarView.register(placeholderView.self, forHeaderFooterViewReuseIdentifier: placeholderView.reuseIdentifier)
             placeholderIdentifier = placeholderView.reuseIdentifier
-        } else if let placeholderNib = self.placeholderNib  {
+        } else if let placeholderNib = self.placeholderNib {
             calendarView.register(placeholderNib, forHeaderFooterViewReuseIdentifier: placeholderNib.reuseIdentifier)
             placeholderIdentifier = placeholderNib.reuseIdentifier
         }
     }
-    
-    public func dequeueCalendarCell(forIndexPath indexPath : IndexPath) -> ConfigurableCell? {
-        
-        guard self.registeredCells.isNotEmpty, let calendarCell = self.registeredCells.first  else {
+
+    public func dequeueCalendarCell(forIndexPath indexPath: IndexPath) -> ConfigurableCell? {
+        guard registeredCells.isNotEmpty, let calendarCell = registeredCells.first else {
             return nil
         }
         var reuseIdentifier = calendarCell.reuseIdentifier
-        if let identifer =  self.delegate?.reuseIdentifier(forItemAt: indexPath), identifer.isNotEmpty {
+        if let identifer = delegate?.reuseIdentifier(forItemAt: indexPath), identifer.isNotEmpty {
             reuseIdentifier = identifer
         }
         return calendarView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath)
     }
-    
+
     func dequeueCalendarCell(for item: CalendarItem, at indexPath: IndexPath) -> ConfigurableCell? {
-        
-        guard self.registeredCells.isNotEmpty, let calendarCell = self.registeredCells.first  else {
+        guard registeredCells.isNotEmpty, let calendarCell = registeredCells.first else {
             return nil
         }
         var reuseIdentifier = calendarCell.reuseIdentifier
-        if let identifer =  self.delegate?.reuseIdentifier(forItemAt: indexPath), identifer.isNotEmpty {
+        if let identifer = delegate?.reuseIdentifier(forItemAt: indexPath), identifer.isNotEmpty {
             // Handle unregistered identifiers and issue warning to the application
             reuseIdentifier = identifer
         }
@@ -158,28 +149,26 @@ public class FullCalendarCustomizationProvider {
         cell?.configure(item, at: indexPath)
         return cell
     }
-    
+
     func dequeueCalendarHeader(at section: Int) -> ConfigurableView? {
-        
-        guard self.registeredHeaderFooterViews.isNotEmpty, let calendarHeader = self.registeredHeaderFooterViews.first  else {
+        guard registeredHeaderFooterViews.isNotEmpty, let calendarHeader = registeredHeaderFooterViews.first else {
             return nil
         }
         // Handle unregistered identifiers and issue warning to the application
-        let reuseIdentifer = self.delegate?.reuseIdentifier(forHeaderAt: section) ?? calendarHeader.reuseIdentifier
+        let reuseIdentifer = delegate?.reuseIdentifier(forHeaderAt: section) ?? calendarHeader.reuseIdentifier
         return calendarView.dequeueReusableHeaderFooterView(withReuseIdentifier: reuseIdentifer, for: section)
     }
-    
+
     func dequeueCalendarPlaceholder(at section: Int) -> ConfigurableView? {
-        guard let identifier = self.placeholderIdentifier else {
+        guard let identifier = placeholderIdentifier else {
             return nil
         }
         return calendarView.dequeueReusableHeaderFooterView(withReuseIdentifier: identifier, for: section)
     }
-    
+
     func getViewForDayOff(at section: Int) -> ConfigurableAllDayEventView {
-        
         let title = delegate?.dayOffTitle(forSection: section) ?? "Day Off"
-        
+
         var dayOffView: ConfigurableAllDayEventView
         if let view = self.dayOffView?.init() {
             dayOffView = view
@@ -189,16 +178,16 @@ public class FullCalendarCustomizationProvider {
             // Mention that you are falling back to the default implementation
             dayOffView = DayOffView()
         }
-        
+
         dayOffView.configure(withTitle: title)
         return dayOffView
     }
-    
-    func getViewForAllDayEvent(at section: Int) -> ConfigurableAllDayEventView {
+
+    func getViewForAllDayEvent(at _: Int) -> ConfigurableAllDayEventView {
         var allDayEventView: ConfigurableAllDayEventView
         if let view = self.allDayEventView?.init() {
             allDayEventView = view
-        } else if let view = self.allDayEventNib?.getNib() as? ConfigurableAllDayEventView {
+        } else if let view = allDayEventNib?.getNib() as? ConfigurableAllDayEventView {
             allDayEventView = view
         } else {
             // Mention that you are falling back to the default implementation
@@ -206,11 +195,9 @@ public class FullCalendarCustomizationProvider {
         }
         return allDayEventView
     }
-    
 }
 
 public extension FullCalendarCustomizationProvider {
-    
     static func custom(forCalendarView calendarView: FullCalendarView,
                        withCustomCalendarCells calendarCells: [ConfigurableCell.Type],
                        calendarNibs: [CalendarCellNib.Type],
@@ -222,8 +209,8 @@ public extension FullCalendarCustomizationProvider {
                        allDayEventView: TappableAllDayEventView.Type? = nil,
                        allDayEventNib: TappableAllDayEventNib.Type? = nil,
                        dayOffView: ConfigurableAllDayEventView.Type? = nil,
-                       dayOffNib: ConfigurableAllDayEventNib.Type? = nil) -> FullCalendarCustomizationProvider {
-        
+                       dayOffNib: ConfigurableAllDayEventNib.Type? = nil) -> FullCalendarCustomizationProvider
+    {
         let customizationProvider = self.init(withCalendarView: calendarView,
                                               calendarCells: calendarCells,
                                               nibs: calendarNibs,

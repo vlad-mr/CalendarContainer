@@ -6,20 +6,19 @@
 //  Copyright © 2020 FullCreative Pvt Ltd. All rights reserved.
 //
 
-import Foundation
 import CoreData
+import Foundation
 import SwiftDate
 
 @objc(Event)
 public class Event: NSManagedObject {
-
     @NSManaged public var id: String
     @NSManaged public var calendar: String
     @NSManaged public var merchant: String
     @NSManaged public var brand: String
 
     @NSManaged public var provider: [String]
-    @NSManaged public var providerIdentifiers: String? //for predicate
+    @NSManaged public var providerIdentifiers: String? // for predicate
 
     @NSManaged public var service: [String]
     @NSManaged public var consumer: [String]
@@ -28,11 +27,11 @@ public class Event: NSManagedObject {
     @NSManaged public var type: String
     @NSManaged public var startDateTime: String
     @NSManaged public var endDateTime: String
-    
-    @NSManaged public var startDate: Date //for predicate
+
+    @NSManaged public var startDate: Date // for predicate
     @NSManaged public var startTime: Double
     @NSManaged public var endTime: Double
-    
+
     @NSManaged public var maxSeats: NSNumber
     @NSManaged public var cost: NSNumber
     @NSManaged public var rRule: String?
@@ -46,7 +45,7 @@ public class Event: NSManagedObject {
     @NSManaged public var location: String?
     @NSManaged public var notes: String?
     @NSManaged public var createdBy: String?
-    
+
 //    @NSManaged public var metaData: [String: Any]?
     @NSManaged public var createdTime: Double
     @NSManaged public var updatedTime: Double
@@ -56,51 +55,50 @@ public class Event: NSManagedObject {
     }
 
     public func setEvent(_ eventModel: EventModel) {
-        
-        self.id = eventModel.id
-        self.calendar = eventModel.calendar
-        self.merchant = eventModel.merchant
-        self.brand = eventModel.brand.rawValue
-        
-        self.provider = eventModel.provider
-        self.providerIdentifiers = provider.joined(separator: ";")
+        id = eventModel.id
+        calendar = eventModel.calendar
+        merchant = eventModel.merchant
+        brand = eventModel.brand.rawValue
 
-        self.service = eventModel.service
-        self.consumer = eventModel.consumer
-        self.resource = eventModel.resource
+        provider = eventModel.provider
+        providerIdentifiers = provider.joined(separator: ";")
 
-        self.type = eventModel.type!.rawValue
-        self.startDateTime = eventModel.startDateTime!
-        self.endDateTime = eventModel.endDateTime!
-        
-        self.startTime = eventModel.startTime
-        self.endTime = eventModel.endTime
-        self.startDate = startTime.date.dateAt(.startOfDay)
+        service = eventModel.service
+        consumer = eventModel.consumer
+        resource = eventModel.resource
 
-        self.maxSeats = NSNumber(value: eventModel.maxSeats)
-        self.cost = NSNumber(value: eventModel.cost)
-        
-        self.isExternal = eventModel.isExternal
-        
-        self.rRule = eventModel.rRule
-        self.paymentStatus = eventModel.paymentStatus
-        self.label = eventModel.label
-        self.bookingId = eventModel.bookingId
-        self.source = eventModel.source
-        self.parentId = eventModel.parentId
-        self.title = eventModel.title ?? ""
-        self.location = eventModel.location?.teleport
-        self.notes = eventModel.notes
-        self.createdBy = eventModel.createdBy
+        type = eventModel.type!.rawValue
+        startDateTime = eventModel.startDateTime!
+        endDateTime = eventModel.endDateTime!
+
+        startTime = eventModel.startTime
+        endTime = eventModel.endTime
+        startDate = startTime.date.dateAt(.startOfDay)
+
+        maxSeats = NSNumber(value: eventModel.maxSeats)
+        cost = NSNumber(value: eventModel.cost)
+
+        isExternal = eventModel.isExternal
+
+        rRule = eventModel.rRule
+        paymentStatus = eventModel.paymentStatus
+        label = eventModel.label
+        bookingId = eventModel.bookingId
+        source = eventModel.source
+        parentId = eventModel.parentId
+        title = eventModel.title ?? ""
+        location = eventModel.location?.teleport
+        notes = eventModel.notes
+        createdBy = eventModel.createdBy
 
 //        self.metaData = eventModel.metaData?.stuff ?? [:]
-        self.createdTime = eventModel.createdTime!
-        self.updatedTime = eventModel.updatedTime!
+        createdTime = eventModel.createdTime!
+        updatedTime = eventModel.updatedTime!
     }
 
     public func setEvent(_ meetingEvents: EventFetchResponse) {
         for event in meetingEvents.events {
-            self.setEvent(event)
+            setEvent(event)
         }
     }
 }

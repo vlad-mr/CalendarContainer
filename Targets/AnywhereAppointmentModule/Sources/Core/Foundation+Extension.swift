@@ -8,7 +8,6 @@
 import UIKit
 
 func openLink(_ link: String) {
-    
     guard let url = URL(string: link) else {
         return
     }
@@ -27,27 +26,23 @@ func configure<T>(
 }
 
 extension String {
-    
     var isNotEmpty: Bool {
         return !isEmpty
     }
-        
+
     func trim() -> String {
-        return self.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+        return trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
     }
 }
 
 extension Array {
-    
     var isNotEmpty: Bool {
         return !isEmpty
     }
 }
 
 extension CGRect {
-    
     func liesWithin(_ rect: CGRect) -> Bool {
-        
         let result = minY >= rect.minY && maxY <= rect.maxY
         return result
     }
@@ -67,32 +62,32 @@ public extension Optional {
      */
     func require(hint hintExpression: @autoclosure () -> String? = nil,
                  file: StaticString = #file,
-                 line: UInt = #line) -> Wrapped {
+                 line: UInt = #line) -> Wrapped
+    {
         guard let unwrapped = self else {
             var message = "Required value was nil in \(file), at line \(line)"
-            
+
             if let hint = hintExpression() {
                 message.append(". Debugging hint: \(hint)")
             }
-            
+
             preconditionFailure(message)
         }
-        
+
         return unwrapped
     }
 }
 
 extension Encodable {
-    
     var dictionary: [String: Any]? {
         guard let data = try? JSONEncoder().encode(self) else { return nil }
         return (try? JSONSerialization.jsonObject(with: data, options: .allowFragments)).flatMap { $0 as? [String: Any] }
     }
 
-    ///To use it locally
+    /// To use it locally
     var toData: Data? {
         return try? PropertyListEncoder()
-        .encode(self)
+            .encode(self)
     }
 }
 
@@ -104,12 +99,12 @@ extension Decodable {
         }
         return object
     }
-    
-    ///To use it locally
+
+    /// To use it locally
     static func decode(fromPlistData data: Data) -> Self? {
         return try? PropertyListDecoder().decode(self.self, from: data)
     }
-    
+
     static func decode(from jsonString: String) -> Self? {
         guard let jsonData = jsonString.data(using: .utf8) else {
             return nil
@@ -119,11 +114,10 @@ extension Decodable {
 }
 
 extension Double {
-    
     var inSeconds: Double {
         return self / 1000
     }
-    
+
     var date: Date {
         return Date(milliseconds: Int(self))
     }

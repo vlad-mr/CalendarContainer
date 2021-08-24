@@ -31,35 +31,33 @@ struct EventDisplayModel: Equatable {
 }
 
 extension EventDisplayModel {
-    
     init(withEvent event: EventModel) {
-        self.parentId = event.parentId
-        self.eventName = event.title ?? ""
+        parentId = event.parentId
+        eventName = event.title ?? ""
         let startDate = Date(timeIntervalSince1970: event.startTime.inSeconds)
         self.startDate = startDate
         let endDate = Date(timeIntervalSince1970: event.endTime.inSeconds)
         self.endDate = endDate
-        self.repeatMode = .init(rule: event.rRule, startDate: startDate)
-        self.rRule = event.rRule
-        self.location = event.location?.teleport ?? ""
+        repeatMode = .init(rule: event.rRule, startDate: startDate)
+        rRule = event.rRule
+        location = event.location?.teleport ?? ""
         let currentTimeZone = TimeZone(identifier: EventViewSDKConfiguration.current.accountTimezoneId) ?? TimeZone.current
-        
+
         let offset = currentTimeZone.displayStringFromGMT(forDate: Date())
         let localizedName = currentTimeZone.localizedName(for: .standard, locale: .current) ?? ""
         let cityName = currentTimeZone.identifier.split(separator: "/").last ?? ""
-        
+
         let displayName = "\(localizedName),\n\(cityName), (\(offset))"
-        self.timezone = displayName
-        self.notes = event.notes ?? ""
-        self.isExternal = event.isExternal
+        timezone = displayName
+        notes = event.notes ?? ""
+        isExternal = event.isExternal
         if let source = event.source {
             self.source = EventSource(rawValue: source)
         }
         if event.brand == .SetMore {
-            self.source = .setmore
+            source = .setmore
         }
-        self.createdBy = event.createdBy
-        self.consumerCount = event.consumer.count
+        createdBy = event.createdBy
+        consumerCount = event.consumer.count
     }
 }
-

@@ -7,41 +7,41 @@
 //
 
 import Foundation
-import UIKit
 import SwiftDate
+import UIKit
 #if canImport(CalendarUtils)
-import CalendarUtils
+    import CalendarUtils
 #endif
 
 public protocol CalendarView: UIViewController {
     var actionDelegate: CalendarActionDelegate? { get set }
     var dataProvider: CalendarDataProvider? { get set }
-    
+
     func setActiveDate(_ date: Date)
     func reloadCalendar()
 }
 
 class FullCalendars {
-    
     var calConfig: CalendarConfiguration
     var theme: CalendarTheme
     var font: AnyCalFont
     private(set) var currentTimeFormat: TimeFormat {
         didSet {
-            DateUtilities.timeFormat = self.currentTimeFormat
+            DateUtilities.timeFormat = currentTimeFormat
         }
     }
+
     init(withConfiguration configuration: CalendarConfiguration, theme: CalendarTheme, font: UIFont) {
-        self.calConfig = configuration
+        calConfig = configuration
         self.theme = theme
         self.font = AnyCalFont(font: font)
-        self.currentTimeFormat =  configuration.timeFormat.is12HourFormat ? .twelveHours : .twentyFourHours
+        currentTimeFormat = configuration.timeFormat.is12HourFormat ? .twelveHours : .twentyFourHours
     }
-    
+
     var calendarLayoutView: CalendarLayoutViewController {
         return CalendarViewControllers.calendarLayoutView
     }
-    
+
     func getCalendarView(forLayoutType layoutType: CalendarLayoutType, withConfiguration config: CalendarViewConfiguration, dataProvider: CalendarDataProvider, actionDelegate: CalendarActionDelegate?) -> CalendarViewController {
         let calendarView = CalendarViewControllers.calendarView
         calendarView.viewConfig = config
@@ -50,29 +50,27 @@ class FullCalendars {
         calendarView.actionDelegate = actionDelegate
         return calendarView
     }
-    
+
     func getScheduleView(withConfiguration scheduleConfig: ScheduleViewConfiguration, placeholderView: ActionableView?, dimension: ScheduleViewDimensions) -> ScheduleBaseViewController {
         return CalendarViewControllers.getScheduleView(withConfiguration: scheduleConfig, placeholderView: placeholderView, dimension: dimension)
     }
-    
+
     private func configureCalendar(withUserAvailability userAvailability: UserAvailability?) {
         calConfig.userAvailability = userAvailability
     }
-    
+
     public func configureCalendar(withConfiguration configuration: CalendarConfiguration) {
-        
         configureCalendar(withUserAvailability: configuration.userAvailability)
     }
 }
 
+// MARK: Configurations
 
-//MARK: Configurations
 public struct CalendarConfiguration {
-    
     var userAvailability: UserAvailability?
     var userRegion: Region
     var timeFormat: TimeFormat
-    
+
     public init(withUserAvailability userAvailability: UserAvailability? = nil, userRegion: Region = .current, timeFormat: TimeFormat = .deviceSetting) {
         self.userAvailability = userAvailability
         self.userRegion = userRegion
@@ -81,12 +79,12 @@ public struct CalendarConfiguration {
 }
 
 public struct CalendarViewConfiguration {
-    
     public enum ExcessAllDayEventsTitleConfiguration {
         case count
         case more
         case custom(text: String)
     }
+
     var slotSize: CalendarSlotSize
     var shouldShowSlotLines: Bool
     var calendarDimensions: CalendarDimensions
@@ -105,7 +103,8 @@ public struct CalendarViewConfiguration {
                 shouldHaveFloatingAllDayEvent: Bool = false,
                 shouldHaveStripedOffHours: Bool = false,
                 numberOfAllDayEventInCollapsedMode: Int = 2,
-                moreAllDayEventConfiguration: ExcessAllDayEventsTitleConfiguration = .count) {
+                moreAllDayEventConfiguration: ExcessAllDayEventsTitleConfiguration = .count)
+    {
         self.slotSize = slotSize
         self.shouldShowDateHeader = shouldShowDateHeader
         self.shouldShowSlotLines = shouldShowSlotLines
@@ -120,26 +119,26 @@ public struct CalendarViewConfiguration {
 }
 
 public struct ScheduleViewConfiguration {
-    
     public enum PlaceholderConfig {
         case daily
         case weekly
         case allCases
     }
-    
+
     let placeholderConfig: PlaceholderConfig
     let shouldHaveStickyDate: Bool
     let textForNoEventDay: String
     var shouldShowEventView: Bool
     var shouldShowHeader: Bool
     let shouldAllowFreeScrollToBottom: Bool
-    
+
     public init(shouldHaveStickyDate: Bool = true,
                 placeholderConfig: PlaceholderConfig = .allCases,
                 textForNoEventDay: String = "No appointments booked",
                 shouldShowHeader: Bool = true,
                 shouldShowEventView: Bool = true,
-                shouldAllowFreeScrollToBottom: Bool = false) {
+                shouldAllowFreeScrollToBottom: Bool = false)
+    {
         self.shouldHaveStickyDate = shouldHaveStickyDate
         self.textForNoEventDay = textForNoEventDay
         self.placeholderConfig = placeholderConfig

@@ -8,10 +8,11 @@
 import Foundation
 
 // MARK: UIInterface
+
 public protocol UIInterface {
-	func getInitialViewController()
+    func getInitialViewController()
 }
 
 public extension UIInterface {
-	func getInitialViewController() { }
+    func getInitialViewController() {}
 }

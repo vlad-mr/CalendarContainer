@@ -5,11 +5,10 @@
 //  Created by Illia Postoienko on 22.07.2021.
 //
 
-import Foundation
 import CoreData
+import Foundation
 
 struct CoreDataHelper {
-
     static func getEventFetchPredicate(forStartTime startTime: Double, endTime: Double) -> NSPredicate {
         if endTime > 0 {
             return NSPredicate(format: "startTime BETWEEN {%@, %@}", argumentArray: [startTime, endTime])
@@ -47,18 +46,18 @@ struct CoreDataHelper {
     static func getEventsFetchPredicate(forCalendarIds calendarIds: [String]) -> NSPredicate {
         NSPredicate(format: "calendar IN %@", calendarIds)
     }
-    
+
     static func getEventsFetchPredicate(forProvider key: String) -> NSPredicate {
         NSPredicate(format: "providerIdentifiers CONTAINS[cd] %@", key)
     }
-    
+
     static func getEventsFetchPredicate(forProvider keys: [String]) -> NSPredicate {
         let queryPredicates = keys.map {
             getEventsFetchPredicate(forProvider: $0)
         }
         return NSCompoundPredicate(type: .or, subpredicates: queryPredicates)
     }
-    
+
     static func getEventFetchPredicate(forProvider key: String, forStartTime startTime: Double, endTime: Double) -> NSPredicate {
         let queryPredicate = NSPredicate(format: "providerIdentifiers CONTAINS[cd] %@", key)
 
@@ -71,12 +70,11 @@ struct CoreDataHelper {
             return NSCompoundPredicate(andPredicateWithSubpredicates: [queryPredicate, startTimePredicate])
         }
     }
-    
+
     static func getEventFetchPredicate(forProvider keys: [String], forStartTime startTime: Double, endTime: Double) -> NSPredicate {
         let queryPredicates = keys.map {
             getEventFetchPredicate(forProvider: $0, forStartTime: startTime, endTime: endTime)
         }
         return NSCompoundPredicate(type: .or, subpredicates: queryPredicates)
     }
-
 }

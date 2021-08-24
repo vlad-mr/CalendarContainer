@@ -25,44 +25,45 @@ class WeekDayCell: UIView {
         label.textColor = .lightGray
         return label
     }()
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         setUp()
     }
-    
-    required init?(coder: NSCoder) {
+
+    @available(*, unavailable)
+    required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     override func layoutSubviews() {
         super.layoutSubviews()
-        self.layer.cornerRadius = self.frame.height / 2
+        layer.cornerRadius = frame.height / 2
     }
-    
+
     private func setUp() {
         addSubview(label)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.fillSuperview()
         configureBy(mode: .unselected)
     }
-        
+
     let color = UIColor(red: 0.941, green: 0.941, blue: 0.941, alpha: 1) // change to system anytime color
-    
+
     func toggleMode() {
-        self.mode = mode == .selected ? .unselected : .selected
-        
-        self.backgroundColor = mode == .selected ? AppDecor.MainColors.anytimeLightBlue : color
-        self.label.textColor = mode == .selected ? AppDecor.MainColors.anytimeWhite : .black
+        mode = mode == .selected ? .unselected : .selected
+
+        backgroundColor = mode == .selected ? AppDecor.MainColors.anytimeLightBlue : color
+        label.textColor = mode == .selected ? AppDecor.MainColors.anytimeWhite : .black
     }
-    
+
     func configureBy(mode: WeekDayCellMode) {
         self.mode = mode
-        
-        self.backgroundColor = mode == .selected ? AppDecor.MainColors.anytimeLightBlue : color
-        self.label.textColor = mode == .selected ? AppDecor.MainColors.anytimeWhite : .black
+
+        backgroundColor = mode == .selected ? AppDecor.MainColors.anytimeLightBlue : color
+        label.textColor = mode == .selected ? AppDecor.MainColors.anytimeWhite : .black
     }
-    
+
     func setTitle(_ title: String) {
         label.text = title
     }

@@ -8,9 +8,9 @@
 import Foundation
 
 public protocol ApiInterface {
-	func fetch()
+    func fetch()
 }
 
 public extension ApiInterface {
-	func fetch() { }
+    func fetch() {}
 }

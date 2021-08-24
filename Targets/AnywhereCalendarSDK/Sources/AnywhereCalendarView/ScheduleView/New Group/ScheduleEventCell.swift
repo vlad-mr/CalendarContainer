@@ -6,40 +6,36 @@
 //  Copyright © 2019 FullCreative Pvt Ltd. All rights reserved.
 //
 
-import UIKit
 import SwiftDate
+import UIKit
 
 class ScheduleEventCellOld: UITableViewCell {
-    
-    @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var eventTypeLabel: UILabel!
-    @IBOutlet weak var sourceIcon: UIImageView!
-    @IBOutlet weak var timeAndLocationLabel: UILabel!
-    @IBOutlet weak var eventCell: UIView!
-    
+    @IBOutlet var titleLabel: UILabel!
+    @IBOutlet var eventTypeLabel: UILabel!
+    @IBOutlet var sourceIcon: UIImageView!
+    @IBOutlet var timeAndLocationLabel: UILabel!
+    @IBOutlet var eventCell: UIView!
+
     @IBInspectable var eventColor: UIColor = .systemBlue
 
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        self.backgroundColor = AnywhereCalendarView.mainSDK.theme.backgroundColor
+        backgroundColor = AnywhereCalendarView.mainSDK.theme.backgroundColor
         titleLabel.font = AnywhereCalendarView.mainSDK.font.header
         eventTypeLabel.font = AnywhereCalendarView.mainSDK.font.subHeader
         timeAndLocationLabel.font = AnywhereCalendarView.mainSDK.font.subHeader
-        
+
         titleLabel.textColor = UIColor.white
         eventTypeLabel.textColor = UIColor.white.withAlphaComponent(0.7)
         timeAndLocationLabel.textColor = UIColor.white.withAlphaComponent(0.7)
     }
-    
 }
 
 extension ScheduleEventCellOld: ConfigurableCell {
-    
-    func configure(_ item: CalendarItem, at indexPath: IndexPath) {
-        
+    func configure(_ item: CalendarItem, at _: IndexPath) {
         let title = item.title ?? ""
-        titleLabel.text =  title.isEmpty ? "No Title" : title
+        titleLabel.text = title.isEmpty ? "No Title" : title
         eventTypeLabel.text = ""
         let startTime = item.startDate.timeString()
         let endTime = item.endDate.timeString()
@@ -57,17 +53,16 @@ extension ScheduleEventCellOld: ConfigurableCell {
 extension ScheduleEventCellOld: CalendarCellNib {
     static func getNib() -> UINib? {
         #if SWIFT_PACKAGE
-        return UINib(nibName: nibName, bundle: .module)
+            return UINib(nibName: nibName, bundle: .module)
         #else
-        return UINib(nibName: nibName, bundle: Bundle(for: self))
+            return UINib(nibName: nibName, bundle: Bundle(for: self))
         #endif
     }
 }
 
 func timeStringFromMins(_ minutes: Int) -> String {
-    
-    let hourTxt = String(format: "%d", minutes/60)
-    let minsTxt = String(format: "%02d", minutes%60)
+    let hourTxt = String(format: "%d", minutes / 60)
+    let minsTxt = String(format: "%02d", minutes % 60)
     return "\(hourTxt):\(minsTxt)"
 }
 
@@ -106,6 +101,7 @@ public class ScheduleEventCell: UITableViewCell {
         view.clipsToBounds = true
         return view
     }()
+
     private let sourceView = EventSourceView()
     private let stackView: UIStackView = {
         let stack = UIStackView()
@@ -116,6 +112,7 @@ public class ScheduleEventCell: UITableViewCell {
         stack.distribution = .equalSpacing
         return stack
     }()
+
     private let eventLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -124,6 +121,7 @@ public class ScheduleEventCell: UITableViewCell {
         label.textAlignment = .left
         return label
     }()
+
     private let descriptionLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -131,6 +129,7 @@ public class ScheduleEventCell: UITableViewCell {
         label.textColor = .gray
         return label
     }()
+
     private let timeLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -138,6 +137,7 @@ public class ScheduleEventCell: UITableViewCell {
         label.textColor = .lightGray
         return label
     }()
+
     private let sourceImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -145,7 +145,7 @@ public class ScheduleEventCell: UITableViewCell {
         return imageView
     }()
 
-    public override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+    override public init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         configureCell()
     }
@@ -170,7 +170,7 @@ public class ScheduleEventCell: UITableViewCell {
             containerView.topAnchor.constraint(equalTo: contentView.topAnchor),
             containerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 3),
             containerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -padding),
-            containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -padding / 2)
+            containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -padding / 2),
         ])
     }
 
@@ -180,7 +180,7 @@ public class ScheduleEventCell: UITableViewCell {
             sourceView.widthAnchor.constraint(equalToConstant: 3),
             sourceView.topAnchor.constraint(equalTo: containerView.topAnchor),
             sourceView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
-            sourceView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor)
+            sourceView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
         ])
     }
 
@@ -190,7 +190,7 @@ public class ScheduleEventCell: UITableViewCell {
             stackView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: padding / 2),
             stackView.leadingAnchor.constraint(equalTo: sourceView.trailingAnchor, constant: padding),
             stackView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -padding * 1.5),
-            stackView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -padding / 2)
+            stackView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -padding / 2),
         ])
         stackView.addArrangedSubview(eventLabel)
         stackView.addArrangedSubview(descriptionLabel)
@@ -203,7 +203,7 @@ public class ScheduleEventCell: UITableViewCell {
             sourceImageView.heightAnchor.constraint(equalToConstant: padding),
             sourceImageView.widthAnchor.constraint(equalToConstant: padding),
             sourceImageView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -padding / 2),
-            sourceImageView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -padding / 2)
+            sourceImageView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -padding / 2),
         ])
     }
 
@@ -224,9 +224,9 @@ public class ScheduleEventCell: UITableViewCell {
 }
 
 extension ScheduleEventCell: ConfigurableCell {
-    public func configure(_ item: CalendarItem, at indexPath: IndexPath) {
+    public func configure(_ item: CalendarItem, at _: IndexPath) {
         let title = item.title ?? ""
-        eventLabel.text =  title.isEmpty ? "No Title" : title
+        eventLabel.text = title.isEmpty ? "No Title" : title
         descriptionLabel.text = "Google Calendar Event"
         let startTime = item.startDate.timeString()
         let endTime = item.endDate.timeString()

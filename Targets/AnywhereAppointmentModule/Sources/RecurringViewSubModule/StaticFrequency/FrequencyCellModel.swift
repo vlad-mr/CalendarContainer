@@ -18,13 +18,13 @@ extension FrequencyViewController {
         case yearly
         case customFrequencyEdit
     }
-    
+
     enum FrequencyHeaderModel: CellHeaderProtocol {
         typealias CellType = FrequencyCellModel
         case customFrequencyCells
         case staticFrequencyCells
         case anotherCells
-        
+
         var cellModels: [FrequencyCellModel] {
             switch self {
             case .customFrequencyCells:

@@ -8,9 +8,9 @@
 import Foundation
 
 public protocol DataBaseInterface {
-	func initializeDataBase()
+    func initializeDataBase()
 }
 
 extension DataBaseInterface {
-	func initializeDataBase() { }
+    func initializeDataBase() {}
 }

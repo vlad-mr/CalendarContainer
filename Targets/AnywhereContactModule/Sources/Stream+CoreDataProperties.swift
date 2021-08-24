@@ -6,36 +6,34 @@
 //
 //
 
-import Foundation
 import CoreData
+import Foundation
 
 @objc(Stream)
 public class Stream: BaseEntity {
-	
-	public enum CodingKeys: String, CodingKey {
-		case accountId
-		case imageUrl = "photoId"
-		case createdAt
-		case modifiedAt
-		
-		case id
-		case name
-		case color = "color" //
-		case sortable = "sortable" //
-	}
+    public enum CodingKeys: String, CodingKey {
+        case accountId
+        case imageUrl = "photoId"
+        case createdAt
+        case modifiedAt
+
+        case id
+        case name
+        case color //
+        case sortable //
+    }
 }
 
-extension Stream {
-
-    @nonobjc public class func fetchRequest() -> NSFetchRequest<Stream> {
+public extension Stream {
+    @nonobjc class func fetchRequest() -> NSFetchRequest<Stream> {
         return NSFetchRequest<Stream>(entityName: "Stream")
     }
 
-    @NSManaged public var desc: String?
-    @NSManaged public var isGuest: NSNumber?
-    @NSManaged public var isPublic: NSNumber?
-    @NSManaged public var members: [User]?
-    @NSManaged public var status: String?
-    @NSManaged public var type: String?
-    @NSManaged public var vendorIds: NSObject?
+    @NSManaged var desc: String?
+    @NSManaged var isGuest: NSNumber?
+    @NSManaged var isPublic: NSNumber?
+    @NSManaged var members: [User]?
+    @NSManaged var status: String?
+    @NSManaged var type: String?
+    @NSManaged var vendorIds: NSObject?
 }

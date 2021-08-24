@@ -8,11 +8,9 @@
 import UIKit
 
 extension UIView {
-    
     func dropShadow(scale: Bool = true, withRadius radius: CGFloat = 2, offset: CGSize = CGSize(width: -1, height: 1)) {
-        
         layer.masksToBounds = false
-        if let bgColor = self.backgroundColor, bgColor != .white {
+        if let bgColor = backgroundColor, bgColor != .white {
             layer.shadowColor = bgColor.cgColor
         } else {
             layer.shadowColor = UIColor.lightGray.cgColor
@@ -26,56 +24,50 @@ extension UIView {
 }
 
 extension UIView {
-    
     func disableAutoresizing(recursive: Bool = true) {
-        self.translatesAutoresizingMaskIntoConstraints = false
+        translatesAutoresizingMaskIntoConstraints = false
         if recursive { subviews.forEach { $0.disableAutoresizing(recursive: recursive) } }
     }
-    
+
     func rotate(_ angle: CGFloat) {
         let radians = angle / 180.0 * CGFloat(Double.pi)
-        self.transform = CGAffineTransform(rotationAngle: radians)
+        transform = CGAffineTransform(rotationAngle: radians)
     }
-    
+
     func setRoundedCorners(withCornerRadius cornerRadius: CGFloat? = nil) {
-        
-        var radius = self.frame.height / 2
+        var radius = frame.height / 2
         if let cornerRadiusForView = cornerRadius {
             radius = cornerRadiusForView
         }
-        self.layer.cornerRadius = radius
-        self.clipsToBounds = true
+        layer.cornerRadius = radius
+        clipsToBounds = true
     }
-    
+
     func setRoundedBottomCorners(withCornerRadius cornerRadius: CGFloat? = nil) {
-        
-        var radius = self.frame.height / 2
+        var radius = frame.height / 2
         if let cornerRadiusForView = cornerRadius {
             radius = cornerRadiusForView
         }
-        self.layer.cornerRadius = radius
-        self.clipsToBounds = true
-        self.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMaxXMaxYCorner]
+        layer.cornerRadius = radius
+        clipsToBounds = true
+        layer.maskedCorners = [.layerMaxXMinYCorner, .layerMaxXMaxYCorner]
     }
-    
+
     func setRoundedTopCorners(withCornerRadius cornerRadius: CGFloat? = nil) {
-        
-        var radius = self.frame.height / 2
+        var radius = frame.height / 2
         if let cornerRadiusForView = cornerRadius {
             radius = cornerRadiusForView
         }
-        self.layer.cornerRadius = radius
-        self.clipsToBounds = true
-        self.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        layer.cornerRadius = radius
+        clipsToBounds = true
+        layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
     }
 }
 
 extension CALayer {
-    
     func addBorder(edge: UIRectEdge, color: UIColor, thickness: CGFloat) {
-        
         let border = CALayer()
-        
+
         switch edge {
         case UIRectEdge.top:
             border.frame = CGRect(x: 0, y: 0, width: frame.width, height: thickness)
@@ -88,9 +80,9 @@ extension CALayer {
         default:
             break
         }
-        
+
         border.backgroundColor = color.cgColor
-        
-        self.addSublayer(border)
+
+        addSublayer(border)
     }
 }

@@ -7,7 +7,7 @@
 
 import Foundation
 #if canImport(AnywhereCalendarViewSDK)
-@_exported import AnywhereCalendarViewSDK
+    @_exported import AnywhereCalendarViewSDK
 #endif
 
 public protocol AnywhereCalendarDataProvider {
@@ -16,17 +16,16 @@ public protocol AnywhereCalendarDataProvider {
 }
 
 class CalendarBaseDataProvider: CalendarDataProvider {
-    
     var dataProvider: AnywhereCalendarDataProvider
-    
+
     init(withAnyCalDataProvider dataProvider: AnywhereCalendarDataProvider) {
         self.dataProvider = dataProvider
     }
-    
+
     func getCustomizationProvider(for calendarView: FullCalendarView) -> FullCalendarCustomizationProvider? {
         dataProvider.getCustomizationProvider(for: calendarView)
     }
-    
+
     func getDataSource(forPage page: Int) -> FullCalendarDataSource? {
         guard let dataSourceFromApp = dataProvider.getDataSource(forPage: page) else {
             return nil

@@ -9,28 +9,29 @@
 import UIKit
 
 class TitleSubtitleIndicatorCell: IndicatorTableViewCell, NibLoadable {
-    @IBOutlet weak var iconImageView: UIImageView!
-    @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var descriptionLabel: UILabel!
-    
+    @IBOutlet var iconImageView: UIImageView!
+    @IBOutlet var titleLabel: UILabel!
+    @IBOutlet var descriptionLabel: UILabel!
+
     private var enabledStateTitle: String = ""
     private var emptyStateTitle: String = ""
-    
+
     var mode = CellMode.enabled {
         didSet {
             customizeCell(forMode: mode)
         }
     }
+
     enum CellMode {
         case enabled, disabled, empty
     }
- 
+
     override func awakeFromNib() {
         super.awakeFromNib()
         customizeCell(forMode: mode)
-        self.separatorInset.right = .greatestFiniteMagnitude
+        separatorInset.right = .greatestFiniteMagnitude
     }
-    
+
     private func customizeCell(forMode mode: CellMode) {
         DispatchQueue.main.async {
             self.descriptionLabel.isHidden = false
@@ -55,12 +56,13 @@ class TitleSubtitleIndicatorCell: IndicatorTableViewCell, NibLoadable {
             }
         }
     }
-    
+
     func configureCell(withTitle enabledTitle: String,
                        titleForEmptyState emptyTitle: String = "",
                        icon: UIImage?, indicatorIcon: UIImage? = nil,
                        mode: CellMode = .enabled,
-                       shouldShowSeparator: Bool = false) {
+                       shouldShowSeparator: Bool = false)
+    {
         self.mode = mode
         enabledStateTitle = enabledTitle
         emptyStateTitle = emptyTitle
@@ -70,19 +72,19 @@ class TitleSubtitleIndicatorCell: IndicatorTableViewCell, NibLoadable {
         separatorView.isHidden = !shouldShowSeparator
         customizeCell(forMode: mode)
     }
-    
+
     func setDescription(_ description: String) {
         mode = description.isEmpty ? .empty : .enabled
         customizeCell(forMode: mode)
         titleLabel.text = mode == .enabled ? enabledStateTitle : emptyStateTitle
         descriptionLabel.text = description
     }
-    
+
     func removeDescription() {
         customizeCell(forMode: .disabled)
         descriptionLabel.text = ""
     }
-    
+
     func setImage(_ image: UIImage?) {
         iconImageView.image = image
     }

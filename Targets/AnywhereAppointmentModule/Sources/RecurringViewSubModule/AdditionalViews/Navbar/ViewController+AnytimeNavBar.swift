@@ -19,13 +19,13 @@ extension NavBarActionDelegate where Self: UIViewController {
         button.setTitle(title, for: .normal)
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: button)
     }
-    
+
     func setNavBarButtonEnabled(_ enable: Bool) {
         if let button = navigationItem.rightBarButtonItem?.customView as? UIButton {
             button.isEnabled = enable
         }
     }
-    
+
     func setupNavBar(title: String?) {
         guard let navBar = navigationController?.navigationBar else { return }
         navBar.frame.size.height = 50
@@ -39,7 +39,7 @@ extension NavBarActionDelegate where Self: UIViewController {
             setupBackButton()
         }
     }
-    
+
     private var genericButton: UIButton {
         return configure(UIButton()) {
             $0.titleLabel?.font = AppDecor.Fonts.medium.withSize(15)
@@ -49,9 +49,9 @@ extension NavBarActionDelegate where Self: UIViewController {
             $0.addTarget(self, action: #selector(didTapNavBarButton), for: .touchUpInside)
         }
     }
-    
+
     private func setupBackButton() {
-        self.navigationItem.setHidesBackButton(true, animated: true)
+        navigationItem.setHidesBackButton(true, animated: true)
         let backButton = UIBarButtonItem(image: AppDecor.NavBarIcons.backArrow, style: .plain,
                                          target: self, action: #selector(didTapBackButton))
         backButton.tintColor = UIColor.black.withAlphaComponent(0.5)

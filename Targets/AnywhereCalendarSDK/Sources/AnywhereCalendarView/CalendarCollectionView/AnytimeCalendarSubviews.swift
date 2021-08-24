@@ -9,11 +9,10 @@
 import Foundation
 import UIKit
 #if canImport(CalendarUtils)
-import CalendarUtils
+    import CalendarUtils
 #endif
 
 enum FullCalendarDecorationViewKind: String {
-    
     case currentDayLine
     case verticalSeparator
     case horizonalSeparator
@@ -23,9 +22,9 @@ enum FullCalendarDecorationViewKind: String {
     case outOfBoundsView
     case currentTimeIndicatorLine
     case currentTimeIndicatorCircle
-    
+
     var identifier: String {
-        self.rawValue
+        rawValue
     }
 }
 
@@ -35,47 +34,47 @@ enum FullCalendarSupplementaryViewKind: String {
     case monthHeader
     case hourLabel
     case currentTimeTriangle
-    
+
     var identifier: String {
-        self.rawValue
+        rawValue
     }
 }
 
 // MARK: Font Configuration
+
 struct AnyCalFont {
     var font: UIFont
-    
+
     init(font: UIFont) {
         self.font = font
     }
-    
+
     private var headerSize: CGFloat = 15
-    
+
     private var subheaderSize: CGFloat = 9
-    
+
     private var defaultSize: CGFloat = 12
 }
 
 extension AnyCalFont {
-    
     var header: UIFont {
         return font.withSize(headerSize)
     }
-    
+
     var subHeader: UIFont {
         return font.withSize(subheaderSize)
     }
-    
+
     var normal: UIFont {
         return font.withSize(defaultSize)
     }
 }
 
 // MARK: ReusableViews
+
 class RowHeader: UICollectionReusableView {
-    
     var timeLabel: UILabel?
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         timeLabel = UILabel(frame: CGRect(origin: CGPoint.zero, size: frame.size))
@@ -83,9 +82,9 @@ class RowHeader: UICollectionReusableView {
         timeLabel?.backgroundColor = AnywhereCalendarView.mainSDK.theme.timeHeaderBackgroundColor
         timeLabel?.font = AnywhereCalendarView.mainSDK.font.normal
         timeLabel?.textColor = AnywhereCalendarView.mainSDK.theme.subHeading
-        self.addSubview(timeLabel!)
+        addSubview(timeLabel!)
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
@@ -94,23 +93,23 @@ class RowHeader: UICollectionReusableView {
 class WorkingHoursDivLine: UICollectionReusableView {
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.backgroundColor = AnywhereCalendarView.mainSDK.theme.workingHoursDivLineColor
+        backgroundColor = AnywhereCalendarView.mainSDK.theme.workingHoursDivLineColor
     }
+
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
 }
 
 class OffHourGridLine: UICollectionReusableView {
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
         let stripe = DiagonalLinesView(frame: frame)
-        stripe.backgroundColor = UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 0.5)
-        
-        self.addSubview(stripe)
+        stripe.backgroundColor = UIColor(red: 230 / 255, green: 230 / 255, blue: 230 / 255, alpha: 0.5)
+
+        addSubview(stripe)
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
@@ -121,7 +120,7 @@ class MonthHeader: UICollectionReusableView {
     override init(frame: CGRect) {
         super.init(frame: frame)
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
@@ -130,9 +129,9 @@ class MonthHeader: UICollectionReusableView {
 class VerticalGridLine: UICollectionReusableView {
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.backgroundColor = AnywhereCalendarView.mainSDK.theme.daySeparatorColor
+        backgroundColor = AnywhereCalendarView.mainSDK.theme.daySeparatorColor
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
@@ -141,9 +140,9 @@ class VerticalGridLine: UICollectionReusableView {
 class HorizontalGridLine: UICollectionReusableView {
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.backgroundColor = AnywhereCalendarView.mainSDK.theme.hourSeparatorColor.withAlphaComponent(0.5)
+        backgroundColor = AnywhereCalendarView.mainSDK.theme.hourSeparatorColor.withAlphaComponent(0.5)
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
@@ -166,39 +165,38 @@ class DashedHorizontalGridLine: UICollectionReusableView {
         shape.lineWidth = 1
         shape.lineDashPattern = [8, 8]
         let path = CGMutablePath()
-        path.addLines(between: [CGPoint(x: 0, y: 0), CGPoint(x: self.bounds.width, y: 0)])
+        path.addLines(between: [CGPoint(x: 0, y: 0), CGPoint(x: bounds.width, y: 0)])
         shape.path = path
         layer.addSublayer(shape)
     }
 }
 
 class WorkingHoursView: UICollectionReusableView {
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.backgroundColor = AnywhereCalendarView.mainSDK.theme.workingHoursBackgroundColor
+        backgroundColor = AnywhereCalendarView.mainSDK.theme.workingHoursBackgroundColor
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
 }
 
 class OutOfBoundsView: UICollectionReusableView {
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.backgroundColor = AnywhereCalendarView.mainSDK.theme.backgroundColor
-        self.layer.addBorder(edge: .bottom, color: .lightGray, thickness: 0.75)
-        self.layer.addBorder(edge: .top, color: .lightGray, thickness: 0.75)
+        backgroundColor = AnywhereCalendarView.mainSDK.theme.backgroundColor
+        layer.addBorder(edge: .bottom, color: .lightGray, thickness: 0.75)
+        layer.addBorder(edge: .top, color: .lightGray, thickness: 0.75)
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
 }
 
 // MARK: - Weakly calendar cell
+
 public class AnytimeWeaklyEventCell: UICollectionViewCell, ConfigurableCell {
     private let padding: CGFloat = 16.0
     private var sourceViewWidthConstraint: NSLayoutConstraint!
@@ -213,6 +211,7 @@ public class AnytimeWeaklyEventCell: UICollectionViewCell, ConfigurableCell {
         view.clipsToBounds = true
         return view
     }()
+
     private let eventLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -233,7 +232,7 @@ public class AnytimeWeaklyEventCell: UICollectionViewCell, ConfigurableCell {
         configureCell()
     }
 
-    public override func prepareForReuse() {
+    override public func prepareForReuse() {
         super.prepareForReuse()
         eventLabel.isHidden = false
     }
@@ -255,7 +254,7 @@ public class AnytimeWeaklyEventCell: UICollectionViewCell, ConfigurableCell {
             sourceViewWidthConstraint,
             sourceView.topAnchor.constraint(equalTo: contentView.topAnchor),
             sourceView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            sourceView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+            sourceView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
         ])
     }
 
@@ -265,7 +264,7 @@ public class AnytimeWeaklyEventCell: UICollectionViewCell, ConfigurableCell {
             containerView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 1),
             containerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 1),
             containerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -1),
-            containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -1)
+            containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -1),
         ])
     }
 
@@ -275,7 +274,7 @@ public class AnytimeWeaklyEventCell: UICollectionViewCell, ConfigurableCell {
             eventLabel.topAnchor.constraint(equalTo: containerView.topAnchor),
             eventLabel.leadingAnchor.constraint(equalTo: sourceView.trailingAnchor, constant: 2),
             eventLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -2),
-            eventLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor)
+            eventLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
         ])
     }
 
@@ -296,7 +295,7 @@ public class AnytimeWeaklyEventCell: UICollectionViewCell, ConfigurableCell {
         super.apply(layoutAttributes)
     }
 
-    public func configure(_ item: CalendarItem, at indexPath: IndexPath) {
+    public func configure(_ item: CalendarItem, at _: IndexPath) {
         if let eventTitle = item.title, !eventTitle.isEmpty {
             eventLabel.text = eventTitle
         } else {
@@ -307,11 +306,12 @@ public class AnytimeWeaklyEventCell: UICollectionViewCell, ConfigurableCell {
         } else {
             sourceView.configure(withSource: item.source)
         }
-        self.dropShadow()
+        dropShadow()
     }
 }
 
 // MARK: - Daily calendar cell
+
 public class AnytimeDailyEventCell: UICollectionViewCell, ConfigurableCell {
     private let padding: CGFloat = 16.0
     private var eventLabelTrailingConstraint: NSLayoutConstraint!
@@ -325,6 +325,7 @@ public class AnytimeDailyEventCell: UICollectionViewCell, ConfigurableCell {
         label.textColor = .black
         return label
     }()
+
     private let sourceView = EventSourceView()
     private let sourceImageView: UIImageView = {
         let imageView = UIImageView()
@@ -360,7 +361,7 @@ public class AnytimeDailyEventCell: UICollectionViewCell, ConfigurableCell {
             sourceView.widthAnchor.constraint(equalToConstant: 3),
             sourceView.topAnchor.constraint(equalTo: contentView.topAnchor),
             sourceView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            sourceView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+            sourceView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
         ])
     }
 
@@ -371,7 +372,7 @@ public class AnytimeDailyEventCell: UICollectionViewCell, ConfigurableCell {
             eventLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: padding / 2),
             eventLabel.leadingAnchor.constraint(equalTo: sourceView.trailingAnchor, constant: padding),
             eventLabelTrailingConstraint,
-            eventLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -padding / 2)
+            eventLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -padding / 2),
         ])
     }
 
@@ -381,7 +382,7 @@ public class AnytimeDailyEventCell: UICollectionViewCell, ConfigurableCell {
             sourceImageView.heightAnchor.constraint(equalToConstant: padding),
             sourceImageView.widthAnchor.constraint(equalToConstant: padding),
             sourceImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -padding / 2),
-            sourceImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -padding / 2)
+            sourceImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -padding / 2),
         ])
     }
 
@@ -420,7 +421,7 @@ public class AnytimeDailyEventCell: UICollectionViewCell, ConfigurableCell {
         sourceImageView.image = image
     }
 
-    public func configure(_ item: CalendarItem, at indexPath: IndexPath) {
+    public func configure(_ item: CalendarItem, at _: IndexPath) {
         if let eventTitle = item.title, !eventTitle.isEmpty {
             eventLabel.text = eventTitle
         } else {
@@ -432,7 +433,7 @@ public class AnytimeDailyEventCell: UICollectionViewCell, ConfigurableCell {
             sourceView.configure(withSource: item.source)
         }
         setSourceImage(withSource: item.source)
-        self.dropShadow()
+        dropShadow()
     }
 }
 
@@ -444,6 +445,7 @@ class EventSourceView: UIView {
         view.clipsToBounds = true
         return view
     }()
+
     private let bottomBackgroundView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -451,6 +453,7 @@ class EventSourceView: UIView {
         view.clipsToBounds = true
         return view
     }()
+
     private let firstView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -458,6 +461,7 @@ class EventSourceView: UIView {
         view.clipsToBounds = true
         return view
     }()
+
     private let secondView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -467,22 +471,22 @@ class EventSourceView: UIView {
     }()
 
     private let googleColors: [UIColor] = [
-        UIColor(red: 219/255, green: 50/255, blue: 54/255, alpha: 1),
-        UIColor(red: 244/255, green: 194/255, blue: 13/255, alpha: 1),
-        UIColor(red: 60/255, green: 186/255, blue: 84/255, alpha: 1),
-        UIColor(red: 72/255, green: 133/255, blue: 237/255, alpha: 1)
+        UIColor(red: 219 / 255, green: 50 / 255, blue: 54 / 255, alpha: 1),
+        UIColor(red: 244 / 255, green: 194 / 255, blue: 13 / 255, alpha: 1),
+        UIColor(red: 60 / 255, green: 186 / 255, blue: 84 / 255, alpha: 1),
+        UIColor(red: 72 / 255, green: 133 / 255, blue: 237 / 255, alpha: 1),
     ]
     private let microsoftColors: [UIColor] = [
-        UIColor(red: 79/255, green: 217/255, blue: 255/255, alpha: 1),
-        UIColor(red: 39/255, green: 168/255, blue: 234/255, alpha: 1),
-        UIColor(red: 0/255, green: 120/255, blue: 212/255, alpha: 1),
-        UIColor(red: 19/255, green: 59/255, blue: 109/255, alpha: 1)
+        UIColor(red: 79 / 255, green: 217 / 255, blue: 255 / 255, alpha: 1),
+        UIColor(red: 39 / 255, green: 168 / 255, blue: 234 / 255, alpha: 1),
+        UIColor(red: 0 / 255, green: 120 / 255, blue: 212 / 255, alpha: 1),
+        UIColor(red: 19 / 255, green: 59 / 255, blue: 109 / 255, alpha: 1),
     ]
     private let setmoreColors: [UIColor] = [
-        UIColor(red: 176/255, green: 216/255, blue: 253/255, alpha: 1),
-        UIColor(red: 176/255, green: 216/255, blue: 253/255, alpha: 1),
-        UIColor(red: 66/255, green: 133/255, blue: 244/255, alpha: 1),
-        UIColor(red: 66/255, green: 133/255, blue: 244/255, alpha: 1)
+        UIColor(red: 176 / 255, green: 216 / 255, blue: 253 / 255, alpha: 1),
+        UIColor(red: 176 / 255, green: 216 / 255, blue: 253 / 255, alpha: 1),
+        UIColor(red: 66 / 255, green: 133 / 255, blue: 244 / 255, alpha: 1),
+        UIColor(red: 66 / 255, green: 133 / 255, blue: 244 / 255, alpha: 1),
     ]
 
     override init(frame: CGRect) {
@@ -508,28 +512,28 @@ class EventSourceView: UIView {
             topBackgroundView.topAnchor.constraint(equalTo: topAnchor),
             topBackgroundView.leadingAnchor.constraint(equalTo: leadingAnchor),
             topBackgroundView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            topBackgroundView.bottomAnchor.constraint(equalTo: centerYAnchor)
+            topBackgroundView.bottomAnchor.constraint(equalTo: centerYAnchor),
         ])
         addSubview(bottomBackgroundView)
         NSLayoutConstraint.activate([
             bottomBackgroundView.topAnchor.constraint(equalTo: centerYAnchor),
             bottomBackgroundView.leadingAnchor.constraint(equalTo: leadingAnchor),
             bottomBackgroundView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            bottomBackgroundView.bottomAnchor.constraint(equalTo: bottomAnchor)
+            bottomBackgroundView.bottomAnchor.constraint(equalTo: bottomAnchor),
         ])
         topBackgroundView.addSubview(firstView)
         NSLayoutConstraint.activate([
             firstView.topAnchor.constraint(equalTo: topBackgroundView.topAnchor),
             firstView.leadingAnchor.constraint(equalTo: topBackgroundView.leadingAnchor),
             firstView.trailingAnchor.constraint(equalTo: topBackgroundView.trailingAnchor),
-            firstView.bottomAnchor.constraint(equalTo: topBackgroundView.centerYAnchor)
+            firstView.bottomAnchor.constraint(equalTo: topBackgroundView.centerYAnchor),
         ])
         bottomBackgroundView.addSubview(secondView)
         NSLayoutConstraint.activate([
             secondView.topAnchor.constraint(equalTo: bottomBackgroundView.centerYAnchor),
             secondView.leadingAnchor.constraint(equalTo: bottomBackgroundView.leadingAnchor),
             secondView.trailingAnchor.constraint(equalTo: bottomBackgroundView.trailingAnchor),
-            secondView.bottomAnchor.constraint(equalTo: bottomBackgroundView.bottomAnchor)
+            secondView.bottomAnchor.constraint(equalTo: bottomBackgroundView.bottomAnchor),
         ])
     }
 
@@ -539,7 +543,7 @@ class EventSourceView: UIView {
         case .google, .microsoft, .setmore:
             let colors = source == .google ? googleColors : microsoftColors
             guard colors.count == views.count else { return }
-            for (index, view) in (views.enumerated()) {
+            for (index, view) in views.enumerated() {
                 view.backgroundColor = colors[index]
             }
         case .local:
@@ -560,25 +564,24 @@ class EventSourceView: UIView {
 }
 
 public class AnytimeEventCell: UICollectionViewCell, ConfigurableCell {
-    
     let shadowOffset = CGSize(width: -5, height: 2)
     var eventLabel = UILabel()
-    var sourceIcon: UIImageView = UIImageView()
-    var stackView: UIStackView = UIStackView()
+    var sourceIcon = UIImageView()
+    var stackView = UIStackView()
     var sourceIconHeightConstraint: NSLayoutConstraint?
     var sourceIconWidthContraint: NSLayoutConstraint?
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureCell()
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         configureCell()
     }
-    
+
     private func configureCell() {
-        self.layer.cornerRadius = 10
+        layer.cornerRadius = 10
         eventLabel.font = AnywhereCalendarView.mainSDK.font.normal
         eventLabel.textColor = UIColor.white
         eventLabel.text = "Event"
@@ -591,26 +594,24 @@ public class AnytimeEventCell: UICollectionViewCell, ConfigurableCell {
         stackView.addArrangedSubview(sourceIcon)
         stackView.distribution = .fillProportionally
         stackView.clipsToBounds = true
-        self.addSubview(stackView)
-        self.dropShadow(withRadius: 5, offset: shadowOffset)
+        addSubview(stackView)
+        dropShadow(withRadius: 5, offset: shadowOffset)
     }
-    
-    public func configure(_ item: CalendarItem, at indexPath: IndexPath) {
-        
+
+    public func configure(_ item: CalendarItem, at _: IndexPath) {
         if let eventTitle = item.title, !eventTitle.isEmpty {
             eventLabel.text = eventTitle
         } else {
             eventLabel.text = "No Title"
         }
         sourceIcon.image = nil
-        self.backgroundColor = item.color
+        backgroundColor = item.color
         eventLabel.textColor = UIColor.white
-        self.layer.borderWidth = 0
-        self.dropShadow()
+        layer.borderWidth = 0
+        dropShadow()
     }
-    
+
     override public func apply(_ layoutAttributes: UICollectionViewLayoutAttributes) {
-        
         stackView.frame = CGRect(x: 10, y: 5, width: layoutAttributes.size.width - 20, height: 16)
         eventLabel.font = AnywhereCalendarView.mainSDK.font.normal
         sourceIconWidthContraint?.constant = 16
@@ -625,59 +626,58 @@ public class AnytimeEventCell: UICollectionViewCell, ConfigurableCell {
             eventLabel.font = AnywhereCalendarView.mainSDK.font.normal.withSize(fontSize)
         }
         if layoutAttributes.size.height < 20 {
-            self.layer.cornerRadius = layoutAttributes.size.height/2
+            layer.cornerRadius = layoutAttributes.size.height / 2
         } else {
-            self.layer.cornerRadius = 10
+            layer.cornerRadius = 10
         }
         if layoutAttributes.size.width < 100 {
             sourceIconWidthContraint?.constant = 0
         }
-        
-        self.dropShadow(withRadius: 5, offset: shadowOffset)
+
+        dropShadow(withRadius: 5, offset: shadowOffset)
         super.apply(layoutAttributes)
     }
 }
 
 // MARK: Offhours View
+
 class DiagonalLinesView: UIView {
-    
     override func draw(_ rect: CGRect) {
-        
-        let thicknessOfLines: CGFloat = 1     // desired thickness of lines
-        let gapBetweenTheLines: CGFloat = 10     // desired gap between lines
+        let thicknessOfLines: CGFloat = 1 // desired thickness of lines
+        let gapBetweenTheLines: CGFloat = 10 // desired gap between lines
         let widthOfView = rect.size.width
         let heightOfView = rect.size.height
-        
+
         guard let currentContext = UIGraphicsGetCurrentContext() else { return }
         currentContext.setStrokeColor(AnywhereCalendarView.mainSDK.theme.offHoursStripeColor.cgColor) // diagnolLineColor.cgColor)
         currentContext.setLineWidth(thicknessOfLines)
-        
+
         var currentPosition = -(widthOfView > heightOfView ? widthOfView : heightOfView) - thicknessOfLines
         while currentPosition <= widthOfView {
-            
-            currentContext.move( to: CGPoint(x: currentPosition + thicknessOfLines + heightOfView, y: -thicknessOfLines) )
-            currentContext.addLine( to: CGPoint(x: currentPosition - thicknessOfLines, y: thicknessOfLines + heightOfView) )
+            currentContext.move(to: CGPoint(x: currentPosition + thicknessOfLines + heightOfView, y: -thicknessOfLines))
+            currentContext.addLine(to: CGPoint(x: currentPosition - thicknessOfLines, y: thicknessOfLines + heightOfView))
             currentContext.strokePath()
             currentPosition += gapBetweenTheLines + thicknessOfLines + thicknessOfLines
         }
     }
 }
 
-
 // MARK: Current Time Indicator
+
 class CurrentTimeIndicatorLine: UICollectionReusableView {
     let offset = CGSize(width: -2, height: 1)
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.backgroundColor = AnywhereCalendarView.mainSDK.theme.currentTimelineColor
-        self.dropShadow(offset: offset)
+        backgroundColor = AnywhereCalendarView.mainSDK.theme.currentTimelineColor
+        dropShadow(offset: offset)
     }
+
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
-    
+
     override func apply(_ layoutAttributes: UICollectionViewLayoutAttributes) {
-        self.dropShadow(offset: offset)
+        dropShadow(offset: offset)
         super.apply(layoutAttributes)
     }
 }
@@ -686,49 +686,49 @@ class CurrentTimeIndicatorCircle: UICollectionReusableView {
     let offset = CGSize(width: -2, height: 2)
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.backgroundColor = AnywhereCalendarView.mainSDK.theme.currentTimelineColor
-        self.layer.cornerRadius = frame.width/2
-        self.dropShadow(offset: offset)
+        backgroundColor = AnywhereCalendarView.mainSDK.theme.currentTimelineColor
+        layer.cornerRadius = frame.width / 2
+        dropShadow(offset: offset)
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
+
     override func apply(_ layoutAttributes: UICollectionViewLayoutAttributes) {
-        self.dropShadow(offset: offset)
+        dropShadow(offset: offset)
         super.apply(layoutAttributes)
     }
 }
 
 class CurrentTimeIndicatorVerticalLine: UICollectionReusableView {
-
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.backgroundColor = AnywhereCalendarView.mainSDK.theme.currentTimelineColor
+        backgroundColor = AnywhereCalendarView.mainSDK.theme.currentTimelineColor
     }
 
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
+
     override func apply(_ layoutAttributes: UICollectionViewLayoutAttributes) {
         super.apply(layoutAttributes)
     }
 }
 
 class TimeHeader: UICollectionReusableView {
-    
     var timeLabel: UILabel?
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.backgroundColor = AnywhereCalendarView.mainSDK.theme.timeHeaderBackgroundColor
+        backgroundColor = AnywhereCalendarView.mainSDK.theme.timeHeaderBackgroundColor
         timeLabel = UILabel(frame: CGRect(x: 0, y: 0, width: self.frame.width - 5, height: 30))
         timeLabel?.textAlignment = .center
         timeLabel?.font = AnywhereCalendarView.mainSDK.font.normal
         timeLabel?.textColor = AnywhereCalendarView.mainSDK.theme.timeheaderTextColor
-        self.addSubview(timeLabel!)
+        addSubview(timeLabel!)
     }
-    
+
     func setTimeText(with hour: Int) {
         guard hour > 0 else {
             return
@@ -739,52 +739,51 @@ class TimeHeader: UICollectionReusableView {
             timeLabel?.text = text
             return
         }
-        let resultText = NSMutableAttributedString.init(string: text)
+        let resultText = NSMutableAttributedString(string: text)
         resultText.setAttributes([
-            .font: AnywhereCalendarView.mainSDK.font.normal.withSize(10)
+            .font: AnywhereCalendarView.mainSDK.font.normal.withSize(10),
         ],
         range: NSMakeRange(textCount == 4 ? 2 : 3, 2))
         timeLabel?.attributedText = resultText
     }
-    
+
     func setCurrentTimeText() {
         let attributedTimeText = NSAttributedString(string: getCurrentTimeString(), attributes: [.font: AnywhereCalendarView.mainSDK.font.normal, .strokeColor: UIColor.blue, .foregroundColor: UIColor.blue, .backgroundColor: UIColor.white])
         timeLabel?.attributedText = attributedTimeText
     }
-    
+
     private func getCurrentTimeString() -> String {
         let today = Date()
-        
+
         guard today.minute != 0 else {
             return ""
         }
         guard AnywhereCalendarView.mainSDK.calConfig.timeFormat.is12HourFormat else {
             return "\(today.hour):\(today.minute)"
         }
-        
+
         if today.hour > 12 {
-            return "\(today.hour-12):\(today.minute)PM"
+            return "\(today.hour - 12):\(today.minute)PM"
         } else if today.hour < 12 {
             return "\(today.hour):\(today.minute)AM"
         } else {
             return "\(today.hour):\(today.minute)PM"
         }
-        
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
 }
 
 class TimeHeaderTriangleView: UICollectionReusableView {
-
     override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
     }
 
-    required init?(coder: NSCoder) {
+    @available(*, unavailable)
+    required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
@@ -808,17 +807,17 @@ class TimeHeaderTriangleView: UICollectionReusableView {
     }
 
     private func roundedTriangle(widthHeight: CGFloat) -> CGPath {
-       let point1 = CGPoint(x: widthHeight, y: widthHeight/2)
-       let point2 = CGPoint(x: widthHeight / 2, y: widthHeight)
-       let point3 = CGPoint(x: widthHeight / 2, y: 0)
+        let point1 = CGPoint(x: widthHeight, y: widthHeight / 2)
+        let point2 = CGPoint(x: widthHeight / 2, y: widthHeight)
+        let point3 = CGPoint(x: widthHeight / 2, y: 0)
 
-       let path = CGMutablePath()
+        let path = CGMutablePath()
 
-       path.move(to: CGPoint(x: widthHeight / 2, y: 0))
-       path.addArc(tangent1End: point1, tangent2End: point2, radius: 1)
-       path.addArc(tangent1End: point2, tangent2End: point3, radius: 1)
-       path.addArc(tangent1End: point3, tangent2End: point1, radius: 1)
-       path.closeSubpath()
-       return path
+        path.move(to: CGPoint(x: widthHeight / 2, y: 0))
+        path.addArc(tangent1End: point1, tangent2End: point2, radius: 1)
+        path.addArc(tangent1End: point2, tangent2End: point3, radius: 1)
+        path.addArc(tangent1End: point3, tangent2End: point1, radius: 1)
+        path.closeSubpath()
+        return path
     }
 }

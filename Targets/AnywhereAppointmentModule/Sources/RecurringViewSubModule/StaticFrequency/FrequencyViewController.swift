@@ -14,12 +14,14 @@ public protocol FrequencyVCDelegate: class {
 
 public class FrequencyViewController: UIViewController {
     // MARK: Properties
+
     public var router: FrequencyRouter?
     public weak var delegate: FrequencyVCDelegate?
     public var originalFrequencyMode: Frequency = .doNotRepeat
     public var startEventDate: Date?
-    
+
     // MARK: Private
+
     private var currentFrequencyMode: Frequency = .doNotRepeat {
         didSet {
             markSelectedCell()
@@ -31,43 +33,49 @@ public class FrequencyViewController: UIViewController {
 
     private let models: [FrequencyHeaderModel] = [.customFrequencyCells, .staticFrequencyCells, .anotherCells]
     private let tableView = UITableView()
-    
+
     // MARK: CELLS
 
-    lazy private var doNotRepeatCell: FrequencySelectionCell = configure(AnytimeNibs.frequencySelectionCell) {
+    private lazy var doNotRepeatCell: FrequencySelectionCell = configure(AnytimeNibs.frequencySelectionCell) {
         $0.configureCell(
             withTitle: Frequency.cellDynamicTitle(for: .doNotRepeat, startEventDate),
-            shouldShowSeparator: true)
+            shouldShowSeparator: true
+        )
     }
-    
-    lazy private var dailyRepeatCell: FrequencySelectionCell = configure(AnytimeNibs.frequencySelectionCell) {
+
+    private lazy var dailyRepeatCell: FrequencySelectionCell = configure(AnytimeNibs.frequencySelectionCell) {
         $0.configureCell(
             withTitle: Frequency.cellDynamicTitle(for: .daily(), startEventDate),
-            shouldShowSeparator: true)
+            shouldShowSeparator: true
+        )
     }
-    
-    lazy private var weeklyRepeatCell: FrequencySelectionCell = configure(AnytimeNibs.frequencySelectionCell) {
+
+    private lazy var weeklyRepeatCell: FrequencySelectionCell = configure(AnytimeNibs.frequencySelectionCell) {
         $0.configureCell(
             withTitle: Frequency.cellDynamicTitle(for: .weekly(), startEventDate),
-            shouldShowSeparator: true)
+            shouldShowSeparator: true
+        )
     }
-    
-    lazy private var monthlyRepeatCell: FrequencySelectionCell = configure(AnytimeNibs.frequencySelectionCell) {
+
+    private lazy var monthlyRepeatCell: FrequencySelectionCell = configure(AnytimeNibs.frequencySelectionCell) {
         $0.configureCell(
             withTitle: Frequency.cellDynamicTitle(for: .monthly(), startEventDate),
-            shouldShowSeparator: true)
+            shouldShowSeparator: true
+        )
     }
-    
-    lazy private var yearlyRepeatCell: FrequencySelectionCell = configure(AnytimeNibs.frequencySelectionCell) {
+
+    private lazy var yearlyRepeatCell: FrequencySelectionCell = configure(AnytimeNibs.frequencySelectionCell) {
         $0.configureCell(
             withTitle: Frequency.cellDynamicTitle(for: .yearly(), startEventDate),
-            shouldShowSeparator: true)
+            shouldShowSeparator: true
+        )
     }
-    
-    lazy private var customRepeatCell: FrequencySelectionCell = configure(AnytimeNibs.frequencySelectionCell) {
+
+    private lazy var customRepeatCell: FrequencySelectionCell = configure(AnytimeNibs.frequencySelectionCell) {
         $0.configureCell(
             withTitle: Frequency.cellDynamicTitle(for: .custom(originalFrequencyMode.getRecurrenceRule()), startEventDate),
-            shouldShowSeparator: true)
+            shouldShowSeparator: true
+        )
     }
 
     lazy var createCustomFrequencyCell = configure(AnytimeNibs.iconIndicatorTableViewCell) {
@@ -76,13 +84,14 @@ public class FrequencyViewController: UIViewController {
             icon: AppDecor.Icons.textFieldIcon,
             color: .lightGray,
             indicatorImage: AppDecor.Icons.grayRightArrow,
-            shouldShowSeparator: false)
+            shouldShowSeparator: false
+        )
     }
-    
+
     private var editedFrequencyMode: Frequency = .doNotRepeat {
         didSet {
             switch editedFrequencyMode {
-            case .custom(let reccurrenceRule):
+            case let .custom(reccurrenceRule):
                 guard let reccurrence = reccurrenceRule else { return }
                 customRepeatCell.configureCell(withTitle: reccurrence.getTitle(),
                                                shouldShowSeparator: true)
@@ -92,33 +101,34 @@ public class FrequencyViewController: UIViewController {
             updateDoneButton(shouldSave: self.originalFrequencyMode != self.editedFrequencyMode)
         }
     }
-    
+
     // MARK: Life cycle
-    
-    public override func loadView() {
+
+    override public func loadView() {
         super.loadView()
         view = tableView
     }
-    
-    public override func viewDidLoad() {
+
+    override public func viewDidLoad() {
         super.viewDidLoad()
         setupTable()
         markSelectedCell()
     }
-    
-    public override func viewWillAppear(_ animated: Bool) {
+
+    override public func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         shouldShowNavBar = true
         setNavBar()
         editedFrequencyMode = originalFrequencyMode
     }
-    
-    public override func viewWillDisappear(_ animated: Bool) {
+
+    override public func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         shouldShowNavBar = false
     }
-    
+
     // MARK: Set Up views
+
     private func setupTable() {
         tableView.delegate = self
         tableView.dataSource = self
@@ -126,15 +136,15 @@ public class FrequencyViewController: UIViewController {
         tableView.separatorStyle = .none
         tableView.tableFooterView = UIView()
     }
-    
+
     private func setNavBar() {
         setupNavBar(title: "Repeat")
         addNavBarButton(title: "Done")
     }
-    
-    // MARK: Handle actions
-    private func markSelectedCell() {
 
+    // MARK: Handle actions
+
+    private func markSelectedCell() {
         doNotRepeatCell.isDurationSelected = currentFrequencyMode == .doNotRepeat
         dailyRepeatCell.isDurationSelected = currentFrequencyMode == .daily()
         weeklyRepeatCell.isDurationSelected = currentFrequencyMode == .weekly()
@@ -142,11 +152,11 @@ public class FrequencyViewController: UIViewController {
         yearlyRepeatCell.isDurationSelected = currentFrequencyMode == .yearly()
         customRepeatCell.isDurationSelected = currentFrequencyMode == .custom()
     }
-    
+
     func updateDoneButton(shouldSave: Bool) {
         setNavBarButtonEnabled(shouldSave)
     }
-    
+
     func didTapDoneButton() {
         delegate?.didUpdateFrequency(currentFrequencyMode)
         router?.route(to: .back, from: self, info: nil)
@@ -160,19 +170,19 @@ extension FrequencyViewController: NavBarActionDelegate {
 }
 
 // MARK: UITableViewDataSource, UITableViewDelegate
+
 extension FrequencyViewController: UITableViewDataSource, UITableViewDelegate {
-    
-    public func numberOfSections(in tableView: UITableView) -> Int {
+    public func numberOfSections(in _: UITableView) -> Int {
         return models.count
     }
-    
-    public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+
+    public func tableView(_: UITableView, numberOfRowsInSection section: Int) -> Int {
         return models[section].cellModels.count
     }
-    
-    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+
+    public func tableView(_: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cellModels = models[indexPath.section].cellModels[indexPath.row]
-        
+
         switch cellModels {
         case .doNotRepeat: return doNotRepeatCell
         case .daily: return dailyRepeatCell
@@ -183,11 +193,11 @@ extension FrequencyViewController: UITableViewDataSource, UITableViewDelegate {
         case .customFrequencyEdit: return createCustomFrequencyCell
         }
     }
-    
+
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let cellModels = models[indexPath.section].cellModels[indexPath.row]
-        
+
         switch cellModels {
         case .doNotRepeat:
             editedFrequencyMode = .doNotRepeat
@@ -208,10 +218,10 @@ extension FrequencyViewController: UITableViewDataSource, UITableViewDelegate {
             router?.route(to: .customFrequency, from: self, info: info)
         }
     }
-    
-    public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+
+    public func tableView(_: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let cellModels = models[indexPath.section].cellModels[indexPath.row]
-        
+
         switch cellModels {
         case .customRepeat:
             return originalFrequencyMode == .custom() ? 66 : 0

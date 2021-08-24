@@ -12,12 +12,10 @@ protocol HostButtonViewDelegate: class {
 }
 
 class HostButtonView: UIView, NibLoadable {
-
-    @IBOutlet weak var saveButton: RoundedButton!
+    @IBOutlet var saveButton: RoundedButton!
     weak var delegate: HostButtonViewDelegate?
-    
-    @IBAction func didTapSaveButton(_ sender: RoundedButton) {
+
+    @IBAction func didTapSaveButton(_: RoundedButton) {
         delegate?.didTapSaveButton()
     }
-    
 }

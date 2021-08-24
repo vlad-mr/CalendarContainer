@@ -5,8 +5,8 @@
 //  Created by Vignesh on 30/09/20.
 //
 
-import UIKit
 import SwiftDate
+import UIKit
 
 internal var calendarWeekStartDay: Int {
     SwiftDate.defaultRegion.calendar.firstWeekday
@@ -19,24 +19,25 @@ var userRegion: Region {
     return Region(calendar: cal, zone: SwiftDate.defaultRegion.timeZone, locale: SwiftDate.defaultRegion.locale)
 }
 
-
 public struct DatePickerConfig {
-    
     public let font: UIFont
     public let mode: DatePickerMode
     public let userRegion: Region
-    
+
     public let minDate: Date?
     public let maxDate: Date?
+
     // MARK: These properties are needed for further customization.
+
     let viewConfiguration: DatePickerViewConfiguration
-    
+
     public init(font: UIFont = UIFont.systemFont(ofSize: 10),
                 mode: DatePickerMode = .monthly,
                 userRegion: Region = Region.current,
                 minDate: Date?,
                 maxDate: Date?,
-                viewConfiguration: DatePickerViewConfiguration = .init()) {
+                viewConfiguration: DatePickerViewConfiguration = .init())
+    {
         self.font = font
         self.mode = mode
         self.userRegion = userRegion
@@ -50,29 +51,28 @@ extension DatePickerConfig {
     public init(font: UIFont = .systemFont(ofSize: 10),
                 mode: DatePickerMode = .monthly,
                 userRegion: Region = Region.current,
-                viewConfiguration: DatePickerViewConfiguration = .init()) {
+                viewConfiguration: DatePickerViewConfiguration = .init())
+    {
         self.font = font
         self.mode = mode
         self.userRegion = userRegion
         self.viewConfiguration = viewConfiguration
-        self.minDate = nil
-        self.maxDate = nil
+        minDate = nil
+        maxDate = nil
     }
-    
+
     static let standard: Self = .init()
-    
+
     mutating func switchTo(_ mode: DatePickerMode) {
-        
-        self = DatePickerConfig(font: self.font,
+        self = DatePickerConfig(font: font,
                                 mode: mode,
-                                userRegion: self.userRegion,
-                                minDate: self.minDate,
-                                maxDate: self.maxDate,
-                                viewConfiguration: self.viewConfiguration)
+                                userRegion: userRegion,
+                                minDate: minDate,
+                                maxDate: maxDate,
+                                viewConfiguration: viewConfiguration)
     }
-    
+
     func isDateInBounds(_ date: Date) -> Bool {
-        
         if let minDate = self.minDate, date.isBeforeDate(minDate, granularity: .day) {
             return false
         } else if let maxDate = self.maxDate, date.isAfterDate(maxDate, granularity: .day) {
@@ -89,7 +89,6 @@ public enum PickerHighlightMode {
 }
 
 public struct DatePickerViewConfiguration {
-    
     let weekDayTitleMode: WeekDayTitleMode
     let monthTitleStyle: SymbolFormatStyle
     let pickerTitleMode: PickerTitleMode
@@ -100,7 +99,7 @@ public struct DatePickerViewConfiguration {
     let shouldDimWeekends: Bool
     let nonActiveMonthDateMode: ComponentVisibilityMode
     let shouldHighlightCurrentWeekday: Bool
-    
+
     public init(weekDayTitleMode: WeekDayTitleMode = .short,
                 monthTitleStyle: SymbolFormatStyle = .default,
                 pickerTitleMode: PickerTitleMode = .monthNameWithTodayButton,
@@ -112,7 +111,6 @@ public struct DatePickerViewConfiguration {
                 nonActiveMonthDateMode: ComponentVisibilityMode = .hidden,
                 shouldHighlightCurrentWeekday: Bool = false)
     {
-        
         self.weekDayTitleMode = weekDayTitleMode
         self.monthTitleStyle = monthTitleStyle
         self.pickerTitleMode = pickerTitleMode
@@ -124,7 +122,7 @@ public struct DatePickerViewConfiguration {
         self.nonActiveMonthDateMode = nonActiveMonthDateMode
         self.shouldHighlightCurrentWeekday = shouldHighlightCurrentWeekday
     }
-    
+
     static var standard: Self = .init()
 }
 
@@ -143,23 +141,23 @@ public enum WeekDayTitleMode {
     case twoLetter
     case short
     case full
-    
+
     func weekDayString(forDay day: Int) -> String {
         switch day {
         case 1:
-            return self == .short ? "SUN" : self == .full ? "SUNDAY": self == .twoLetter ? "SU" :  "S"
+            return self == .short ? "SUN" : self == .full ? "SUNDAY" : self == .twoLetter ? "SU" : "S"
         case 2:
-            return self == .short ? "MON" : self == .full ? "MONDAY": self == .twoLetter ? "MO" :  "M"
+            return self == .short ? "MON" : self == .full ? "MONDAY" : self == .twoLetter ? "MO" : "M"
         case 3:
-            return self == .short ? "TUE" : self == .full ? "TUESDAY": self == .twoLetter ? "TU" :  "T"
+            return self == .short ? "TUE" : self == .full ? "TUESDAY" : self == .twoLetter ? "TU" : "T"
         case 4:
-            return self == .short ? "WED" : self == .full ? "WEDNESDAY": self == .twoLetter ? "WE" :  "W"
+            return self == .short ? "WED" : self == .full ? "WEDNESDAY" : self == .twoLetter ? "WE" : "W"
         case 5:
-            return self == .short ? "THU" : self == .full ? "THURSDAY": self == .twoLetter ? "TH" :  "T"
+            return self == .short ? "THU" : self == .full ? "THURSDAY" : self == .twoLetter ? "TH" : "T"
         case 6:
-            return self == .short ? "FRI" : self == .full ? "FRIDAY": self == .twoLetter ? "FR" :  "F"
+            return self == .short ? "FRI" : self == .full ? "FRIDAY" : self == .twoLetter ? "FR" : "F"
         case 7:
-            return self == .short ? "SAT" : self == .full ? "SATURDAY": self == .twoLetter ? "SA" :  "S"
+            return self == .short ? "SAT" : self == .full ? "SATURDAY" : self == .twoLetter ? "SA" : "S"
         default:
             return ""
         }

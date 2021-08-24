@@ -11,27 +11,26 @@ import SwiftyBeaver
 public let Logger = SwiftyBeaver.self
 
 func configureLogger() {
-    
     let console = ConsoleDestination()
     console.format = "$C$L$c $N.$F():$l - $M $C$c"
-    
+
     console.levelColor.verbose = "🔷 🔷 "
     console.levelColor.debug = "🔰 🔰 "
     console.levelColor.info = "🍭 🍭 "
     console.levelColor.warning = "⚠️ ⚠️ "
     console.levelColor.error = "⛔️ ⛔️ "
-    
+
     Logger.addDestination(console)
-    
+
     #if RELEASE
-    console.minLevel = .error
+        console.minLevel = .error
     #endif
 }
 
 enum EventActionType: String, Codable {
     case create = "EVENT_CREATE"
     case update = "EVENT_UPDATE"
-    
+
     case recurringCreate = "RECURRING_CREATE"
     case recurringUpdate = "RECURRING_UPDATE"
     case tail = "TAIL"
@@ -47,7 +46,6 @@ enum ResponseStatus: String, Codable, Equatable {
 }
 
 public extension TimeZone {
-
     /**
      This method returns a string specifying the time difference from GMT
 
@@ -57,9 +55,8 @@ public extension TimeZone {
 
      */
     func displayStringFromGMT(forDate date: Date = Date()) -> String {
-
-        let hoursFromGMT = self.secondsFromGMT(for: date) / 3600
-        let minutesFromGMT = self.secondsFromGMT(for: date) / 60 % 60
+        let hoursFromGMT = secondsFromGMT(for: date) / 3600
+        let minutesFromGMT = secondsFromGMT(for: date) / 60 % 60
         guard hoursFromGMT >= 0 else {
             guard hoursFromGMT <= -10 else {
                 return "GMT-0\(-hoursFromGMT):\(minutesFromGMT == 0 ? "00" : "\(-minutesFromGMT)")"
@@ -73,10 +70,9 @@ public extension TimeZone {
     }
 
     func displayName(forDate date: Date = Date()) -> String {
-
-        let gmtValue = self.displayStringFromGMT(forDate: date)
+        let gmtValue = displayStringFromGMT(forDate: date)
         let localizedName = self.localizedName(for: .standard, locale: .current) ?? ""
-        let cityName = self.identifier.split(separator: "/").last ?? ""
+        let cityName = identifier.split(separator: "/").last ?? ""
 
         let displayName = "\(localizedName),\n\(cityName), (\(gmtValue))"
         return displayName

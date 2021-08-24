@@ -8,7 +8,7 @@
 
 import Foundation
 
-//TODO: Have to check and update
+// TODO: Have to check and update
 enum AppError: String {
     case apiFailed
     case userNotFound
@@ -18,7 +18,6 @@ enum AppError: String {
 }
 
 extension AppError: LocalizedError {
-    
     var errorDescription: String? {
         switch self {
         case .noInternet:

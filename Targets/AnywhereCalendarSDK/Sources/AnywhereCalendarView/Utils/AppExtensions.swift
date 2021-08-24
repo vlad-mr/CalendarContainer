@@ -10,13 +10,12 @@ import Foundation
 import SwiftDate
 import UIKit
 #if canImport(CalendarUtils)
-import CalendarUtils
+    import CalendarUtils
 #endif
 
 extension UIViewController {
     func embedViewController(_ viewController: UIViewController, toContainerView containerView: UIView) {
-        
-        self.addChild(viewController)
+        addChild(viewController)
         viewController.view.frame = containerView.bounds
         containerView.addSubview(viewController.view)
         viewController.didMove(toParent: self)
@@ -25,53 +24,51 @@ extension UIViewController {
 
 extension Array {
     var isNotEmpty: Bool {
-        return !self.isEmpty
+        return !isEmpty
     }
 }
 
 extension UIView {
     func addSubViews(_ views: [UIView]) {
-        views.forEach { (view) in
+        views.forEach { view in
             self.addSubview(view)
         }
     }
 }
 
 extension UIView {
-    
     func setupHeightAnchor(withConstant constant: CGFloat, priority: UILayoutPriority = .defaultHigh) {
-        let heightConstraint = self.heightAnchor.constraint(equalToConstant: constant)
+        let heightConstraint = heightAnchor.constraint(equalToConstant: constant)
         heightConstraint.priority = priority
         heightConstraint.isActive = true
     }
-    
-    func setupWidthAnchor(withConstant constant: CGFloat,  priority: UILayoutPriority = .defaultHigh) {
-        let widthConstraint = self.widthAnchor.constraint(equalToConstant: constant)
+
+    func setupWidthAnchor(withConstant constant: CGFloat, priority: UILayoutPriority = .defaultHigh) {
+        let widthConstraint = widthAnchor.constraint(equalToConstant: constant)
         widthConstraint.priority = priority
         widthConstraint.isActive = true
     }
 }
 
 extension UIStackView {
-    func addArrangedSubviews(_ views: [UIView] ) {
+    func addArrangedSubviews(_ views: [UIView]) {
         for view in views {
-            self.addArrangedSubview(view)
+            addArrangedSubview(view)
         }
     }
 }
 
 extension UIStackView {
-    
     func addVerticalSeparators(color: UIColor) {
-        var numberOfSubviews = self.arrangedSubviews.count - 1
+        var numberOfSubviews = arrangedSubviews.count - 1
         while numberOfSubviews >= 0 {
             let separator = createSeparator(color: color)
             insertArrangedSubview(separator, at: numberOfSubviews)
-            separator.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 1).isActive = true
+            separator.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 1).isActive = true
             numberOfSubviews -= 1
         }
     }
-    
+
     private func createSeparator(color: UIColor) -> UIView {
         return configure(UIView()) {
             $0.widthAnchor.constraint(equalToConstant: 1).isActive = true
@@ -99,13 +96,12 @@ extension UIImage {
 
 extension Date {
     func isSameAs(date: Date) -> Bool {
-        let differnceBetweenDates = Calendar.gregorian.dateComponents([.day], from: self.dateAt(.startOfDay), to: date.dateAt(.endOfDay)).day ?? 0
+        let differnceBetweenDates = Calendar.gregorian.dateComponents([.day], from: dateAt(.startOfDay), to: date.dateAt(.endOfDay)).day ?? 0
         return differnceBetweenDates == 0
     }
 }
 
 extension UIView {
-    
     func layoutViewWithoutAnimation() {
         UIView.performWithoutAnimation {
             self.layoutIfNeeded()
@@ -115,7 +111,7 @@ extension UIView {
 
 extension UILabel {
     func setMargins(margin: CGFloat = 10) {
-        if let textString = self.text {
+        if let textString = text {
             let paragraphStyle = NSMutableParagraphStyle()
             paragraphStyle.firstLineHeadIndent = margin
             paragraphStyle.headIndent = margin
@@ -130,4 +126,3 @@ extension UILabel {
         }
     }
 }
-

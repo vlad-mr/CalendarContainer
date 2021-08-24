@@ -12,13 +12,13 @@ class CustomFrequencyModel {
     func getTableViewData() -> [CustomFrequencyHeaderModel] {
         return [.startRepeatSection, .onRepeatSection, .endRepeatSection]
     }
-    
+
     func getPickerData() -> [[String]] {
-        let firstComponnentCells = Array(1...99)
+        let firstComponnentCells = Array(1 ... 99)
         let secondComponnentCells: [RecurrenceFrequency] = [.daily, .weekly, .monthly, .yearly]
         return [
-            firstComponnentCells.map({ String($0) }),
-            secondComponnentCells.map({ $0.toPickerTitleStyleString() })
+            firstComponnentCells.map { String($0) },
+            secondComponnentCells.map { $0.toPickerTitleStyleString() },
         ]
     }
 }
@@ -26,21 +26,21 @@ class CustomFrequencyModel {
 enum CustomFrequencyCellModel {
     case repeatCell
     case repeatPickerCell
-    
+
     case onWeekRepeatCell
     case onMonthRepeatCell
     case onYearRepeatCell
-    
+
     case endRepeatCell
 }
 
 enum CustomFrequencyHeaderModel: CellHeaderProtocol {
     typealias CellType = CustomFrequencyCellModel
-    
+
     case startRepeatSection
     case onRepeatSection
     case endRepeatSection
-    
+
     var cellModels: [CustomFrequencyCellModel] {
         switch self {
         case .startRepeatSection:

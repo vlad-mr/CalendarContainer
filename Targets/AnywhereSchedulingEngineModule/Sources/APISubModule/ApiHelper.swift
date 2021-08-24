@@ -9,19 +9,18 @@
 import PromiseKit
 
 struct ParameterEncodingHelper {
-    
     enum EncodingError: Error {
         case invalidData(Any)
     }
-    
+
     func convert(object: Any, encoding: String.Encoding = .utf8) throws -> String {
         var jsonData: Data
         do {
             jsonData = try JSONSerialization.data(withJSONObject: object, options: [])
-        } catch let error {
+        } catch {
             throw error
         }
-        
+
         guard let encodedString = String(data: jsonData, encoding: encoding) else { throw EncodingError.invalidData(object) }
         return encodedString
     }
@@ -29,7 +28,6 @@ struct ParameterEncodingHelper {
 
 public final class ApiResponseValidator {
     public class func validateResponse<T>(_ response: SchedulingEngineApiResponse<T>) -> Promise<T> {
-     
         return Promise<T> { promise in
             guard response.status, let requiredData = response.data else {
                 if let error = response.error, let apiError = APIError(rawValue: error) {

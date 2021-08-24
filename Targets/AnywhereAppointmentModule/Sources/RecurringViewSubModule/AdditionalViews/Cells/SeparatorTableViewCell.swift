@@ -9,14 +9,14 @@
 import UIKit
 
 class SeparatorTableViewCell: UITableViewCell {
-    @IBOutlet weak var separatorView: UIView!
+    @IBOutlet var separatorView: UIView!
 
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
         separatorView.backgroundColor = UIColor.lightGray.withAlphaComponent(0.1)
     }
-    
+
     func congigure(shouldShowSeparator: Bool = false) {
         separatorView.isHidden = !shouldShowSeparator
     }

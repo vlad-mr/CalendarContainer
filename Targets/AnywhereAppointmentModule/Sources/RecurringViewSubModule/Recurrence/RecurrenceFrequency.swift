@@ -16,7 +16,7 @@ public enum RecurrenceFrequency {
     case hourly
     case minutely
     case secondly
-    
+
     func toString() -> String {
         switch self {
         case .secondly: return "SECONDLY"
@@ -28,7 +28,7 @@ public enum RecurrenceFrequency {
         case .yearly: return "YEARLY"
         }
     }
-    
+
     func toPickerTitleStyleString() -> String {
         switch self {
         case .secondly: return "Secs"
@@ -40,7 +40,7 @@ public enum RecurrenceFrequency {
         case .yearly: return "Years"
         }
     }
-    
+
     static func frequencyFromPickerTitle(from string: String) -> RecurrenceFrequency? {
         switch string {
         case "Secs": return .secondly
@@ -53,7 +53,7 @@ public enum RecurrenceFrequency {
         default: return nil
         }
     }
-    
+
     static func frequency(from string: String) -> RecurrenceFrequency? {
         switch string {
         case "SECONDLY": return .secondly
@@ -70,27 +70,27 @@ public enum RecurrenceFrequency {
 
 enum EKReccurrenceMonth: Int {
     case january = 1, february, march, april, may, june, july, august, september, october, november, december
-    
+
     func toSymbol(_ prefix: Int = 3) -> String {
         var tempSymbol: String = ""
-        
+
         switch self {
-        case .january:     tempSymbol = "January"
-        case .february:    tempSymbol = "February"
-        case .march:       tempSymbol = "March"
-        case .april:       tempSymbol = "April"
-        case .may:         tempSymbol = "May"
-        case .june:        tempSymbol = "June"
-        case .july:        tempSymbol = "July"
-        case .august:      tempSymbol = "August"
-        case .september:   tempSymbol = "September"
-        case .october:     tempSymbol = "October"
-        case .november:    tempSymbol = "November"
-        case .december:    tempSymbol = "December"
+        case .january: tempSymbol = "January"
+        case .february: tempSymbol = "February"
+        case .march: tempSymbol = "March"
+        case .april: tempSymbol = "April"
+        case .may: tempSymbol = "May"
+        case .june: tempSymbol = "June"
+        case .july: tempSymbol = "July"
+        case .august: tempSymbol = "August"
+        case .september: tempSymbol = "September"
+        case .october: tempSymbol = "October"
+        case .november: tempSymbol = "November"
+        case .december: tempSymbol = "December"
         }
         return String(tempSymbol.prefix(prefix))
     }
-    
+
     static var wholeYear: [EKReccurrenceMonth] {
         [.january, .february, .march, .april, .may, .june, .july, .august, .september, .october, .november, .december]
     }

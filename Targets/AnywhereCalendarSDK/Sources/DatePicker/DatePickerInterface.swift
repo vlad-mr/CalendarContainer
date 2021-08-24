@@ -7,19 +7,18 @@
 
 import Foundation
 
-public struct AnywhereDatePicker {
-    
+public enum AnywhereDatePicker {
     public static func getDatePicker(withConfig config: DatePickerConfig,
                                      dataSource: DatePickerDataSource? = nil,
                                      delegate: DatePickerDelegate? = nil,
                                      customizationProvider: DatePickerCustomizationProvider = .standard,
                                      pickerDimensions: DatePickerDimensions = .standard,
-                                     theme: DatePickerTheme = AnywherePickerTheme()) -> DatePickerView {
-        
+                                     theme: DatePickerTheme = AnywherePickerTheme()) -> DatePickerView
+    {
         setUserDefaultRegion(config.userRegion)
         PickerUtils.shouldDisplayCurrentYearOnMonthTitle = config.viewConfiguration.shouldDisplayCurrentYearOnMonthTitle
         PickerUtils.monthTitleStyle = config.viewConfiguration.monthTitleStyle
-        
+
         let pickerViewController = DatePickerViewController()
         pickerViewController.pickerConfig = config
         pickerViewController.dataSource = dataSource

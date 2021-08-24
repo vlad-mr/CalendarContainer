@@ -10,14 +10,14 @@ import UIKit
 
 protocol CellHeaderProtocol {
     associatedtype CellType
-    
+
     var cellModels: [CellType] { get }
 }
 
 extension UIStackView {
-    func addArrangedSubviews(_ views: [UIView] ) {
+    func addArrangedSubviews(_ views: [UIView]) {
         for view in views {
-            self.addArrangedSubview(view)
+            addArrangedSubview(view)
         }
     }
 }
@@ -33,19 +33,19 @@ extension Optional: AnyOptional {
 extension UIView {
     func fillSuperview(padding: UIEdgeInsets = .zero) {
         translatesAutoresizingMaskIntoConstraints = false
-        
+
         if let superviewTopAnchor = superview?.topAnchor {
             topAnchor.constraint(equalTo: superviewTopAnchor, constant: padding.top).isActive = true
         }
-        
+
         if let superviewBottomAnchor = superview?.bottomAnchor {
             bottomAnchor.constraint(equalTo: superviewBottomAnchor, constant: -padding.bottom).isActive = true
         }
-        
+
         if let superviewLeadingAnchor = superview?.leadingAnchor {
             leadingAnchor.constraint(equalTo: superviewLeadingAnchor, constant: padding.left).isActive = true
         }
-        
+
         if let superviewTrailingAnchor = superview?.trailingAnchor {
             trailingAnchor.constraint(equalTo: superviewTrailingAnchor, constant: -padding.right).isActive = true
         }
@@ -53,13 +53,12 @@ extension UIView {
 }
 
 extension UIViewController {
-    
     var shouldShowNavBar: Bool {
         get {
-            self.navigationController?.navigationBar.isHidden ?? false
+            navigationController?.navigationBar.isHidden ?? false
         }
         set {
-            self.navigationController?.setNavigationBarHidden(!newValue, animated: true)
+            navigationController?.setNavigationBarHidden(!newValue, animated: true)
         }
     }
 }

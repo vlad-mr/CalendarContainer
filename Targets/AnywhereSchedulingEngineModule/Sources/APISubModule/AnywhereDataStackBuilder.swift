@@ -8,8 +8,7 @@
 import Foundation
 
 public enum AnywhereDataStackBuilder {
-
-  public static func buildProvider() -> AnywhereDataProviderType {
-    AnywhereDataProvider()
-  }
+    public static func buildProvider() -> AnywhereDataProviderType {
+        AnywhereDataProvider()
+    }
 }

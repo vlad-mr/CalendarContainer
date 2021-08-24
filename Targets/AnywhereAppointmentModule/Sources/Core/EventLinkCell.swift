@@ -15,29 +15,28 @@ protocol EventLinkCellDelegateProtocol: class {
 }
 
 class EventLinkCell: EventCell, NibLoadable {
+    @IBOutlet var titleLabel: UILabel!
+    @IBOutlet var descriptionLabel: UILabel!
+    @IBOutlet var linkLabel: UILabel!
+    @IBOutlet var shareButton: UIButton!
+    @IBOutlet var copyButton: UIButton!
 
-    @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var descriptionLabel: UILabel!
-    @IBOutlet weak var linkLabel: UILabel!
-    @IBOutlet weak var shareButton: UIButton!
-    @IBOutlet weak var copyButton: UIButton!
-    
     weak var delegate: EventLinkCellDelegateProtocol?
-    
+
     enum CellMode {
         case noShare, shouldShare
     }
-    
+
     var shouldShowDescription: Bool = true {
         didSet {
-           descriptionLabel.isHidden = !shouldShowDescription
+            descriptionLabel.isHidden = !shouldShowDescription
         }
     }
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        
+
         titleLabel.font = AppDecor.Fonts.medium.withSize(13)
         titleLabel.textColor = UIColor.black.withAlphaComponent(0.5)
         descriptionLabel.font = AppDecor.Fonts.medium.withSize(15)
@@ -51,7 +50,7 @@ class EventLinkCell: EventCell, NibLoadable {
         linkLabel.isUserInteractionEnabled = true
         linkLabel.addGestureRecognizer(tapGesture)
     }
-    
+
     func configureCell(forMode mode: CellMode, withTitle title: String, description: String, icon: UIImage?, shouldShowDescription: Bool = true, shouldShowSeparator: Bool = false) {
         titleLabel.text = title
         descriptionLabel.text = description
@@ -61,13 +60,12 @@ class EventLinkCell: EventCell, NibLoadable {
         toggleCellMode(to: mode)
         self.shouldShowDescription = shouldShowDescription
     }
-    
+
     func setLink(_ link: String) {
         linkLabel.text = link
     }
-    
+
     func toggleCellMode(to mode: CellMode) {
-        
         switch mode {
         case .noShare:
             shareButton.isHidden = true
@@ -77,17 +75,17 @@ class EventLinkCell: EventCell, NibLoadable {
             copyButton.isHidden = false
         }
     }
-    
+
     @objc private func didTapLink() {
         guard let link = linkLabel.text else { return }
         delegate?.actionForLink(link)
     }
-    
+
     @objc private func didTapCopy() {
         UIPasteboard.general.string = linkLabel.text
         delegate?.didCopyLink()
     }
-    
+
     @objc private func didTapShare() {
         guard let link = linkLabel.text else { return }
         delegate?.share(link: link)

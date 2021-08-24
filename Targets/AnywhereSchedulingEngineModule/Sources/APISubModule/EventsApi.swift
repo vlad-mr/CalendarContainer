@@ -15,14 +15,14 @@ enum EventsApi {
     case createEvent(_ eventInfo: [String: Any])
     case updateEvent(withParam: [String: Any])
     case updateInviteResponse(eventId: String, responseStatus: String)
-    
+
     case createRecurring(withParam: [String: Any])
     case updateRecurringEvent(withParam: [String: Any])
     case fetchRecurring(withParam: [String: Any])
     case eventToRecurring(withParam: [String: Any])
     case recurringToEvent(withParam: [String: Any])
     case updateTail(withParam: [String: Any])
-    
+
     case removeEvent(withParam: [String: Any])
 }
 
@@ -43,7 +43,7 @@ extension EventsApi: TargetType {
         case .removeEvent:
             return "/events"
 
-        case .updateInviteResponse(let eventId, let responseStatus):
+        case let .updateInviteResponse(eventId, responseStatus):
             return "/event/pending/\(eventId)/\(responseStatus)"
 
         case .fetchRecurring:
@@ -53,7 +53,6 @@ extension EventsApi: TargetType {
 
     var method: Moya.Method {
         switch self {
-
         case .fetchAllEvents:
             return .get
 
@@ -69,47 +68,47 @@ extension EventsApi: TargetType {
         case .removeEvent:
             return .delete
 
-        case  .updateInviteResponse:
+        case .updateInviteResponse:
             return .put
 
         case .fetchRecurring:
             return .get
-
         }
     }
 
     var sampleData: Data {
         switch self {
+        case let .createEvent(param),
+             let .updateEvent(param),
+             let .eventToRecurring(param),
+             let .recurringToEvent(param),
+             let .createRecurring(param):
 
-        case .createEvent(let param),
-             .updateEvent(let param),
-             .eventToRecurring(let param),
-             .recurringToEvent(let param),
-             .createRecurring(let param):
-            
-           let models = [
-                (EventCreateParam.initialize(withDict: param)?.data.first)!
+            let models = [
+                (EventCreateParam.initialize(withDict: param)?.data.first)!,
             ]
-            
+
             let jsonData = SchedulingEngineApiResponse<[EventModel]>(
                 status: true,
                 data: models,
                 error: nil,
-                msg: nil)
-            
+                msg: nil
+            )
+
             return jsonData.toJsonData!
-            
+
         case .fetchAllEvents:
-        let resp = EventFetchResponse(next_cursor: nil, events: [
-            getEventModel(),
-            getEventModel(),
-            getEventModel()
-        ])
-        let jsonData = SchedulingEngineApiResponse<EventFetchResponse>(
-            status: true,
-            data: resp,
-            error: nil,
-            msg: nil)
+            let resp = EventFetchResponse(next_cursor: nil, events: [
+                getEventModel(),
+                getEventModel(),
+                getEventModel(),
+            ])
+            let jsonData = SchedulingEngineApiResponse<EventFetchResponse>(
+                status: true,
+                data: resp,
+                error: nil,
+                msg: nil
+            )
             return jsonData.toJsonData!
         default:
             return Data()
@@ -118,7 +117,7 @@ extension EventsApi: TargetType {
 
     var parameters: [String: Any] {
         switch self {
-        case .fetchAllEvents(let param):
+        case let .fetchAllEvents(param):
             var jsonStr: String = ""
             do {
                 jsonStr = try ParameterEncodingHelper().convert(object: param)
@@ -136,30 +135,30 @@ extension EventsApi: TargetType {
         case .fetchAllEvents:
             return .requestParameters(parameters: parameters, encoding: URLEncoding.default)
 
-        case .createEvent(let param):
+        case let .createEvent(param):
             return .requestParameters(parameters: param, encoding: JSONEncoding.default)
-        case .updateEvent(let param):
-            return .requestParameters(parameters: param, encoding: JSONEncoding.default)
-
-        case .createRecurring(let param):
-            return .requestParameters(parameters: param, encoding: JSONEncoding.default)
-        case .updateRecurringEvent(let param):
-            return .requestParameters(parameters: param, encoding: JSONEncoding.default)
-        case .updateTail(let param):
+        case let .updateEvent(param):
             return .requestParameters(parameters: param, encoding: JSONEncoding.default)
 
-        case .eventToRecurring(let param):
+        case let .createRecurring(param):
             return .requestParameters(parameters: param, encoding: JSONEncoding.default)
-        case .recurringToEvent(let param):
+        case let .updateRecurringEvent(param):
+            return .requestParameters(parameters: param, encoding: JSONEncoding.default)
+        case let .updateTail(param):
             return .requestParameters(parameters: param, encoding: JSONEncoding.default)
 
-        case .removeEvent(let param):
+        case let .eventToRecurring(param):
+            return .requestParameters(parameters: param, encoding: JSONEncoding.default)
+        case let .recurringToEvent(param):
+            return .requestParameters(parameters: param, encoding: JSONEncoding.default)
+
+        case let .removeEvent(param):
             return .requestParameters(parameters: param, encoding: URLEncoding.queryString)
 
         case .updateInviteResponse:
             return .requestPlain
-            
-        case .fetchRecurring(let param):
+
+        case let .fetchRecurring(param):
             return .requestParameters(parameters: param, encoding: URLEncoding.queryString)
         }
     }
@@ -179,11 +178,11 @@ public protocol EventsApiProtocol {
     func updateEvent(withParameters params: [String: Any]) -> Promise<Data>
     func updateResponseStatus(withEventId eventId: String, andResponseStatus responseStatus: String) -> Promise<Data>
     func deleteEvent(withParameters params: [String: Any]) -> Promise<Data>
-    
+
     func createRecurring(withParameters info: [String: Any]) -> Promise<Data>
     func getRecurring(withId id: String) -> Promise<Data>
     func updateRecurringEvent(withParameters params: [String: Any]) -> Promise<Data>
-    
+
     func deleteRecurringEvent(withParameters params: [String: Any]) -> Promise<Data>
     func deleteRecurringTail(withParameters params: [String: Any]) -> Promise<Data>
     func eventToRecurring(withParameters params: [String: Any]) -> Promise<Data>
@@ -192,14 +191,14 @@ public protocol EventsApiProtocol {
 }
 
 class EventsApiService: BaseApiProvider, EventsApiProtocol {
-    
     private(set) var provider: MoyaProvider<EventsApi>
-    
+
     init(provider: MoyaProvider<EventsApi> = MoyaProvider<EventsApi>()) {
         self.provider = provider
     }
-    
+
     // MARK: - Fetch Events
+
     func fetchEvents(withParam param: [String: Any]) -> Promise<Data> {
         return Promise<Data> { promise in
             provider.request(.fetchAllEvents(withParam: param)) {
@@ -211,7 +210,7 @@ class EventsApiService: BaseApiProvider, EventsApiProtocol {
             }
         }
     }
-    
+
     func getRecurring(withId id: String) -> Promise<Data> {
         let param = ["ids": [id]].dictionary ?? [:]
 
@@ -225,8 +224,9 @@ class EventsApiService: BaseApiProvider, EventsApiProtocol {
             }
         }
     }
-    
+
     // MARK: - Create Events
+
     func createEvent(withParameters info: [String: Any]) -> Promise<Data> {
         return Promise<Data> { promise in
             provider.request(.createEvent(info)) {
@@ -239,7 +239,7 @@ class EventsApiService: BaseApiProvider, EventsApiProtocol {
             }
         }
     }
-    
+
     func createRecurring(withParameters info: [String: Any]) -> Promise<Data> {
         return Promise<Data> { promise in
             provider.request(.createRecurring(withParam: info)) {
@@ -252,8 +252,9 @@ class EventsApiService: BaseApiProvider, EventsApiProtocol {
             }
         }
     }
-    
+
     // MARK: - Update Events
+
     func updateEvent(withParameters params: [String: Any]) -> Promise<Data> {
         return Promise<Data> { promise in
             provider.request(.updateEvent(withParam: params)) {
@@ -265,7 +266,7 @@ class EventsApiService: BaseApiProvider, EventsApiProtocol {
             }
         }
     }
-    
+
     func updateTail(withParameters params: [String: Any]) -> Promise<Data> {
         return Promise<Data> { promise in
             provider.request(.updateTail(withParam: params)) {
@@ -277,7 +278,7 @@ class EventsApiService: BaseApiProvider, EventsApiProtocol {
             }
         }
     }
-    
+
     func updateRecurringEvent(withParameters params: [String: Any]) -> Promise<Data> {
         return Promise<Data> { promise in
             provider.request(.updateRecurringEvent(withParam: params)) {
@@ -289,7 +290,7 @@ class EventsApiService: BaseApiProvider, EventsApiProtocol {
             }
         }
     }
-    
+
     func updateResponseStatus(withEventId eventId: String, andResponseStatus responseStatus: String) -> Promise<Data> {
         return Promise<Data> { promise in
             provider.request(.updateInviteResponse(eventId: eventId, responseStatus: responseStatus)) {
@@ -301,8 +302,9 @@ class EventsApiService: BaseApiProvider, EventsApiProtocol {
             }
         }
     }
-    
+
     // MARK: - Changing the type of event(Recurring -> Event)
+
     func recurringToEvent(withParameters params: [String: Any]) -> Promise<Data> {
         return Promise<Data> { promise in
             provider.request(.recurringToEvent(withParam: params)) {
@@ -314,8 +316,9 @@ class EventsApiService: BaseApiProvider, EventsApiProtocol {
             }
         }
     }
-    
+
     // MARK: - Changing the type of event(Event -> Recurring)
+
     func eventToRecurring(withParameters params: [String: Any]) -> Promise<Data> {
         return Promise<Data> { promise in
             provider.request(.eventToRecurring(withParam: params)) {
@@ -327,8 +330,9 @@ class EventsApiService: BaseApiProvider, EventsApiProtocol {
             }
         }
     }
-    
+
     // MARK: - Delete Events for action type
+
     func deleteEvent(withParameters params: [String: Any]) -> Promise<Data> {
         return Promise<Data> { promise in
             provider.request(.removeEvent(withParam: params)) {
@@ -375,4 +379,3 @@ extension EventsApi {
         return defaultEvent
     }
 }
-

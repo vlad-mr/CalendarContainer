@@ -6,22 +6,3 @@
 //
 
 import Foundation
-import InterfaceModule
-
-//public class ServiceBroker {
-//
-//	private let brand: AppBrand
-//
-//	public init(for brand: AppBrand) {
-//		self.brand = brand
-//	}
-//}
-
-//extension ServiceBroker: ServiceBrokerInterface {
-//	public func fetch() { }
-//	public func initializeDataBase() { }
-//
-//	public func getInitialViewController() {
-//		//
-//	}
-//}

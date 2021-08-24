@@ -6,15 +6,14 @@
 //  Copyright © 2021 FullCreative Pvt Ltd. All rights reserved.
 //
 
-import Foundation
 import EventKit
+import Foundation
 
 public enum Frequency: Equatable {
-    
     public static func == (lhs: Frequency, rhs: Frequency) -> Bool {
         switch (lhs, rhs) {
         case (.daily, .daily): return true
-        case (.weekly, .weekly):return true
+        case (.weekly, .weekly): return true
         case (.monthly, .monthly): return true
         case (.yearly, .yearly): return true
         case (.doNotRepeat, .doNotRepeat): return true
@@ -23,13 +22,14 @@ public enum Frequency: Equatable {
             return false
         }
     }
+
     case doNotRepeat
     case daily(_ recurrrence: RecurrenceRule? = nil)
     case weekly(_ recurrrence: RecurrenceRule? = nil)
     case monthly(_ recurrrence: RecurrenceRule? = nil)
     case yearly(_ recurrrence: RecurrenceRule? = nil)
     case custom(_ recurrrence: RecurrenceRule? = nil)
-    
+
     var displayNameTitle: String {
         switch self {
         case .doNotRepeat:
@@ -46,52 +46,50 @@ public enum Frequency: Equatable {
             return "Custom"
         }
     }
-    
+
     public func getStaticRule(_ startEventDate: Date?) -> String? {
         guard let date = startEventDate else { return nil }
         switch self {
-        
-        case .daily(let reccurr):
+        case let .daily(reccurr):
             guard let rec = reccurr else { return nil }
             return rec.getStaticRule(date)
 
-        case .monthly(let reccurr):
+        case let .monthly(reccurr):
             guard let rec = reccurr else { return nil }
             return rec.getStaticRule(date)
-        
-        case .weekly(let reccurr):
+
+        case let .weekly(reccurr):
             guard let rec = reccurr else { return nil }
             return rec.getStaticRule(date)
-            
-        case .yearly(let reccurr):
+
+        case let .yearly(reccurr):
             guard let rec = reccurr else { return nil }
             return rec.getStaticRule(date)
-            
-        case .custom(let reccurr):
+
+        case let .custom(reccurr):
             guard let rule = reccurr else { return nil }
             return rule.toRRuleString()
 
         case .doNotRepeat: return displayNameTitle
         }
     }
-    
+
     public init(rule: String?, startDate: Date) {
-        
         guard let ruleString = rule, !ruleString.isEmpty else {
             self = .doNotRepeat
             return
         }
-        
+
         guard let recurrenceRule = RecurrenceRule(rruleString: ruleString) else {
             self = .doNotRepeat
             return
         }
-        
+
         guard let staticCaseRule = recurrenceRule.getStaticRule(startDate) else {
             self = .doNotRepeat
             return
         }
-        
+
         guard staticCaseRule == rule else {
             self = .custom(recurrenceRule)
             return
@@ -110,10 +108,10 @@ public enum Frequency: Equatable {
             fatalError()
         }
     }
-    
+
     func getRecurrenceRule() -> RecurrenceRule? {
         switch self {
-        case .custom(let rule): return rule
+        case let .custom(rule): return rule
         default:
             return nil
         }
@@ -124,18 +122,18 @@ public enum Frequency: Equatable {
         let additionalText = " on "
         switch mode {
         case .monthly:
-            
+
             let calendar = date.calendar
             var components = calendar.dateComponents([.year, .month, .weekdayOrdinal, .weekday], from: date)
             var suchDatesAtMonth: [Date] = []
-            
-            for ordinal in 1..<6 { // maximum 5 occurrences
+
+            for ordinal in 1 ..< 6 { // maximum 5 occurrences
                 components.weekdayOrdinal = ordinal
                 guard let date = calendar.date(from: components) else { break }
                 if calendar.component(.month, from: date) != components.month! { break }
                 suchDatesAtMonth.append(date)
             }
-            
+
             var titles: [String] = []
             for value in suchDatesAtMonth.enumerated() {
                 var title: String = ""
@@ -152,14 +150,14 @@ public enum Frequency: Equatable {
                 }
                 titles.append("the \(title) \(value.element.weekdayName(.default))")
             }
-            
+
             guard let index = suchDatesAtMonth.firstIndex(where: { $0.day == date.day }) else { return "" }
             return mode.displayNameTitle + additionalText + titles[index]
         case .weekly:
             return mode.displayNameTitle + additionalText + date.weekdayName(.default)
         case .yearly:
             return mode.displayNameTitle + additionalText + date.monthName(.default) + " \(date.day)"
-        case .custom(let recurrenceRule):
+        case let .custom(recurrenceRule):
             guard let rule = recurrenceRule else { return "Custom" }
             return rule.getTitle()
         default:

@@ -11,15 +11,15 @@ public enum TimeFormat {
     case twelveHours
     case twentyFourHours
     case deviceSetting
-    
+
     var deviceTimeFormat: TimeFormat {
         return Date().uses12HourFormat() ? .twelveHours : .twentyFourHours
     }
-    
+
     public var is12HourFormat: Bool {
-        self == .twelveHours || (self == .deviceSetting && self.deviceTimeFormat == .twelveHours)
+        self == .twelveHours || (self == .deviceSetting && deviceTimeFormat == .twelveHours)
     }
-    
+
     var formatString: String {
         switch self {
         case .twelveHours:
@@ -27,7 +27,7 @@ public enum TimeFormat {
         case .twentyFourHours:
             return "HH:mm"
         case .deviceSetting:
-            return self.deviceTimeFormat.formatString
+            return deviceTimeFormat.formatString
         }
     }
 }

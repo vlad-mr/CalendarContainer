@@ -8,18 +8,17 @@
 import UIKit
 
 extension UIColor {
-    
     public enum AssetsColor: String {
         case anytimeSolidBlue = "AnytimeSolidBlue"
         case anytimeLightBlue = "AnytimeLightBlue"
         case anytimeWhite = "White"
-       
-        case anytimeBrown = "anytimeBrown"
-        case anytimeOrange = "anytimeOrange"
-        
+
+        case anytimeBrown
+        case anytimeOrange
+
         case whiteBorder = "WhiteBorder"
         case blueBorder = "BlueBorder"
-        
+
         case lightCeruleanBlue = "CardLightCeruleanBlue"
         case lightSeaGreen = "CardLightSeaGreen"
         case lightSlateBlue = "CardLightSlateBlue"
@@ -41,7 +40,7 @@ extension UIColor {
         case seagull = "CardSeagull"
         case flamingo = "CardFlamingo"
     }
-    
+
     static func appColor(_ name: AssetsColor) -> UIColor {
         switch name {
         case .anytimeLightBlue:
@@ -62,7 +61,7 @@ extension UIColor {
             } else {
                 return .white
             }
-            
+
         case .anytimeBrown:
             if #available(iOS 11.0, *) {
                 return UIColor(named: name.rawValue) ?? .brown

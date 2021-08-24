@@ -10,13 +10,14 @@ import Moya
 import PromiseKit
 
 struct TeleportApiConfiguration {
-    var baseURL: URL = URL(string: "https://staging.teleport.video/v1")!
+    var baseURL = URL(string: "https://staging.teleport.video/v1")!
     var accessToken: String? = ""
     let isLiveEnvironment: Bool = false
-    static var current: TeleportApiConfiguration = TeleportApiConfiguration()
+    static var current = TeleportApiConfiguration()
 }
 
 // MARK: - Welcome
+
 public struct Meeting: Codable {
     var accountId: String?
     var brandId: String?
@@ -28,7 +29,7 @@ public struct Meeting: Codable {
     var appointmentId: String?
     var hostIds: [String]?
     var features: Features?
-    
+
     enum CodingKeys: String, CodingKey {
         case accountId
         case brandId
@@ -50,10 +51,11 @@ public struct MeetingApiResponse<Response: Codable>: Codable {
 }
 
 // MARK: - DataClass
+
 public struct MeetingDataDTO: Codable {
     var meetingUrl: String?
     var meetingId: String?
-    
+
     enum CodingKeys: String, CodingKey {
         case meetingUrl
         case meetingId
@@ -61,6 +63,7 @@ public struct MeetingDataDTO: Codable {
 }
 
 // MARK: - Features
+
 public struct Features: Codable {
     var waitForHost, lockRoom, customization: Bool?
 }
@@ -70,46 +73,45 @@ enum TeleportApi {
 }
 
 extension TeleportApi: TargetType {
-    
     var baseURL: URL { TeleportApiConfiguration.current.baseURL }
-    
+
     var path: String {
         switch self {
         case .createMeeting:
             return "/meeting"
         }
     }
-    
+
     var method: Moya.Method {
         switch self {
         case .createMeeting:
             return .post
         }
     }
-    
+
     var sampleData: Data {
         switch self {
-        case .createMeeting(let param):
-             let jsonData = MeetingApiResponse<MeetingDataDTO>(status: "success",
-                                                               message: "success message",
-                                                               data: MeetingDataDTO(meetingUrl: UUID().uuidString,
-                                                                                    meetingId: UUID().uuidString))
-             
-             return jsonData.toJsonData!
+        case let .createMeeting(param):
+            let jsonData = MeetingApiResponse<MeetingDataDTO>(status: "success",
+                                                              message: "success message",
+                                                              data: MeetingDataDTO(meetingUrl: UUID().uuidString,
+                                                                                   meetingId: UUID().uuidString))
+
+            return jsonData.toJsonData!
         }
     }
-    
+
     var parameters: [String: Any] {
         return [:]
     }
-    
+
     var task: Task {
         switch self {
-        case .createMeeting(let param):
+        case let .createMeeting(param):
             return .requestParameters(parameters: param, encoding: JSONEncoding.default)
         }
     }
-    
+
     var headers: [String: String]? {
         switch self {
         default:
@@ -125,11 +127,11 @@ public protocol TeleportApiProtocol {
 
 class TeleportApiService: BaseApiProvider, TeleportApiProtocol {
     private(set) var provider: MoyaProvider<TeleportApi>
-    
+
     init(provider: MoyaProvider<TeleportApi> = MoyaProvider<TeleportApi>()) {
         self.provider = provider
     }
-    
+
     func createMeeting(withParameters params: [String: Any]) -> Promise<Data> {
         return Promise<Data> { promise in
             provider.request(.createMeeting(params)) {
@@ -149,11 +151,10 @@ public protocol MeetingServiceProtocol {
 }
 
 final class MeetingService: MeetingServiceProtocol {
-    
     let api: TeleportApiProtocol
-    
+
     init(api: TeleportApiProtocol) { self.api = api }
-    
+
     func createMeeting(withParameters params: [String: Any]) -> Promise<MeetingDataDTO> {
         return Promise<MeetingDataDTO> { promise in
             firstly {
@@ -170,7 +171,7 @@ final class MeetingService: MeetingServiceProtocol {
             }
         }
     }
-    
+
     private func validateResponse(_ response: MeetingApiResponse<MeetingDataDTO>) -> Promise<MeetingDataDTO> {
         return Promise<MeetingDataDTO> { promise in
             guard let meetingData = response.data else {

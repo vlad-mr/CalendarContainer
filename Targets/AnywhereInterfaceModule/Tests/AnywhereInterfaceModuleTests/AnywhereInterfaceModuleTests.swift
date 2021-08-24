@@ -5,11 +5,10 @@
 //  Created by Karthik on 18/06/21.
 //
 
-import XCTest
 @testable import AnywhereInterfaceModule
+import XCTest
 
 class AnywhereInterfaceModuleTests: XCTestCase {
-
     override func setUpWithError() throws {
         try super.setUpWithError()
     }
@@ -25,9 +24,8 @@ class AnywhereInterfaceModuleTests: XCTestCase {
 
     func testPerformanceExample() throws {
         // This is an example of a performance test case.
-        self.measure {
+        measure {
             // Put the code you want to measure the time of here.
         }
     }
-
 }

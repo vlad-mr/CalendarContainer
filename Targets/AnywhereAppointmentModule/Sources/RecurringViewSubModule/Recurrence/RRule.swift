@@ -6,16 +6,17 @@
 //  Copyright © 2021 FullCreative Pvt Ltd. All rights reserved.
 //
 
-import Foundation
 import EventKit
+import Foundation
 
-public struct RRule {
+public enum RRule {
     public static let dateFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()
         dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
         dateFormatter.dateFormat = "yyyyMMdd'T'HHmmss'Z'"
         return dateFormatter
     }()
+
     public static let ymdDateFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()
         dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
@@ -32,7 +33,7 @@ public struct RRule {
 
     public static func ruleFromString(_ string: String) -> RecurrenceRule? {
         let ruleString = string.trimmingCharacters(in: .whitespaces)
-        let rules = ruleString.components(separatedBy: ";").compactMap { (rule) -> String? in
+        let rules = ruleString.components(separatedBy: ";").compactMap { rule -> String? in
             if rule.isEmpty {
                 return nil
             }
@@ -86,88 +87,88 @@ public struct RRule {
             }
 
             if ruleName == "BYSETPOS" {
-                let bysetpos = ruleValue.components(separatedBy: ",").compactMap({ (string) -> Int? in
-                    guard let setpo = Int(string), (-366...366 ~= setpo) && (setpo != 0) else {
+                let bysetpos = ruleValue.components(separatedBy: ",").compactMap { string -> Int? in
+                    guard let setpo = Int(string), -366 ... 366 ~= setpo, setpo != 0 else {
                         return nil
                     }
                     return setpo
-                })
+                }
                 recurrenceRule.isCustomRule = true
                 recurrenceRule.bysetpos = bysetpos.sorted(by: <)
             }
 
             if ruleName == "BYYEARDAY" {
-                let byyearday = ruleValue.components(separatedBy: ",").compactMap({ (string) -> Int? in
-                    guard let yearday = Int(string), (-366...366 ~= yearday) && (yearday != 0) else {
+                let byyearday = ruleValue.components(separatedBy: ",").compactMap { string -> Int? in
+                    guard let yearday = Int(string), -366 ... 366 ~= yearday, yearday != 0 else {
                         return nil
                     }
                     return yearday
-                })
+                }
                 recurrenceRule.isCustomRule = true
                 recurrenceRule.byyearday = byyearday.sorted(by: <)
             }
 
             if ruleName == "BYMONTH" {
-                let bymonth = ruleValue.components(separatedBy: ",").compactMap({ (string) -> Int? in
-                    guard let month = Int(string), 1...12 ~= month else {
+                let bymonth = ruleValue.components(separatedBy: ",").compactMap { string -> Int? in
+                    guard let month = Int(string), 1 ... 12 ~= month else {
                         return nil
                     }
                     return month
-                })
+                }
                 recurrenceRule.isCustomRule = true
                 recurrenceRule.bymonth = bymonth.sorted(by: <)
             }
 
             if ruleName == "BYWEEKNO" {
-                let byweekno = ruleValue.components(separatedBy: ",").compactMap({ (string) -> Int? in
-                    guard let weekno = Int(string), (-53...53 ~= weekno) && (weekno != 0) else {
+                let byweekno = ruleValue.components(separatedBy: ",").compactMap { string -> Int? in
+                    guard let weekno = Int(string), -53 ... 53 ~= weekno, weekno != 0 else {
                         return nil
                     }
                     return weekno
-                })
+                }
                 recurrenceRule.isCustomRule = true
                 recurrenceRule.byweekno = byweekno.sorted(by: <)
             }
 
             if ruleName == "BYMONTHDAY" {
-                let bymonthday = ruleValue.components(separatedBy: ",").compactMap({ (string) -> Int? in
-                    guard let monthday = Int(string), (-31...31 ~= monthday) && (monthday != 0) else {
+                let bymonthday = ruleValue.components(separatedBy: ",").compactMap { string -> Int? in
+                    guard let monthday = Int(string), -31 ... 31 ~= monthday, monthday != 0 else {
                         return nil
                     }
                     return monthday
-                })
+                }
                 recurrenceRule.isCustomRule = true
                 recurrenceRule.bymonthday = bymonthday.sorted(by: <)
             }
 
             if ruleName == "BYDAY" {
-                let byweekday = ruleValue.components(separatedBy: ",").compactMap({ (string) -> EKWeekday? in
-                    return EKWeekday.weekdayFromSymbol(string)
-                })
+                let byweekday = ruleValue.components(separatedBy: ",").compactMap { string -> EKWeekday? in
+                    EKWeekday.weekdayFromSymbol(string)
+                }
                 recurrenceRule.isCustomRule = true
                 recurrenceRule.byweekday = byweekday.sorted(by: <)
             }
 
             if ruleName == "BYHOUR" {
-                let byhour = ruleValue.components(separatedBy: ",").compactMap({ (string) -> Int? in
-                    return Int(string)
-                })
+                let byhour = ruleValue.components(separatedBy: ",").compactMap { string -> Int? in
+                    Int(string)
+                }
                 recurrenceRule.isCustomRule = true
                 recurrenceRule.byhour = byhour.sorted(by: <)
             }
 
             if ruleName == "BYMINUTE" {
-                let byminute = ruleValue.components(separatedBy: ",").compactMap({ (string) -> Int? in
-                    return Int(string)
-                })
+                let byminute = ruleValue.components(separatedBy: ",").compactMap { string -> Int? in
+                    Int(string)
+                }
                 recurrenceRule.isCustomRule = true
                 recurrenceRule.byminute = byminute.sorted(by: <)
             }
 
             if ruleName == "BYSECOND" {
-                let bysecond = ruleValue.components(separatedBy: ",").compactMap({ (string) -> Int? in
-                    return Int(string)
-                })
+                let bysecond = ruleValue.components(separatedBy: ",").compactMap { string -> Int? in
+                    Int(string)
+                }
                 recurrenceRule.isCustomRule = true
                 recurrenceRule.bysecond = bysecond.sorted(by: <)
             }
@@ -196,80 +197,80 @@ public struct RRule {
             rruleString += "COUNT=\(count);"
         }
 
-        let bysetposStrings = rule.bysetpos.compactMap({ (setpo) -> String? in
-            guard (-366...366 ~= setpo) && (setpo != 0) else {
+        let bysetposStrings = rule.bysetpos.compactMap { setpo -> String? in
+            guard -366 ... 366 ~= setpo, setpo != 0 else {
                 return nil
             }
             return String(setpo)
-        })
+        }
         if bysetposStrings.isNotEmpty {
             rruleString += "BYSETPOS=\(bysetposStrings.joined(separator: ","));"
         }
 
-        let byyeardayStrings = rule.byyearday.compactMap({ (yearday) -> String? in
-            guard (-366...366 ~= yearday) && (yearday != 0) else {
+        let byyeardayStrings = rule.byyearday.compactMap { yearday -> String? in
+            guard -366 ... 366 ~= yearday, yearday != 0 else {
                 return nil
             }
             return String(yearday)
-        })
+        }
         if byyeardayStrings.isNotEmpty {
             rruleString += "BYYEARDAY=\(byyeardayStrings.joined(separator: ","));"
         }
 
-        let bymonthStrings = rule.bymonth.compactMap({ (month) -> String? in
-            guard 1...12 ~= month else {
+        let bymonthStrings = rule.bymonth.compactMap { month -> String? in
+            guard 1 ... 12 ~= month else {
                 return nil
             }
             return String(month)
-        })
+        }
         if bymonthStrings.isNotEmpty {
             rruleString += "BYMONTH=\(bymonthStrings.joined(separator: ","));"
         }
 
-        let byweeknoStrings = rule.byweekno.compactMap({ (weekno) -> String? in
-            guard (-53...53 ~= weekno) && (weekno != 0) else {
+        let byweeknoStrings = rule.byweekno.compactMap { weekno -> String? in
+            guard -53 ... 53 ~= weekno, weekno != 0 else {
                 return nil
             }
             return String(weekno)
-        })
+        }
         if byweeknoStrings.isNotEmpty {
             rruleString += "BYWEEKNO=\(byweeknoStrings.joined(separator: ","));"
         }
 
-        let bymonthdayStrings = rule.bymonthday.compactMap({ (monthday) -> String? in
-            guard (-31...31 ~= monthday) && (monthday != 0) else {
+        let bymonthdayStrings = rule.bymonthday.compactMap { monthday -> String? in
+            guard -31 ... 31 ~= monthday, monthday != 0 else {
                 return nil
             }
             return String(monthday)
-        })
+        }
         if bymonthdayStrings.isNotEmpty {
             rruleString += "BYMONTHDAY=\(bymonthdayStrings.joined(separator: ","));"
         }
 
-        let byweekdaySymbols = rule.byweekday.map({ (weekday) -> String in
-            return weekday.toSymbol()
-        })
+        let byweekdaySymbols = rule.byweekday.map { weekday -> String in
+            weekday.toSymbol()
+        }
         if byweekdaySymbols.isNotEmpty {
             rruleString += "BYDAY=\(byweekdaySymbols.joined(separator: ","));"
         }
 
-        let byhourStrings = rule.byhour.map({ (hour) -> String in
-            return String(hour)
-        })
+        let byhourStrings = rule.byhour.map { hour -> String in
+            String(hour)
+        }
         if byhourStrings.isNotEmpty {
             rruleString += "BYHOUR=\(byhourStrings.joined(separator: ","));"
         }
 
-        let byminuteStrings = rule.byminute.map({ (minute) -> String in
-            return String(minute)
-        })
+        let byminuteStrings = rule.byminute.map { minute -> String in
+            String(minute)
+        }
         if byminuteStrings.isNotEmpty {
             rruleString += "BYMINUTE=\(byminuteStrings.joined(separator: ","));"
         }
 
-        let bysecondStrings = rule.bysecond.map({ (second) -> String in
-            return String(second)
-        })
+        let bysecondStrings = rule.bysecond.map { second -> String in
+            String(second)
+        }
         if bysecondStrings.isNotEmpty {
             rruleString += "BYSECOND=\(bysecondStrings.joined(separator: ","));"
         }
@@ -280,23 +281,23 @@ public struct RRule {
 
         return rruleString
     }
-    
+
     static func realDate(_ dateString: String?) -> Date? {
         guard let dateString = dateString else { return nil }
-        
+
         let date = ymdDateFormatter.date(from: dateString)
         let destinationTimeZone = NSTimeZone.local
         let sourceGMTOffset = destinationTimeZone.secondsFromGMT(for: Date())
-        
+
         if let timeInterval = date?.timeIntervalSince1970 {
             let realOffset = timeInterval - Double(sourceGMTOffset)
             let realDate = Date(timeIntervalSince1970: realOffset)
-            
+
             return realDate
         }
         return nil
     }
-    
+
     public static func titleFromRule(_ rule: RecurrenceRule) -> String {
         var rruleString = ""
         rruleString += "Every"
@@ -320,33 +321,33 @@ public struct RRule {
         default:
             rruleString += " "
         }
-    //    let bysetposStrings = rule.bysetpos.compactMap({ (setpo) -> String? in
-    //        guard (-366...366 ~= setpo) && (setpo != 0) else {
-    //            return nil
-    //        }
-    //        return String(setpo)
-    //    })
-    //    if bysetposStrings.isNotEmpty {
-    //        rruleString += "BYSETPOS=\(bysetposStrings.joined(separator: ","));"
-    //    }
+        //    let bysetposStrings = rule.bysetpos.compactMap({ (setpo) -> String? in
+        //        guard (-366...366 ~= setpo) && (setpo != 0) else {
+        //            return nil
+        //        }
+        //        return String(setpo)
+        //    })
+        //    if bysetposStrings.isNotEmpty {
+        //        rruleString += "BYSETPOS=\(bysetposStrings.joined(separator: ","));"
+        //    }
 
-    //    let byyeardayStrings = rule.byyearday.compactMap({ (yearday) -> String? in
-    //        guard (-366...366 ~= yearday) && (yearday != 0) else {
-    //            return nil
-    //        }
-    //        return String(yearday)
-    //    })
-    //    if byyeardayStrings.isNotEmpty {
-    //        rruleString += "BYYEARDAY=\(byyeardayStrings.joined(separator: ","));"
-    //    }
-        
-        let bymonthStrings = rule.bymonth.compactMap({ (month) -> String? in
-            guard 1...12 ~= month else {
+        //    let byyeardayStrings = rule.byyearday.compactMap({ (yearday) -> String? in
+        //        guard (-366...366 ~= yearday) && (yearday != 0) else {
+        //            return nil
+        //        }
+        //        return String(yearday)
+        //    })
+        //    if byyeardayStrings.isNotEmpty {
+        //        rruleString += "BYYEARDAY=\(byyeardayStrings.joined(separator: ","));"
+        //    }
+
+        let bymonthStrings = rule.bymonth.compactMap { month -> String? in
+            guard 1 ... 12 ~= month else {
                 return nil
             }
             return String(month)
-        })
-        
+        }
+
         if bymonthStrings.isNotEmpty {
             if rule.frequency == .yearly {
                 let months = rule.bymonth
@@ -358,24 +359,23 @@ public struct RRule {
             }
         }
 
-    //    let byweeknoStrings = rule.byweekno.compactMap({ (weekno) -> String? in
-    //        guard (-53...53 ~= weekno) && (weekno != 0) else {
-    //            return nil
-    //        }
-    //        return String(weekno)
-    //    })
-    //    if byweeknoStrings.isNotEmpty {
-    //        rruleString += "BYWEEKNO=\(byweeknoStrings.joined(separator: ","));"
-    //    }
+        //    let byweeknoStrings = rule.byweekno.compactMap({ (weekno) -> String? in
+        //        guard (-53...53 ~= weekno) && (weekno != 0) else {
+        //            return nil
+        //        }
+        //        return String(weekno)
+        //    })
+        //    if byweeknoStrings.isNotEmpty {
+        //        rruleString += "BYWEEKNO=\(byweeknoStrings.joined(separator: ","));"
+        //    }
 
-        let bymonthdayStrings = rule.bymonthday.compactMap({ (monthday) -> String? in
-            guard (-31...31 ~= monthday) && (monthday != 0) else {
+        let bymonthdayStrings = rule.bymonthday.compactMap { monthday -> String? in
+            guard -31 ... 31 ~= monthday, monthday != 0 else {
                 return nil
             }
             return "\(monthday)th"
-        })
+        }
         if bymonthdayStrings.isNotEmpty {
-          
             if rule.frequency == .yearly {
                 let temp = bymonthdayStrings.joined(separator: ", ")
                 rruleString += " on \(temp)"
@@ -384,13 +384,13 @@ public struct RRule {
             }
         }
 
-        let byweekdaySymbols = rule.byweekday.map({ (weekday) -> String in
-            return weekday.toTitle(3)
-        })
+        let byweekdaySymbols = rule.byweekday.map { weekday -> String in
+            weekday.toTitle(3)
+        }
         if byweekdaySymbols.isNotEmpty {
             rruleString += byweekdaySymbols.joined(separator: ", ")
         }
-        
+
         if let endDate = rule.recurrenceEnd?.endDate {
             let str = endDate.dateString()
             rruleString += " until \(str)"
