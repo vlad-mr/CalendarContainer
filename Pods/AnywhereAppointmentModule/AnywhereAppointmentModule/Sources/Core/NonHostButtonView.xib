@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Metropolis-Medium.otf">
+            <string>Metropolis-Medium</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" restorationIdentifier="NonHostButtonView" id="iN0-l3-epB" customClass="NonHostButtonView" customModule="AnywhereAppointmentModule" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="K6W-BY-1aL">
+                    <rect key="frame" x="20" y="425.5" width="374" height="45"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" semanticContentAttribute="forceRightToLeft" placeholderIntrinsicWidth="250" placeholderIntrinsicHeight="45" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kmR-Os-n1R" customClass="StatefulButton" customModule="AnywhereAppointmentModule" customModuleProvider="target">
+                            <rect key="frame" x="0.0" y="0.0" width="177" height="45"/>
+                            <color key="backgroundColor" name="CardFern"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="250" id="GoE-pq-vYY"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" name="Metropolis-Medium" family="Metropolis" pointSize="15"/>
+                            <color key="tintColor" name="White"/>
+                            <inset key="imageEdgeInsets" minX="20" minY="0.0" maxX="0.0" maxY="0.0"/>
+                            <state key="normal" title="Accept">
+                                <color key="titleColor" name="White"/>
+                            </state>
+                            <connections>
+                                <action selector="didTapAcceptButton:" destination="iN0-l3-epB" eventType="touchUpInside" id="6OB-DY-YXe"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="250" placeholderIntrinsicHeight="45" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mdG-xP-8jf" customClass="StatefulButton" customModule="AnywhereAppointmentModule" customModuleProvider="target">
+                            <rect key="frame" x="197" y="0.0" width="177" height="45"/>
+                            <color key="backgroundColor" name="CardMandy"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="250" id="68V-ba-8Dh"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" name="Metropolis-Medium" family="Metropolis" pointSize="15"/>
+                            <color key="tintColor" name="White"/>
+                            <inset key="imageEdgeInsets" minX="20" minY="0.0" maxX="0.0" maxY="0.0"/>
+                            <state key="normal" title="Decline">
+                                <color key="titleColor" name="White"/>
+                            </state>
+                            <connections>
+                                <action selector="didTapDecline:" destination="iN0-l3-epB" eventType="touchUpInside" id="0g0-qF-CJj"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="45" id="vby-7s-Sao"/>
+                    </constraints>
+                </stackView>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="K6W-BY-1aL" secondAttribute="trailing" constant="20" id="B6Y-ru-hOw"/>
+                <constraint firstItem="K6W-BY-1aL" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="GG4-6a-cLz"/>
+                <constraint firstItem="K6W-BY-1aL" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="Ie3-Q0-Je3"/>
+                <constraint firstItem="K6W-BY-1aL" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="20" id="fMm-M9-Lmr"/>
+            </constraints>
+            <connections>
+                <outlet property="acceptButton" destination="kmR-Os-n1R" id="6g0-LV-8Ad"/>
+                <outlet property="declineButton" destination="mdG-xP-8jf" id="Ybq-cF-wQv"/>
+                <outlet property="stackView" destination="K6W-BY-1aL" id="VXZ-KW-vIX"/>
+            </connections>
+            <point key="canvasLocation" x="139" y="125"/>
+        </view>
+    </objects>
+    <resources>
+        <namedColor name="CardFern">
+            <color red="0.3919999897480011" green="0.72899997234344482" blue="0.44699999690055847" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="CardMandy">
+            <color red="0.81199997663497925" green="0.24699999392032623" blue="0.33300000429153442" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="White">
+            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+    </resources>
+</document>

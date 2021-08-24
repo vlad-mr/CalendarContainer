@@ -1,0 +1,60 @@
+{
+  "name": "AnywhereAppointmentModule",
+  "version": "0.0.6",
+  "swift_versions": "4.2",
+  "summary": "Module for accessing Appointments/Events and its user interface",
+  "description": "Appointment module offers api and database for Appointments and other related items",
+  "homepage": "https://github.com/Adaptavant/Anywhere-IOS-Module",
+  "license": {
+    "type": "MIT"
+  },
+  "authors": {
+    "aww": "ios.developers@anywhere.co"
+  },
+  "platforms": {
+    "ios": "11.0"
+  },
+  "source": {
+    "git": "git@github.com:Adaptavant/Anywhere-IOS-Module.git",
+    "tag": "AnywhereAppointmentModule/0.0.6"
+  },
+  "source_files": "AnywhereAppointmentModule/Sources/**/*.swift",
+  "exclude_files": "AnywhereAppointmentModule/Sources/Info.plist",
+  "resources": "AnywhereAppointmentModule/Resources/**/*.{otf,png,jpeg,jpg,storyboard,xib,xcassets}",
+  "default_subspecs": "Core",
+  "subspecs": [
+    {
+      "name": "Core",
+      "source_files": "AnywhereAppointmentModule/Sources/Core/**/*",
+      "frameworks": [
+        "UIKit",
+        "MapKit"
+      ],
+      "dependencies": {
+        "SwiftyBeaver": [
+
+        ],
+        "SwiftDate": [
+
+        ],
+        "MBProgressHUD": [
+          "~> 1.0.0"
+        ],
+        "PromiseKit": [
+
+        ],
+        "CustomViewPresenter": [
+
+        ],
+        "AnywhereAppointmentModule/RecurringViewSubModule": [
+
+        ]
+      }
+    },
+    {
+      "name": "RecurringViewSubModule",
+      "source_files": "AnywhereAppointmentModule/Sources/RecurringViewSubModule/**/*"
+    }
+  ],
+  "swift_version": "4.2"
+}

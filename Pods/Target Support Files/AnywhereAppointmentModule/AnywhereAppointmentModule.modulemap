@@ -1,0 +1,6 @@
+framework module AnywhereAppointmentModule {
+  umbrella header "AnywhereAppointmentModule-umbrella.h"
+
+  export *
+  module * { export * }
+}

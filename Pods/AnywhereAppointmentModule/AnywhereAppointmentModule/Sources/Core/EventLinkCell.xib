@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Metropolis-Medium.otf">
+            <string>Metropolis-Medium</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="EventLinkCell" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" rowHeight="169" id="i7e-lw-Kwx" customClass="EventLinkCell" customModule="AnywhereAppointmentModule" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="160"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="i7e-lw-Kwx" id="2If-Aw-MkU">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="160"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8ez-Sw-WdY">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="160"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="StartTimeIcon" translatesAutoresizingMaskIntoConstraints="NO" id="ocF-Sz-lzC">
+                                <rect key="frame" x="18" y="21" width="32" height="32"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="32" id="aqw-I0-xrE"/>
+                                    <constraint firstAttribute="width" constant="32" id="ibc-3k-2KK"/>
+                                </constraints>
+                            </imageView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="eDL-bW-jDt">
+                                <rect key="frame" x="68" y="21" width="165.5" height="65"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add guests" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Ni1-WI-8tM">
+                                        <rect key="frame" x="2" y="1" width="163.5" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" name="Metropolis-Medium" family="Metropolis" pointSize="15"/>
+                                        <color key="textColor" name="AnytimeBlack"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="This feature is coming soon!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="tyg-mW-Y8G">
+                                        <rect key="frame" x="1" y="10.5" width="163.5" height="13"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" name="Metropolis-Medium" family="Metropolis" pointSize="13"/>
+                                        <color key="textColor" name="AnytimeBlack"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="This feature is coming soon!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3G2-6F-FLR">
+                                        <rect key="frame" x="2" y="23.5" width="163.5" height="41.5"/>
+                                        <fontDescription key="fontDescription" name="Metropolis-Medium" family="Metropolis" pointSize="13"/>
+                                        <color key="textColor" name="AnytimeBlack"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="65" id="R5v-ig-oQ6"/>
+                                </constraints>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="eDL-bW-jDt" firstAttribute="top" secondItem="ocF-Sz-lzC" secondAttribute="top" id="7af-dD-V1u"/>
+                            <constraint firstItem="ocF-Sz-lzC" firstAttribute="top" secondItem="8ez-Sw-WdY" secondAttribute="top" constant="21" id="L7o-DV-DPN"/>
+                            <constraint firstItem="ocF-Sz-lzC" firstAttribute="leading" secondItem="8ez-Sw-WdY" secondAttribute="leading" constant="18" id="Lzv-x3-bBm"/>
+                            <constraint firstItem="eDL-bW-jDt" firstAttribute="leading" secondItem="ocF-Sz-lzC" secondAttribute="trailing" constant="18" id="SVj-W1-Oxb"/>
+                        </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                <integer key="value" value="20"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </view>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FKz-2s-6WG">
+                        <rect key="frame" x="20" y="159" width="255" height="1"/>
+                        <color key="backgroundColor" red="0.94509803921568625" green="0.94509803921568625" blue="0.94509803921568625" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="1" id="nL6-6C-B5b"/>
+                        </constraints>
+                    </view>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rXT-PO-E6f" customClass="ShareButton" customModule="AnywhereAppointmentModule" customModuleProvider="target">
+                        <rect key="frame" x="68" y="101" width="101" height="38"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="101" id="UCZ-Nz-pBP"/>
+                            <constraint firstAttribute="height" constant="38" id="dwk-1z-4yb"/>
+                        </constraints>
+                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="8" maxY="0.0"/>
+                        <state key="normal" title="Share" image="Share">
+                            <color key="titleColor" name="AnytimeSolidBlue"/>
+                        </state>
+                    </button>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6EK-ZR-ZGF" customClass="ShareButton" customModule="AnywhereAppointmentModule" customModuleProvider="target">
+                        <rect key="frame" x="177" y="101" width="98" height="38"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="38" id="sOe-n1-7sZ"/>
+                        </constraints>
+                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="8" maxY="0.0"/>
+                        <state key="normal" title="Copy Link" image="Link">
+                            <color key="titleColor" name="AnytimeSolidBlue"/>
+                        </state>
+                    </button>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="rXT-PO-E6f" firstAttribute="top" secondItem="eDL-bW-jDt" secondAttribute="bottom" constant="15" id="5c5-oh-6UP"/>
+                    <constraint firstItem="FKz-2s-6WG" firstAttribute="bottom" secondItem="2If-Aw-MkU" secondAttribute="bottom" id="8wp-9S-Z3T"/>
+                    <constraint firstItem="6EK-ZR-ZGF" firstAttribute="centerY" secondItem="rXT-PO-E6f" secondAttribute="centerY" id="Ayb-cF-O98"/>
+                    <constraint firstAttribute="trailing" secondItem="6EK-ZR-ZGF" secondAttribute="trailing" constant="20" id="G0e-e2-GtI"/>
+                    <constraint firstItem="6EK-ZR-ZGF" firstAttribute="leading" secondItem="rXT-PO-E6f" secondAttribute="trailing" constant="8" id="PuF-GC-qKi"/>
+                    <constraint firstAttribute="bottom" secondItem="8ez-Sw-WdY" secondAttribute="bottom" id="YdB-G3-dv7"/>
+                    <constraint firstAttribute="trailing" secondItem="FKz-2s-6WG" secondAttribute="trailing" constant="20" id="a2B-2x-Onk"/>
+                    <constraint firstItem="FKz-2s-6WG" firstAttribute="leading" secondItem="8ez-Sw-WdY" secondAttribute="leading" constant="20" id="aJP-YA-bM5"/>
+                    <constraint firstAttribute="trailing" secondItem="8ez-Sw-WdY" secondAttribute="trailing" id="dac-Jm-w4D"/>
+                    <constraint firstItem="8ez-Sw-WdY" firstAttribute="top" secondItem="2If-Aw-MkU" secondAttribute="top" id="fmw-1s-itY"/>
+                    <constraint firstAttribute="trailing" secondItem="eDL-bW-jDt" secondAttribute="trailing" constant="20" id="nhE-O8-N1K"/>
+                    <constraint firstItem="rXT-PO-E6f" firstAttribute="leading" secondItem="eDL-bW-jDt" secondAttribute="leading" priority="750" id="vAA-rV-8An"/>
+                    <constraint firstItem="8ez-Sw-WdY" firstAttribute="leading" secondItem="2If-Aw-MkU" secondAttribute="leading" id="yzR-38-c6H"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="copyButton" destination="6EK-ZR-ZGF" id="Gp8-Xa-ZDc"/>
+                <outlet property="descriptionLabel" destination="tyg-mW-Y8G" id="bgE-Ub-EP3"/>
+                <outlet property="iconImageView" destination="ocF-Sz-lzC" id="Bf2-tM-K0d"/>
+                <outlet property="linkLabel" destination="3G2-6F-FLR" id="FIj-bV-UfK"/>
+                <outlet property="separatorView" destination="FKz-2s-6WG" id="EV2-gJ-s2v"/>
+                <outlet property="shareButton" destination="rXT-PO-E6f" id="lyb-TT-kc3"/>
+                <outlet property="titleLabel" destination="Ni1-WI-8tM" id="Nu4-e6-SWV"/>
+            </connections>
+            <point key="canvasLocation" x="-159.42028985507247" y="54.910714285714285"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="Link" width="18" height="9"/>
+        <image name="Share" width="14" height="16"/>
+        <image name="StartTimeIcon" width="33" height="33"/>
+        <namedColor name="AnytimeBlack">
+            <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="AnytimeSolidBlue">
+            <color red="0.15294117647058825" green="0.38823529411764707" blue="0.80784313725490198" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

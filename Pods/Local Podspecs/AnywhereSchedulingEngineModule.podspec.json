@@ -1,0 +1,66 @@
+{
+  "name": "AnywhereSchedulingEngineModule",
+  "version": "0.0.2",
+  "swift_versions": "4.2",
+  "summary": "Module for accessing Scheduling Engine Services",
+  "description": "Scheduling Engine module offers api and database for Events from the Scheduling Engine",
+  "homepage": "https://github.com/Adaptavant/Anywhere-IOS-Module",
+  "license": {
+    "type": "MIT"
+  },
+  "authors": {
+    "aww": "ios.developers@anywhere.co"
+  },
+  "platforms": {
+    "ios": "11.0"
+  },
+  "source": {
+    "git": "git@github.com:Adaptavant/Anywhere-IOS-Module.git",
+    "tag": "AnywhereSchedulingEngineModule/0.0.2"
+  },
+  "source_files": "AnywhereSchedulingEngineModule/Sources/**/*.swift",
+  "exclude_files": "AnywhereSchedulingEngineModule/Sources/Info.plist",
+  "resources": "AnywhereSchedulingEngineModule/Resources/AnywhereEvents.xcdatamodeld",
+  "resource_bundles": {
+    "Resources": [
+      "AnywhereSchedulingEngineModule/Resources/*.xcdatamodeld"
+    ]
+  },
+  "dependencies": {
+    "AnywhereInterfaceModule": [
+
+    ],
+    "MagicalRecord": [
+
+    ],
+    "PromiseKit": [
+
+    ],
+    "SwiftDate": [
+
+    ],
+    "Moya": [
+
+    ],
+    "SwiftyBeaver": [
+
+    ]
+  },
+  "default_subspecs": "Core",
+  "subspecs": [
+    {
+      "name": "Core",
+      "source_files": "AnywhereSchedulingEngineModule/Sources/Core/**/*",
+      "dependencies": {
+        "AnywhereSchedulingEngineModule/APISubModule": [
+
+        ]
+      }
+    },
+    {
+      "name": "APISubModule",
+      "source_files": "AnywhereSchedulingEngineModule/Sources/APISubModule/**/*"
+    }
+  ],
+  "swift_version": "4.2"
+}

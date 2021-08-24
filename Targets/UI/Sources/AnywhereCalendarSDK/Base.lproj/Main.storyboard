@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19142.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="apx-PU-3im">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19129"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Sample Schedule View Controller-->
+        <scene sceneID="4du-ae-MoD">
+            <objects>
+                <viewController storyboardIdentifier="SampleScheduleViewController" id="f3I-tx-jup" customClass="SampleScheduleViewController" customModule="AnywhereCalendarSDK_Example" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="rPV-L2-LJm"/>
+                        <viewControllerLayoutGuide type="bottom" id="LEK-gP-cUD"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="MBQ-Pj-OvX">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ok3-ik-XJe">
+                                <rect key="frame" x="135" y="20" width="105" height="30"/>
+                                <state key="normal" title="Add New Event"/>
+                                <connections>
+                                    <action selector="addNewEvent:" destination="f3I-tx-jup" eventType="touchUpInside" id="8xa-Lp-f7S"/>
+                                </connections>
+                            </button>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gu1-op-4Oq">
+                                <rect key="frame" x="0.0" y="58" width="375" height="587"/>
+                            </containerView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="gu1-op-4Oq" firstAttribute="leading" secondItem="MBQ-Pj-OvX" secondAttribute="leadingMargin" constant="-16" id="29j-vU-kj1"/>
+                            <constraint firstItem="ok3-ik-XJe" firstAttribute="top" secondItem="rPV-L2-LJm" secondAttribute="bottom" constant="20" id="Bna-Yb-G9M"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="gu1-op-4Oq" secondAttribute="trailing" constant="-16" id="KMe-NY-d6v"/>
+                            <constraint firstItem="ok3-ik-XJe" firstAttribute="centerX" secondItem="MBQ-Pj-OvX" secondAttribute="centerX" id="TyD-O4-2m2"/>
+                            <constraint firstItem="gu1-op-4Oq" firstAttribute="top" secondItem="ok3-ik-XJe" secondAttribute="bottom" constant="8" id="WzT-Io-k4h"/>
+                            <constraint firstItem="LEK-gP-cUD" firstAttribute="top" secondItem="gu1-op-4Oq" secondAttribute="bottom" constant="2" id="a86-ci-Emo"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="TSB-dL-NB9"/>
+                    <connections>
+                        <outlet property="containerView" destination="gu1-op-4Oq" id="qdV-Yp-u0G"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="zZE-Rs-0f3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1654" y="128"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="qG5-RO-D34">
+            <objects>
+                <viewController id="apx-PU-3im" customClass="ViewController" customModule="AnywhereCalendarSDK_Example" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="mu2-GA-zaH"/>
+                        <viewControllerLayoutGuide type="bottom" id="RQ1-RF-GCu"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="gVO-6v-Dyx">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <containerView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="z3G-tg-9ge">
+                                <rect key="frame" x="0.0" y="20" width="375" height="221"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                <connections>
+                                    <segue destination="2kd-jF-DjT" kind="embed" id="iai-e3-kVZ"/>
+                                </connections>
+                            </containerView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="center" spacing="35" translatesAutoresizingMaskIntoConstraints="NO" id="Hby-fQ-0Ze">
+                                <rect key="frame" x="119" y="269" width="137" height="129"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Gls-10-aFg">
+                                        <rect key="frame" x="18.5" y="0.0" width="100" height="19.5"/>
+                                        <state key="normal" title="Load Calendar"/>
+                                        <connections>
+                                            <action selector="didTapLoadCalButton:" destination="apx-PU-3im" eventType="touchUpInside" id="ija-vU-ep0"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="q8i-yL-F3O">
+                                        <rect key="frame" x="0.0" y="54.5" width="137" height="20"/>
+                                        <state key="normal" title="Load Schedule view"/>
+                                        <connections>
+                                            <segue destination="f3I-tx-jup" kind="show" id="WSJ-Qn-g2k"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="ddl-wY-PVP">
+                                        <rect key="frame" x="12.5" y="109.5" width="112" height="19.5"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" title="Load DatePicker"/>
+                                        <connections>
+                                            <action selector="didTapLoadDatePickerButton:" destination="apx-PU-3im" eventType="touchUpInside" id="aJJ-MC-4Nk"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="Hby-fQ-0Ze" firstAttribute="centerX" secondItem="gVO-6v-Dyx" secondAttribute="centerX" id="CJo-nc-xrG"/>
+                            <constraint firstItem="Hby-fQ-0Ze" firstAttribute="centerY" secondItem="gVO-6v-Dyx" secondAttribute="centerY" id="jDe-Ht-UEf"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="containerView" destination="z3G-tg-9ge" id="pPc-fp-LCd"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Jvb-eV-ej4" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="733.60000000000002" y="118.29085457271366"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="ML2-PA-t6M">
+            <objects>
+                <viewController id="2kd-jF-DjT" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="CWx-we-O9C"/>
+                        <viewControllerLayoutGuide type="bottom" id="Jk5-YJ-GDU"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="mgh-u7-5Kr">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="221"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="q4W-aa-QK5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-20" y="-57"/>
+        </scene>
+    </scenes>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

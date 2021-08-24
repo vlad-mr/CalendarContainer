@@ -1,0 +1,129 @@
+PODS:
+  - Alamofire (5.4.3)
+  - AnywhereAppointmentModule (0.0.6):
+    - AnywhereAppointmentModule/Core (= 0.0.6)
+  - AnywhereAppointmentModule/Core (0.0.6):
+    - AnywhereAppointmentModule/RecurringViewSubModule
+    - CustomViewPresenter
+    - MBProgressHUD (~> 1.0.0)
+    - PromiseKit
+    - SwiftDate
+    - SwiftyBeaver
+  - AnywhereAppointmentModule/RecurringViewSubModule (0.0.6)
+  - AnywhereCalendarSDK (0.1.14):
+    - AnywhereCalendarSDK/Core (= 0.1.14)
+    - SwiftDate
+  - AnywhereCalendarSDK/CalendarUtils (0.1.14):
+    - SwiftDate
+  - AnywhereCalendarSDK/CalendarView (0.1.14):
+    - AnywhereCalendarSDK/CalendarUtils
+    - SwiftDate
+  - AnywhereCalendarSDK/Core (0.1.14):
+    - AnywhereCalendarSDK/CalendarView
+    - AnywhereCalendarSDK/DatePicker
+    - SwiftDate
+  - AnywhereCalendarSDK/DatePicker (0.1.14):
+    - AnywhereCalendarSDK/CalendarUtils
+    - SwiftDate
+  - AnywhereInterfaceModule (0.0.2)
+  - AnywhereSchedulingEngineModule (0.0.2):
+    - AnywhereInterfaceModule
+    - AnywhereSchedulingEngineModule/Core (= 0.0.2)
+    - MagicalRecord
+    - Moya
+    - PromiseKit
+    - SwiftDate
+    - SwiftyBeaver
+  - AnywhereSchedulingEngineModule/APISubModule (0.0.2):
+    - AnywhereInterfaceModule
+    - MagicalRecord
+    - Moya
+    - PromiseKit
+    - SwiftDate
+    - SwiftyBeaver
+  - AnywhereSchedulingEngineModule/Core (0.0.2):
+    - AnywhereInterfaceModule
+    - AnywhereSchedulingEngineModule/APISubModule
+    - MagicalRecord
+    - Moya
+    - PromiseKit
+    - SwiftDate
+    - SwiftyBeaver
+  - CustomViewPresenter (0.1.19)
+  - MagicalRecord (2.3.2):
+    - MagicalRecord/Core (= 2.3.2)
+  - MagicalRecord/Core (2.3.2)
+  - MBProgressHUD (1.0.0)
+  - Moya (14.0.0):
+    - Moya/Core (= 14.0.0)
+  - Moya/Core (14.0.0):
+    - Alamofire (~> 5.0)
+  - PromiseKit (6.15.3):
+    - PromiseKit/CorePromise (= 6.15.3)
+    - PromiseKit/Foundation (= 6.15.3)
+    - PromiseKit/UIKit (= 6.15.3)
+  - PromiseKit/CorePromise (6.15.3)
+  - PromiseKit/Foundation (6.15.3):
+    - PromiseKit/CorePromise
+  - PromiseKit/UIKit (6.15.3):
+    - PromiseKit/CorePromise
+  - SwiftDate (6.3.1)
+  - SwiftyBeaver (1.9.5)
+
+DEPENDENCIES:
+  - "AnywhereAppointmentModule (from `git@github.com:Adaptavant/Anywhere-IOS-Module.git`, branch `appointmentModule/eventModule`)"
+  - "AnywhereCalendarSDK (from `git@github.com:Adaptavant/iOS-Calendar-SDK.git`, branch `dev_redesign`)"
+  - "AnywhereSchedulingEngineModule (from `git@github.com:Adaptavant/Anywhere-IOS-Module.git`, branch `appointmentModule/eventModule`)"
+
+SPEC REPOS:
+  "git@github.com:Adaptavant/ios-podspecs.git":
+    - AnywhereInterfaceModule
+  https://github.com/CocoaPods/Specs.git:
+    - Alamofire
+    - CustomViewPresenter
+    - MagicalRecord
+    - MBProgressHUD
+    - Moya
+    - PromiseKit
+    - SwiftDate
+    - SwiftyBeaver
+
+EXTERNAL SOURCES:
+  AnywhereAppointmentModule:
+    :branch: appointmentModule/eventModule
+    :git: "git@github.com:Adaptavant/Anywhere-IOS-Module.git"
+  AnywhereCalendarSDK:
+    :branch: dev_redesign
+    :git: "git@github.com:Adaptavant/iOS-Calendar-SDK.git"
+  AnywhereSchedulingEngineModule:
+    :branch: appointmentModule/eventModule
+    :git: "git@github.com:Adaptavant/Anywhere-IOS-Module.git"
+
+CHECKOUT OPTIONS:
+  AnywhereAppointmentModule:
+    :commit: 65fe68d23be92602c190140bb88a1880699372ee
+    :git: "git@github.com:Adaptavant/Anywhere-IOS-Module.git"
+  AnywhereCalendarSDK:
+    :commit: 9423e9441a2430db11e772e6727750d48e95b43a
+    :git: "git@github.com:Adaptavant/iOS-Calendar-SDK.git"
+  AnywhereSchedulingEngineModule:
+    :commit: 65fe68d23be92602c190140bb88a1880699372ee
+    :git: "git@github.com:Adaptavant/Anywhere-IOS-Module.git"
+
+SPEC CHECKSUMS:
+  Alamofire: e447a2774a40c996748296fa2c55112fdbbc42f9
+  AnywhereAppointmentModule: b76bf80b92f414edd0336fe4e898eba7a6dca161
+  AnywhereCalendarSDK: 5865e687b5d1c4b46ef300496c33ecc29fa2f52d
+  AnywhereInterfaceModule: 8d9adee73f3f9947a422f0f1e49780b84a75bf09
+  AnywhereSchedulingEngineModule: e6a00efc1c6df160aed3281baa8a70839b3b0b8e
+  CustomViewPresenter: 511924042c31928def10aca6dae50bb09524e17d
+  MagicalRecord: 53bed74b4323b930992a725be713e53b37d19755
+  MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
+  Moya: 5b45dacb75adb009f97fde91c204c1e565d31916
+  PromiseKit: 3b2b6995e51a954c46dbc550ce3da44fbfb563c5
+  SwiftDate: 72d28954e8e1c6c1c0f917ccc8005e4f83c7d4b2
+  SwiftyBeaver: 84069991dd5dca07d7069100985badaca7f0ce82
+
+PODFILE CHECKSUM: b23e6c4e4eafe147983b46bde95391bcdace4266
+
+COCOAPODS: 1.10.1

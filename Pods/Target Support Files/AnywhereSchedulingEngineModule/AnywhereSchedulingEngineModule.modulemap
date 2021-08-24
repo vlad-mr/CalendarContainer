@@ -1,0 +1,6 @@
+framework module AnywhereSchedulingEngineModule {
+  umbrella header "AnywhereSchedulingEngineModule-umbrella.h"
+
+  export *
+  module * { export * }
+}

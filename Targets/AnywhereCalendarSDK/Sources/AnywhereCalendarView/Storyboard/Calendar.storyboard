@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="hcp-Ej-xCD">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Calendar View Controller-->
+        <scene sceneID="umt-9n-nOJ">
+            <objects>
+                <viewController storyboardIdentifier="CalendarViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="hcp-Ej-xCD" customClass="CalendarViewController" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Na7-38-nDj">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="cGt-Pw-DWU"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ZYJ-Sf-Tqp" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="12" y="-129.08545727136433"/>
+        </scene>
+        <!--Calendar Page View Controller-->
+        <scene sceneID="sT1-Sp-PSD">
+            <objects>
+                <pageViewController storyboardIdentifier="CalendarPageViewController" autoresizesArchivedViewToFullSize="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="0IO-4q-3xC" customClass="CalendarPageViewController" customModuleProvider="target" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="H8g-vO-oha" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="727" y="-129"/>
+        </scene>
+        <!--Calendar Layout View Controller-->
+        <scene sceneID="ltn-Rt-5CW">
+            <objects>
+                <viewController storyboardIdentifier="CalendarLayoutViewControllerIDS" useStoryboardIdentifierAsRestorationIdentifier="YES" id="TKp-Nb-fML" customClass="CalendarLayoutViewController" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="xNB-DD-NXO">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fHI-4B-i9i" customClass="DateHeaderStackView" customModule="AnywhereCalendarSDK" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="60"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="8cv-9w-lq3"/>
+                                </constraints>
+                            </stackView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VrU-oi-PsS">
+                                <rect key="frame" x="0.0" y="60" width="375" height="1"/>
+                                <color key="backgroundColor" red="0.87058823529411766" green="0.90588235294117647" blue="0.90588235294117647" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="tintColor" red="0.21960784310000001" green="0.26274509800000001" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="1" id="GE3-St-7Nd"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.1647058824" green="0.7843137255" blue="0.76862745099999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="highlightedColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="shadowColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </label>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="0d8-gG-Xwe">
+                                <rect key="frame" x="0.0" y="61" width="375" height="606"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <collectionViewLayout key="collectionViewLayout" id="vA6-UH-qeX" customClass="CalendarCollectionViewLayout" customModule="AnywhereCalendarSDK" customModuleProvider="target"/>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" reuseIdentifier="ImprovedAppointmentCell" id="LCX-wT-mrz" customClass="ImprovedAppointmentCell" customModule="AnywhereCalendarSDK" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
+                                            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </view>
+                                    </collectionViewCell>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" reuseIdentifier="ClassSessionCell" id="W2B-MF-ZsI" customClass="ClassSessionCell" customModule="AnywhereCalendarSDK" customModuleProvider="target">
+                                        <rect key="frame" x="65" y="0.0" width="50" height="50"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
+                                            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </view>
+                                    </collectionViewCell>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" reuseIdentifier="SlotBlockerCell" id="Gyd-bd-Qff" customClass="SlotBlockerCell" customModule="AnywhereCalendarSDK" customModuleProvider="target">
+                                        <rect key="frame" x="130" y="0.0" width="50" height="50"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
+                                            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </view>
+                                    </collectionViewCell>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" reuseIdentifier="EventCell" id="UI7-W5-dPh" customClass="EventCell" customModule="AnywhereCalendarSDK" customModuleProvider="target">
+                                        <rect key="frame" x="195" y="0.0" width="50" height="50"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
+                                            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </view>
+                                    </collectionViewCell>
+                                </cells>
+                            </collectionView>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="Ony-p1-gqc" customClass="DayOffHeaderStackView" customModule="AnywhereCalendarSDK" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="60" width="376" height="15"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="15" id="FiR-Gq-P6b"/>
+                                </constraints>
+                            </stackView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="HVB-lU-LpT"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="HVB-lU-LpT" firstAttribute="trailing" secondItem="fHI-4B-i9i" secondAttribute="trailing" id="3JE-cm-UYR"/>
+                            <constraint firstItem="HVB-lU-LpT" firstAttribute="top" secondItem="fHI-4B-i9i" secondAttribute="top" id="58S-sV-mX2"/>
+                            <constraint firstItem="HVB-lU-LpT" firstAttribute="trailing" secondItem="VrU-oi-PsS" secondAttribute="trailing" id="8Sn-wD-glz"/>
+                            <constraint firstItem="Ony-p1-gqc" firstAttribute="leading" secondItem="HVB-lU-LpT" secondAttribute="leading" id="BWx-7O-Nos"/>
+                            <constraint firstItem="Ony-p1-gqc" firstAttribute="top" secondItem="VrU-oi-PsS" secondAttribute="top" id="Dwa-hq-FxW"/>
+                            <constraint firstItem="0d8-gG-Xwe" firstAttribute="top" secondItem="VrU-oi-PsS" secondAttribute="bottom" id="T1q-aS-PPd"/>
+                            <constraint firstItem="VrU-oi-PsS" firstAttribute="top" secondItem="fHI-4B-i9i" secondAttribute="bottom" id="Wvf-qf-HS7"/>
+                            <constraint firstItem="HVB-lU-LpT" firstAttribute="trailing" secondItem="Ony-p1-gqc" secondAttribute="trailing" constant="-1" id="ZYe-6i-9B0"/>
+                            <constraint firstItem="HVB-lU-LpT" firstAttribute="bottom" secondItem="0d8-gG-Xwe" secondAttribute="bottom" id="iaD-ru-K2j"/>
+                            <constraint firstItem="0d8-gG-Xwe" firstAttribute="leading" secondItem="xNB-DD-NXO" secondAttribute="leading" id="ju9-Wj-3Mc"/>
+                            <constraint firstItem="VrU-oi-PsS" firstAttribute="leading" secondItem="xNB-DD-NXO" secondAttribute="leading" id="la1-uW-ZhW"/>
+                            <constraint firstItem="fHI-4B-i9i" firstAttribute="leading" secondItem="HVB-lU-LpT" secondAttribute="leading" id="m5q-ag-7uH"/>
+                            <constraint firstAttribute="trailing" secondItem="0d8-gG-Xwe" secondAttribute="trailing" id="pHT-b1-lEI"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="calendarCollectionView" destination="0d8-gG-Xwe" id="Khi-eq-iTW"/>
+                        <outlet property="dateHeaderStackView" destination="fHI-4B-i9i" id="PZz-2E-zTv"/>
+                        <outlet property="dateHeaderStackViewHeight" destination="8cv-9w-lq3" id="gON-QS-fJs"/>
+                        <outlet property="dayoffHeaderStackView" destination="Ony-p1-gqc" id="hw6-UR-eqm"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="whk-7H-kF8" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1392.8" y="-129.08545727136433"/>
+        </scene>
+        <!--Calendar Layout View Controller-->
+        <scene sceneID="LN4-sg-QMY">
+            <objects>
+                <viewController storyboardIdentifier="CalendarLayoutViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="oRl-00-ioK" customClass="CalendarLayoutViewController" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="mpb-es-3vg">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView autoresizesSubviews="NO" opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="srU-jb-bSN" customClass="DateHeaderStackView" customModule="AnywhereCalendarSDK" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="70"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="70" id="oEV-ik-wAb"/>
+                                </constraints>
+                            </stackView>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="4Ib-0O-Asj">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <collectionViewLayout key="collectionViewLayout" id="0ic-Oj-DgK"/>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" reuseIdentifier="ImprovedAppointmentCell" id="rO5-yc-EkG">
+                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
+                                            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </view>
+                                    </collectionViewCell>
+                                </cells>
+                            </collectionView>
+                            <stackView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LnD-rP-HeK" customClass="ExcessAllDayEventStackView" customModule="AnywhereCalendarSDK" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="20"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="20" id="KzI-Ha-69j"/>
+                                </constraints>
+                            </stackView>
+                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RgD-bz-FbQ">
+                                <rect key="frame" x="0.0" y="20" width="375" height="20"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5HD-cv-4cf">
+                                        <rect key="frame" x="0.0" y="0.0" width="1" height="20"/>
+                                        <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="1" id="YE3-aK-xrT"/>
+                                        </constraints>
+                                    </view>
+                                    <button contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="P14-QR-5qZ">
+                                        <rect key="frame" x="1" y="0.0" width="374" height="20"/>
+                                        <color key="tintColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="5HD-cv-4cf" secondAttribute="bottom" id="0gb-dg-K1l"/>
+                                    <constraint firstAttribute="trailing" secondItem="P14-QR-5qZ" secondAttribute="trailing" id="2nJ-Vp-dYj"/>
+                                    <constraint firstItem="P14-QR-5qZ" firstAttribute="leading" secondItem="5HD-cv-4cf" secondAttribute="trailing" id="DhB-lo-AR8"/>
+                                    <constraint firstAttribute="bottom" secondItem="P14-QR-5qZ" secondAttribute="bottom" id="EkM-zq-AxI"/>
+                                    <constraint firstItem="P14-QR-5qZ" firstAttribute="leading" secondItem="5HD-cv-4cf" secondAttribute="trailing" id="Ios-wf-hyC"/>
+                                    <constraint firstItem="5HD-cv-4cf" firstAttribute="leading" secondItem="RgD-bz-FbQ" secondAttribute="leading" id="T2a-CH-9bz"/>
+                                    <constraint firstItem="5HD-cv-4cf" firstAttribute="top" secondItem="RgD-bz-FbQ" secondAttribute="top" id="bFM-hB-fIG"/>
+                                    <constraint firstItem="P14-QR-5qZ" firstAttribute="top" secondItem="RgD-bz-FbQ" secondAttribute="top" id="eE4-SE-Qbg"/>
+                                    <constraint firstAttribute="height" constant="20" id="xnc-VA-PqS"/>
+                                </constraints>
+                            </stackView>
+                            <stackView autoresizesSubviews="NO" opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bVE-f2-r4B" customClass="AllDayEventStackView" customModule="AnywhereCalendarSDK" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="41" width="375" height="10"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="10" id="btx-dp-iJr"/>
+                                </constraints>
+                            </stackView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MTy-Mr-8ge">
+                                <rect key="frame" x="0.0" y="40" width="375" height="1"/>
+                                <color key="backgroundColor" red="0.87058823529999996" green="0.90588235289999997" blue="0.90588235289999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="tintColor" red="0.21960784310000001" green="0.26274509800000001" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="1" id="uK2-Oo-G9s"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.1647058824" green="0.7843137255" blue="0.76862745099999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="highlightedColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="shadowColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </label>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="Ia1-bG-syw"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="RgD-bz-FbQ" firstAttribute="top" secondItem="LnD-rP-HeK" secondAttribute="bottom" id="04h-bS-ucT"/>
+                            <constraint firstItem="MTy-Mr-8ge" firstAttribute="top" secondItem="RgD-bz-FbQ" secondAttribute="bottom" id="18e-oM-hRx"/>
+                            <constraint firstAttribute="trailing" secondItem="MTy-Mr-8ge" secondAttribute="trailing" id="4cj-0N-DgT"/>
+                            <constraint firstItem="bVE-f2-r4B" firstAttribute="top" secondItem="MTy-Mr-8ge" secondAttribute="bottom" id="6dQ-Vt-ZzQ"/>
+                            <constraint firstItem="LnD-rP-HeK" firstAttribute="top" secondItem="Ia1-bG-syw" secondAttribute="top" id="BgV-GO-ohO"/>
+                            <constraint firstItem="4Ib-0O-Asj" firstAttribute="bottom" secondItem="Ia1-bG-syw" secondAttribute="bottom" id="Jpy-17-AZH"/>
+                            <constraint firstItem="4Ib-0O-Asj" firstAttribute="leading" secondItem="Ia1-bG-syw" secondAttribute="leading" id="KbC-Rj-peD"/>
+                            <constraint firstItem="4Ib-0O-Asj" firstAttribute="top" secondItem="Ia1-bG-syw" secondAttribute="top" id="LLF-UO-cu6"/>
+                            <constraint firstItem="LnD-rP-HeK" firstAttribute="trailing" secondItem="Ia1-bG-syw" secondAttribute="trailing" id="Mi0-kh-2FD"/>
+                            <constraint firstItem="Ia1-bG-syw" firstAttribute="trailing" secondItem="RgD-bz-FbQ" secondAttribute="trailing" id="P9I-RS-Gll"/>
+                            <constraint firstItem="srU-jb-bSN" firstAttribute="leading" secondItem="Ia1-bG-syw" secondAttribute="leading" id="U0u-JE-tCZ"/>
+                            <constraint firstItem="srU-jb-bSN" firstAttribute="trailing" secondItem="Ia1-bG-syw" secondAttribute="trailing" id="W2G-pq-I6d"/>
+                            <constraint firstItem="MTy-Mr-8ge" firstAttribute="leading" secondItem="mpb-es-3vg" secondAttribute="leading" id="bj5-9u-2yl"/>
+                            <constraint firstItem="LnD-rP-HeK" firstAttribute="leading" secondItem="Ia1-bG-syw" secondAttribute="leading" id="fTB-1d-wCy"/>
+                            <constraint firstItem="4Ib-0O-Asj" firstAttribute="trailing" secondItem="Ia1-bG-syw" secondAttribute="trailing" id="hII-YX-D90"/>
+                            <constraint firstItem="RgD-bz-FbQ" firstAttribute="leading" secondItem="Ia1-bG-syw" secondAttribute="leading" id="lj8-Yb-ey6"/>
+                            <constraint firstItem="bVE-f2-r4B" firstAttribute="trailing" secondItem="Ia1-bG-syw" secondAttribute="trailing" id="sM6-EN-Sfr"/>
+                            <constraint firstItem="bVE-f2-r4B" firstAttribute="leading" secondItem="Ia1-bG-syw" secondAttribute="leading" id="wTb-AV-Pdc"/>
+                            <constraint firstItem="srU-jb-bSN" firstAttribute="top" secondItem="Ia1-bG-syw" secondAttribute="top" id="zRk-KF-ukT"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="allDayEventStackView" destination="bVE-f2-r4B" id="Gzj-xs-FTc"/>
+                        <outlet property="allDayViewHeightContraint" destination="btx-dp-iJr" id="08A-1n-jh8"/>
+                        <outlet property="calendarCollectionView" destination="4Ib-0O-Asj" id="hoC-2a-KS6"/>
+                        <outlet property="calendarCollectionViewTopConstraint" destination="LLF-UO-cu6" id="c9D-Af-BQK"/>
+                        <outlet property="collapserIndicatorButton" destination="P14-QR-5qZ" id="4JY-6N-OKG"/>
+                        <outlet property="collapserIndicatorHeightConstraint" destination="xnc-VA-PqS" id="5bR-TJ-PY1"/>
+                        <outlet property="dateHeaderHeightConstraint" destination="oEV-ik-wAb" id="UgI-YP-dh3"/>
+                        <outlet property="dateHeaderStackView" destination="srU-jb-bSN" id="rLp-TK-WPS"/>
+                        <outlet property="excessAllDayEventIndicatorHeightConstraint" destination="KzI-Ha-69j" id="Kkg-vy-G2S"/>
+                        <outlet property="excessAllDayEventIndicatorStackView" destination="LnD-rP-HeK" id="KBq-jr-2K1"/>
+                        <outlet property="excessAllDayEventTopConstraint" destination="BgV-GO-ohO" id="i4f-Ax-lQy"/>
+                        <outlet property="separatorView" destination="5HD-cv-4cf" id="rgL-MH-m7w"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="3sf-2X-4PZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2204" y="-129.08545727136433"/>
+        </scene>
+    </scenes>
+</document>
