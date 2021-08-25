@@ -1,6 +1,0 @@
-framework module AnywhereCalendarSDK {
-  umbrella header "AnywhereCalendarSDK-umbrella.h"
-
-  export *
-  module * { export * }
-}

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19115.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19107.4"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ScheduleDateCell" customModule="CalendarSDK" customModuleProvider="target"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="Lee-KB-IqH" customClass="ScheduleDateCell" customModule="CalendarSDK" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="22" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c3l-35-5wm">
+                    <rect key="frame" x="191" y="432" width="32" height="32"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="32" id="MV6-er-8Hn"/>
+                        <constraint firstAttribute="width" constant="32" id="pZ4-K8-cP4"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                            <integer key="value" value="20"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" alpha="0.5" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MON" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tLm-8G-5b4">
+                    <rect key="frame" x="192.5" y="468" width="29" height="14.5"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="0lg-q6-rjZ"/>
+            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <constraints>
+                <constraint firstItem="tLm-8G-5b4" firstAttribute="centerX" secondItem="Lee-KB-IqH" secondAttribute="centerX" id="ETl-iC-gI3"/>
+                <constraint firstItem="c3l-35-5wm" firstAttribute="centerX" secondItem="Lee-KB-IqH" secondAttribute="centerX" id="Zq1-ra-X2O"/>
+                <constraint firstItem="c3l-35-5wm" firstAttribute="centerY" secondItem="Lee-KB-IqH" secondAttribute="centerY" id="dz2-L4-XUC"/>
+                <constraint firstItem="tLm-8G-5b4" firstAttribute="top" secondItem="c3l-35-5wm" secondAttribute="bottom" constant="4" id="k0f-oA-oXW"/>
+            </constraints>
+            <connections>
+                <outlet property="dayLabel" destination="c3l-35-5wm" id="bqr-xo-fRl"/>
+                <outlet property="weekdayLabel" destination="tLm-8G-5b4" id="pNg-RM-8Xd"/>
+            </connections>
+            <point key="canvasLocation" x="599" y="222"/>
+        </view>
+    </objects>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

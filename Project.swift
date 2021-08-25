@@ -1,7 +1,7 @@
 import ProjectDescription
 import ProjectDescriptionHelpers
 
-let bundleId = "io.full.CalendarContainer"
+let bundleId = "vladmr.pm.me.test"
 let deploymentTarget = DeploymentTarget.iOS(targetVersion: "13.0", devices: .iphone)
 
 let settings = Settings(
@@ -15,67 +15,12 @@ let settings = Settings(
 // MARK: - Calendar Kit
 
 let calendar = Project.makeFrameworkTargets(
-    name: "UI",
+    name: "CalendarSDK",
     platform: .iOS,
     appBundleId: bundleId,
     deploymentTarget: deploymentTarget,
     settings: settings,
-    dependencies: [
-        .target(name: "AnywhereCalendarSDK"),
-    ]
-)
-
-// MARK: - Interface
-
-let interface = Project.makeFrameworkTargets(
-    name: "AnywhereInterfaceModule",
-    platform: .iOS,
-    appBundleId: bundleId,
-    deploymentTarget: deploymentTarget,
-    settings: settings,
-    dependencies: [
-    ]
-)
-
-// MARK: - API
-
-let schedulingEngine = Project.makeFrameworkTargets(
-    name: "AnywhereSchedulingEngineModule",
-    platform: .iOS,
-    appBundleId: bundleId,
-    deploymentTarget: deploymentTarget,
-    settings: settings,
-    dependencies: [
-        .target(name: "AnywhereInterfaceModule"),
-    ],
-    coreDataModels: [
-        CoreDataModel("AnywhereEvents.xcdatamodeld"),
-    ]
-)
-
-// MARK: - Event View
-
-let eventView = Project.makeFrameworkTargets(
-    name: "AnywhereAppointmentModule",
-    platform: .iOS,
-    appBundleId: bundleId,
-    deploymentTarget: deploymentTarget,
-    settings: settings,
-    dependencies: [
-        .target(name: "AnywhereInterfaceModule"),
-    ]
-)
-
-// MARK: - Calendar Components
-
-let components = Project.makeFrameworkTargets(
-    name: "AnywhereCalendarSDK",
-    platform: .iOS,
-    appBundleId: bundleId,
-    deploymentTarget: deploymentTarget,
-    settings: settings,
-    dependencies: [
-    ]
+    dependencies: []
 )
 
 // MARK: - Main
@@ -91,6 +36,7 @@ let main = Target(
     sources: ["Targets/CalendarContainer/Sources/**"],
     resources: ["Targets/CalendarContainer/Resources/**"],
     dependencies: [
+        .target(name: "CalendarSDK"),
         .cocoapods(path: "."),
     ],
     settings: settings
@@ -113,7 +59,7 @@ let tests = Target(
 
 func makeTargets() -> [Target] {
     var targets: [Target] = [main, tests]
-    //  targets.append(contentsOf: eventView)
+    targets.append(contentsOf: calendar)
     //  targets.append(contentsOf: schedulingEngine)
     //  targets.append(contentsOf: components)
     //  targets.append(contentsOf: interface)

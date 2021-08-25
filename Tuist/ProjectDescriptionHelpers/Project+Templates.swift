@@ -25,7 +25,7 @@ extension Project {
             deploymentTarget: deploymentTarget,
             infoPlist: .default,
             sources: ["Targets/\(name)/Sources/**"],
-            resources: [],
+            resources: ["Targets/\(name)/Resources/**"],
             headers: headers ?? Headers(public: ["Targets/\(name)/Sources/**"]),
             dependencies: dependencies,
             settings: settings,

@@ -1,13 +1,19 @@
 source 'git@github.com:Adaptavant/ios-podspecs.git'
 source 'https://github.com/CocoaPods/Specs.git'
 platform :ios, '13.0'
+install! 'cocoapods', :disable_input_output_paths => true
 use_frameworks!(:linkage => :static)
 inhibit_all_warnings! 
 
 target 'CalendarContainer' do
   pod 'AnywhereSchedulingEngineModule', :git => 'git@github.com:Adaptavant/Anywhere-IOS-Module.git', :branch => 'appointmentModule/eventModule'
   pod 'AnywhereAppointmentModule', :git => 'git@github.com:Adaptavant/Anywhere-IOS-Module.git', :branch => 'appointmentModule/eventModule'
-  pod 'AnywhereCalendarSDK', :git => 'git@github.com:Adaptavant/iOS-Calendar-SDK.git', :branch => 'dev_redesign'
+  # pod 'AnywhereCalendarSDK', :git => 'git@github.com:Adaptavant/iOS-Calendar-SDK.git', :branch => 'dev_redesign'
+end
+
+target 'CalendarSDK' do
+  pod 'SwiftDate', :git => 'https://github.com/Vignesh-Thangamariappan/SwiftDate.git'
+  pod 'InterfaceModule'
 end
 
 post_install do |installer|
