@@ -115,4 +115,26 @@ public final class EventsListViewController: DrawerPresentableViewController {
     }
     highlightCell(atRow: 0)
   }
+
+  public override func selectedCell(_ row: Int) {
+    hideDrawer()
+    switch row {
+    case 1: showDayly()
+    case 2: showWeekly()
+    default: hideDrawer()
+    }
+  }
+
+  private func showDayly() {
+    let controller = FullCalendarViewController()
+    controller.isDailyCalendar = true
+    present(controller.calendarView, animated: true, completion: nil)
+  }
+
+  private func showWeekly() {
+    let controller = FullCalendarViewController()
+    controller.isDailyCalendar = false
+    present(controller.calendarView, animated: true, completion: nil)
+  }
 }
+
