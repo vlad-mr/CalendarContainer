@@ -4,6 +4,15 @@ import ProjectDescriptionHelpers
 let bundleId = "vladmr.pm.me.test"
 let deploymentTarget = DeploymentTarget.iOS(targetVersion: "13.0", devices: .iphone)
 
+let infoPlist: [String: InfoPlist.Value] = [
+  "CFBundleShortVersionString": "1.0",
+  "CFBundleVersion": "1",
+  "UILaunchStoryboardName": "Main",
+  "UIMainStoryboardFile": "Main",
+  "UIAppFonts": .array([
+  ]),
+]
+
 let settings = Settings(
     configurations: [
         .debug(name: "Debug", settings: debugSettings),
@@ -32,7 +41,7 @@ let main = Target(
     productName: "CalendarContainer",
     bundleId: bundleId,
     deploymentTarget: deploymentTarget,
-    infoPlist: .default,
+    infoPlist: .extendingDefault(with: infoPlist),
     sources: ["Targets/CalendarContainer/Sources/**"],
     resources: ["Targets/CalendarContainer/Resources/**"],
     dependencies: [

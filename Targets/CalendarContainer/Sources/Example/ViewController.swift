@@ -329,8 +329,7 @@ extension ViewController: DatePickerDelegate {
     }
 }
 
-extension ViewController: DatePickerDataSource {
-    
+extension ViewController: DatePickerDataSource {    
     func isDayOff(on date: Date) -> Bool {
         return date.day == 21 || date.day == 11
     }

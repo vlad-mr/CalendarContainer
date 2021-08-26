@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19142.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="apx-PU-3im">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19115.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="5OW-Zg-q2U">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19129"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19107.4"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -11,7 +11,7 @@
         <!--Sample Schedule View Controller-->
         <scene sceneID="4du-ae-MoD">
             <objects>
-                <viewController storyboardIdentifier="SampleScheduleViewController" id="f3I-tx-jup" customClass="SampleScheduleViewController" customModule="AnywhereCalendarSDK_Example" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SampleScheduleViewController" id="f3I-tx-jup" customClass="SampleScheduleViewController" customModule="CalendarContainer" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="rPV-L2-LJm"/>
                         <viewControllerLayoutGuide type="bottom" id="LEK-gP-cUD"/>
@@ -53,7 +53,7 @@
         <!--View Controller-->
         <scene sceneID="qG5-RO-D34">
             <objects>
-                <viewController id="apx-PU-3im" customClass="ViewController" customModule="AnywhereCalendarSDK_Example" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="apx-PU-3im" customClass="ViewController" customModule="CalendarContainer" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="mu2-GA-zaH"/>
                         <viewControllerLayoutGuide type="bottom" id="RQ1-RF-GCu"/>
@@ -110,6 +110,24 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Jvb-eV-ej4" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="733.60000000000002" y="118.29085457271366"/>
+        </scene>
+        <!--Events List View Controller-->
+        <scene sceneID="txl-gy-oyr">
+            <objects>
+                <viewController id="5OW-Zg-q2U" customClass="EventsListViewController" customModule="CalendarContainer" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="bdj-kG-zKO"/>
+                        <viewControllerLayoutGuide type="bottom" id="Tho-4m-J2e"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="kfF-YU-Oj9">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="loL-Lv-XLv" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-305" y="-969"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="ML2-PA-t6M">
