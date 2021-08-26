@@ -48,7 +48,7 @@ public final class SchedulingEngineAdapter {
 
   // MARK: - Private
 
-  private var baseUrl = URL(string: "https://alpha-dot-staging-schedulingengine.el.r.appspot.com")!
+  private var baseUrl = URL(string: "https://alpha-dot-staging-schedulingengine.el.r.appspot.com/schedule/v1")!
   private var token = "empty"
   private lazy var apiProvider = SchedulingServiceBuilder.buildProvider(url: baseUrl, token: token)
   private lazy var dataProvider = AnywhereDataStackBuilder.buildProvider()

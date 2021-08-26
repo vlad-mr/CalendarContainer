@@ -10,7 +10,7 @@ import UIKit
 import CalendarSDK
 import PromiseKit
 
-public final class EventsListViewController: UIViewController {
+public final class EventsListViewController: DrawerPresentableViewController {
 
   public override func loadView() {
     self.view = customView
@@ -23,6 +23,7 @@ public final class EventsListViewController: UIViewController {
     subscribeToEvents()
     showList()
     showPicker()
+    showMenuDrawer()
   }
 
   let viewModel = EventsListViewModel()
@@ -88,5 +89,30 @@ public final class EventsListViewController: UIViewController {
     pickerView.view.frame = customView.picker.frame
     customView.picker.addSubview(pickerView.view)
     pickerView.didMove(toParent: self)
+  }
+
+  private func showMenuDrawer() {
+    let button = UIButton()
+    button.setTitle("Menu", for: .normal)
+    button.titleLabel?.font = .systemFont(ofSize: 18, weight: .bold)
+    button.setTitleColor(.systemBlue, for: .normal)
+    button.translatesAutoresizingMaskIntoConstraints = false
+    view.addSubview(button)
+    NSLayoutConstraint.activate([
+        button.heightAnchor.constraint(equalToConstant: 40),
+        button.widthAnchor.constraint(equalToConstant: 60),
+        button.topAnchor.constraint(equalTo: view.topAnchor, constant: 30),
+        button.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 4),
+    ])
+    button.addTarget(self, action: #selector(showDrawer), for: .touchUpInside)
+    if #available(iOS 13.0, *) {
+        configureHeader(image: UIImage(systemName: "house.fill"), title: "Anytime Calendar")
+        setItems([
+            SelectorItem(image: UIImage(named: "schedule"), title: "Schedule"),
+            SelectorItem(image: UIImage(named: "day"), title: "Daily"),
+            SelectorItem(image: UIImage(named: "week"), title: "Weekly"),
+        ])
+    }
+    highlightCell(atRow: 0)
   }
 }
