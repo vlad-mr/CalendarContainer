@@ -13,7 +13,7 @@ class SampleScheduleViewController: UIViewController {
     
     
     @IBOutlet weak var containerView: UIView!
-    var currentDataSource: ScheduleViewDataSource?
+    var currentDataSource: EventsListDataSource?
     
     lazy var calendarView: CalendarView = {
         let config = ScheduleViewConfiguration(shouldHaveStickyDate: true, placeholderConfig: .daily)
@@ -74,7 +74,7 @@ extension SampleScheduleViewController: CalendarDataProvider {
     }
     
     func getDataSource(forPage page: Int) -> FullCalendarDataSource? {
-        let calendarDataSource = ScheduleViewDataSource()
+        let calendarDataSource = EventsListDataSource()
         self.currentDataSource = calendarDataSource
         return calendarDataSource
     }

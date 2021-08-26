@@ -13,7 +13,7 @@ public final class FetchEventsService {
   public init() { }
 
   public func fetchEvents() -> Promise<[EventModel]> {
-    return provider.fetchEvents()
+    return provider.fetchEventsTest()
   }
 
   private let provider = SchedulingEngineAdapter()

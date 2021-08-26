@@ -27,7 +27,7 @@ public final class EventsListViewController: UIViewController {
 
   let viewModel = EventsListViewModel()
   let customView = EventsListView()
-  var currentDataSource: ScheduleViewDataSource?
+  var currentDataSource: EventsListDataSource?
   var events: [EventModel] = []
 
   lazy var calendarView: CalendarView = {

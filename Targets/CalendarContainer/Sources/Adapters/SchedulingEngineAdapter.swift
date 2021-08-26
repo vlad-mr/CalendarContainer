@@ -25,9 +25,30 @@ public final class SchedulingEngineAdapter {
       .map { $0.events.map(self.mapEventModel) }
   }
 
+  public func fetchEventsTest() -> Promise<[EventModel]> {
+    let json = """
+    {
+      "calendarIds": [
+        "63bcfeb0-5613-4998-85ba-559a548c75ca"
+      ],
+      "providerIds": [
+        "r2a961627975885651"
+      ],
+      "startTime": 1627257652397,
+      "endTime": 1635206452397,
+      "limit": 200,
+      "isGroup": true
+    }
+    """
+    let params = EventFetchParam.initialize(withData: json.data(using: .utf8)!)
+    let config = EventFetchConfig.byFetchParam(param: params!)
+    return apiProvider.fetchEvents(with: config, shouldRefresh: true, shouldLoadNext: false)
+      .map { $0.events.map(self.mapEventModel) }
+  }
+
   // MARK: - Private
 
-  private var baseUrl = URL(string: "https://alpha-dot-staging-schedulingengine.el.r.appspot.com/")!
+  private var baseUrl = URL(string: "https://alpha-dot-staging-schedulingengine.el.r.appspot.com")!
   private var token = "empty"
   private lazy var apiProvider = SchedulingServiceBuilder.buildProvider(url: baseUrl, token: token)
   private lazy var dataProvider = AnywhereDataStackBuilder.buildProvider()

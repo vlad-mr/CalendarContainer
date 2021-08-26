@@ -8,6 +8,8 @@
 
 import CalendarSDK
 
+// MARK: - Events list data source
+
 extension EventsListViewController: CalendarDataProvider {
   public func getCustomizationProvider(for calendarView: FullCalendarView) -> FullCalendarCustomizationProvider? {
     let customizationProvider = FullCalendarCustomizationProvider.custom(forCalendarView: calendarView,
@@ -19,7 +21,7 @@ extension EventsListViewController: CalendarDataProvider {
   }
 
   public func getDataSource(forPage page: Int) -> FullCalendarDataSource? {
-    let calendarDataSource = ScheduleViewDataSource()
+    let calendarDataSource = EventsListDataSource()
     self.currentDataSource = calendarDataSource
     return calendarDataSource
   }
@@ -34,6 +36,8 @@ extension EventsListViewController: CalendarCustomizationProviderDelegate {
     return nil
   }
 }
+
+// MARK: - Event cell swipe
 
 extension EventsListViewController: CalendarSwipeActionDelegate {
   public func leadingSwipeActionsConfiguration(forRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
@@ -61,6 +65,8 @@ extension EventsListViewController: CalendarActionDelegate {
     // TODO: change date
   }
 }
+
+// MARK: - Picker
 
 extension EventsListViewController: DatePickerDataSource {
   public func isDayOff(on date: Date) -> Bool {
