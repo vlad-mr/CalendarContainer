@@ -7,3 +7,14 @@
 //
 
 import Foundation
+import PromiseKit
+
+public final class FetchEventsService {
+  public init() { }
+
+  public func fetchEvents() -> Promise<[EventModel]> {
+    return provider.fetchEvents()
+  }
+
+  private let provider = SchedulingEngineAdapter()
+}

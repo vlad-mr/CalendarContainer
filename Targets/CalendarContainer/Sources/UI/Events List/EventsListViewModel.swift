@@ -6,8 +6,9 @@
 //  Copyright © 2021 Anywhere. All rights reserved.
 //
 
-import Foundation
+import PromiseKit
 
-public struct EventsListViewModel {
-  
+public final class EventsListViewModel {
+  let service = FetchEventsService()
+  lazy var events = service.fetchEvents()  
 }

@@ -8,6 +8,7 @@
 
 import UIKit
 import CalendarSDK
+import PromiseKit
 
 public final class EventsListViewController: UIViewController {
 
@@ -19,6 +20,7 @@ public final class EventsListViewController: UIViewController {
     super.viewDidLoad()
     let calConfig = CalendarConfiguration(withUserAvailability: nil, userRegion: .ISO)
     AnywhereCalendarView.configure(withConfiguration: calConfig, theme: .Light)
+    subscribeToEvents()
     showList()
     showPicker()
   }
@@ -26,6 +28,7 @@ public final class EventsListViewController: UIViewController {
   let viewModel = EventsListViewModel()
   let customView = EventsListView()
   var currentDataSource: ScheduleViewDataSource?
+  var events: [EventModel] = []
 
   lazy var calendarView: CalendarView = {
       let config = ScheduleViewConfiguration(shouldHaveStickyDate: true, placeholderConfig: .daily)
@@ -49,6 +52,31 @@ public final class EventsListViewController: UIViewController {
                                         viewConfiguration: viewConfig)
     return AnywhereDatePicker.getDatePicker(withConfig: pickerConfig, dataSource: self, delegate: self)
   }()
+
+  private func subscribeToEvents() {
+    // TODO: show loading view
+    viewModel.events
+      .done(on: .main) { [weak self] events in
+        self?.update(with: events)
+      }
+      .catch { [weak self] error in
+        self?.show(error)
+      }
+      .finally {
+        // TODO: remove loading view
+      }
+  }
+
+  private func update(with events: [EventModel]) {
+    self.events = events
+    calendarView.reloadCalendar()
+  }
+
+  private func show(_ error: Error) {
+    let alert = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .actionSheet)
+    alert.addAction(.init(title: "Okay", style: .destructive) { _ in self.dismiss(animated: true, completion: nil) })
+    present(alert, animated: true, completion: nil)
+  }
 
   private func showList() {
     calendarView.view.frame = customView.list.frame
