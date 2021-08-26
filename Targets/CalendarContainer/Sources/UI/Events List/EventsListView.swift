@@ -19,6 +19,21 @@ public class EventsListView: UIView {
 
   let picker = UIView(frame: .zero)
   let list = UIView(frame: .zero)
+  lazy var menuButton: UIButton = {
+    let button = UIButton()
+    button.setTitle("Menu", for: .normal)
+    button.titleLabel?.font = .systemFont(ofSize: 18, weight: .bold)
+    button.setTitleColor(.systemBlue, for: .normal)
+    button.translatesAutoresizingMaskIntoConstraints = false
+    addSubview(button)
+    NSLayoutConstraint.activate([
+        button.heightAnchor.constraint(equalToConstant: 40),
+        button.widthAnchor.constraint(equalToConstant: 60),
+        button.topAnchor.constraint(equalTo: topAnchor, constant: 30),
+        button.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 4),
+    ])
+    return button
+  }()
 
   private func setup() {
     addSubview(picker)
@@ -31,7 +46,7 @@ public class EventsListView: UIView {
     NSLayoutConstraint.activate([
       picker.leftAnchor.constraint(equalTo: leftAnchor),
       picker.rightAnchor.constraint(equalTo: rightAnchor),
-      picker.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 10),
+      picker.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 30),
       picker.bottomAnchor.constraint(equalTo: list.topAnchor),
       picker.heightAnchor.constraint(equalToConstant: 300),
       list.leftAnchor.constraint(equalTo: leftAnchor),

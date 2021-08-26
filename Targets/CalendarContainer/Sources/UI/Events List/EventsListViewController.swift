@@ -92,28 +92,18 @@ public final class EventsListViewController: DrawerPresentableViewController {
   }
 
   private func showMenuDrawer() {
-    let button = UIButton()
-    button.setTitle("Menu", for: .normal)
-    button.titleLabel?.font = .systemFont(ofSize: 18, weight: .bold)
-    button.setTitleColor(.systemBlue, for: .normal)
-    button.translatesAutoresizingMaskIntoConstraints = false
-    view.addSubview(button)
-    NSLayoutConstraint.activate([
-        button.heightAnchor.constraint(equalToConstant: 40),
-        button.widthAnchor.constraint(equalToConstant: 60),
-        button.topAnchor.constraint(equalTo: view.topAnchor, constant: 30),
-        button.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 4),
+    customView.menuButton.addTarget(self, action: #selector(showDrawer), for: .touchUpInside)
+    setItems([
+        SelectorItem(image: UIImage(named: "schedule"), title: "Schedule"),
+        SelectorItem(image: UIImage(named: "day"), title: "Daily"),
+        SelectorItem(image: UIImage(named: "week"), title: "Weekly"),
     ])
-    button.addTarget(self, action: #selector(showDrawer), for: .touchUpInside)
-    if #available(iOS 13.0, *) {
-        configureHeader(image: UIImage(systemName: "house.fill"), title: "Anytime Calendar")
-        setItems([
-            SelectorItem(image: UIImage(named: "schedule"), title: "Schedule"),
-            SelectorItem(image: UIImage(named: "day"), title: "Daily"),
-            SelectorItem(image: UIImage(named: "week"), title: "Weekly"),
-        ])
-    }
     highlightCell(atRow: 0)
+  }
+
+  public override func showDrawer() {
+    highlightCell(atRow: 0)
+    super.showDrawer()
   }
 
   public override func selectedCell(_ row: Int) {
