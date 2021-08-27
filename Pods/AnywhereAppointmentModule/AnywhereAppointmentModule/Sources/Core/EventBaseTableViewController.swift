@@ -49,7 +49,6 @@ class EventBaseTableViewController: UITableViewController {
             }
         }
     }
-    
     var eventActionType: EventActionType = .create
     var eventToDisplay: EventDisplayModel?
     
@@ -392,7 +391,8 @@ extension EventBaseTableViewController {
         editedEvent = eventToDisplay
         eventNameCell.setText(event.eventName)
         if event.isExternal {
-            eventNameCell.setSourceIcon(event.source?.image)
+//            eventNameCell.setSourceIcon(event.source?.image)
+            //get image from AnywhereSchedulingEngineModule eventModel
         }
         dateTimeCell.set(date: event.startDate.dateString(), time: "\(event.startDate.timeString()) - \(event.endDate.timeString())")
         startTimeCell.set(date: event.startDate.dateString(), time: event.startDate.timeString())

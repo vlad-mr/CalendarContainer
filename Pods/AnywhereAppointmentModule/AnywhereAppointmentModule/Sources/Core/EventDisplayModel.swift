@@ -41,7 +41,7 @@ extension EventDisplayModel {
         self.endDate = endDate
         self.repeatMode = .init(rule: event.rRule, startDate: startDate)
         self.rRule = event.rRule
-        self.location = event.location?.teleport ?? ""
+        self.location = event.location?.videoMeeting ?? ""
         let currentTimeZone = TimeZone(identifier: EventViewSDKConfiguration.current.accountTimezoneId) ?? TimeZone.current
         
         let offset = currentTimeZone.displayStringFromGMT(forDate: Date())

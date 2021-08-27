@@ -26,6 +26,7 @@
     {
       "name": "Core",
       "source_files": "AnywhereAppointmentModule/Sources/Core/**/*",
+      "resources": "AnywhereAppointmentModule/Resources/**/*.{otf,png,jpeg,jpg,storyboard,xib,xcassets}",
       "frameworks": [
         "UIKit",
         "MapKit"

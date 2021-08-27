@@ -65,7 +65,7 @@ PODS:
   - SwiftyBeaver (1.9.5)
 
 DEPENDENCIES:
-  - "AnywhereAppointmentModule (from `git@github.com:Adaptavant/Anywhere-IOS-Module.git`, branch `appointmentModule/eventModule`)"
+  - "AnywhereAppointmentModule (from `git@github.com:Adaptavant/Anywhere-IOS-Module.git`, branch `appointmentModule/eventModuleCopy`)"
   - "AnywhereSchedulingEngineModule (from `git@github.com:Adaptavant/Anywhere-IOS-Module.git`, branch `appointmentModule/eventModuleCopy`)"
   - InterfaceModule
   - SwiftDate (from `https://github.com/Vignesh-Thangamariappan/SwiftDate.git`)
@@ -85,7 +85,7 @@ SPEC REPOS:
 
 EXTERNAL SOURCES:
   AnywhereAppointmentModule:
-    :branch: appointmentModule/eventModule
+    :branch: appointmentModule/eventModuleCopy
     :git: "git@github.com:Adaptavant/Anywhere-IOS-Module.git"
   AnywhereSchedulingEngineModule:
     :branch: appointmentModule/eventModuleCopy
@@ -95,10 +95,10 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   AnywhereAppointmentModule:
-    :commit: 65fe68d23be92602c190140bb88a1880699372ee
+    :commit: 69d908ebe90f4fea8d98842f02c9bf10c25b9c2c
     :git: "git@github.com:Adaptavant/Anywhere-IOS-Module.git"
   AnywhereSchedulingEngineModule:
-    :commit: 7ece00edc4cfb6ce09e2c0bb4d0d78d9a5abbdb7
+    :commit: 69d908ebe90f4fea8d98842f02c9bf10c25b9c2c
     :git: "git@github.com:Adaptavant/Anywhere-IOS-Module.git"
   SwiftDate:
     :commit: 3c03ac3de625985b8fd46fa78c6256af00f161c0
@@ -106,7 +106,7 @@ CHECKOUT OPTIONS:
 
 SPEC CHECKSUMS:
   Alamofire: e447a2774a40c996748296fa2c55112fdbbc42f9
-  AnywhereAppointmentModule: b76bf80b92f414edd0336fe4e898eba7a6dca161
+  AnywhereAppointmentModule: b0b0a79cac022fcd850fd043b67798ce75e9c10a
   AnywhereInterfaceModule: 8d9adee73f3f9947a422f0f1e49780b84a75bf09
   AnywhereSchedulingEngineModule: ef90fbe6c2f0860d503a8f86eb7d328db9ef2aec
   CustomViewPresenter: 511924042c31928def10aca6dae50bb09524e17d
@@ -118,6 +118,6 @@ SPEC CHECKSUMS:
   SwiftDate: 72d28954e8e1c6c1c0f917ccc8005e4f83c7d4b2
   SwiftyBeaver: 84069991dd5dca07d7069100985badaca7f0ce82
 
-PODFILE CHECKSUM: 38050396941801cf4249f3368cb1b08311182ade
+PODFILE CHECKSUM: af154981dc7508e41de1ba8dfb30c0a206d0b20b
 
 COCOAPODS: 1.10.2

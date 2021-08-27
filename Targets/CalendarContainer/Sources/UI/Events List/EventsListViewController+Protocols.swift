@@ -60,35 +60,41 @@ extension EventsListViewController: CalendarSwipeActionDelegate {
 extension EventsListViewController: CalendarActionDelegate {
   public func didSelectCell(for item: CalendarItem) {
     guard let event = events.first(where: { $0.id == item.id }) else { return }
-    let appointmentEvent = AnywhereAppointmentModule.Event(id: event.id,
+    debugPrint(event)
+    let appointmentEvent = AnywhereAppointmentModule.EventModel(id: event.id,
+                                                                calendar: event.calendar,
                                                            merchant: event.merchant,
-                                                           calendar: event.calendar,
-                                                           brand: "",
-                                                           startTime: event.startTime,
-                                                           endTime: event.endTime,
-                                                           maxSeats: NSNumber(integerLiteral: event.maxSeats),
-                                                           service: event.service,
-                                                           consumer: event.consumer,
-                                                           provider: event.provider,
-                                                           resource: event.resource,
-                                                           cost: NSNumber(integerLiteral: event.cost),
-                                                           status: "",
-                                                           source: event.source ?? "no data",
-                                                           bookingId: event.bookingId ?? "no data",
-                                                           type: "EVENT",
-                                                           title: event.title ?? "no data",
-                                                           location: event.location,
-                                                           createdTime: event.createdTime ?? 0,
-                                                           updatedTime: event.updatedTime ?? 0,
-                                                           startDateTime: event.startDateTime ?? "no data",
-                                                           endDateTime: event.endDateTime ?? "no data",
-                                                           startDate: event.startTime.date,
-                                                           notes: event.notes ?? "no data",
-                                                           isExternal: event.isExternal,
-                                                           parentId: event.parentId ?? "no data",
-                                                           createdBy: event.createdBy,
-                                                           rRule: event.rRule ?? "no data")
-    EventViewSDK.showEventView(eventViewRoute: .updateEvent(event: appointmentEvent), user: nil, source: self)
+                                                                brand: .Anytime,
+                                                                type: .event,
+                                                                provider: event.provider,
+                                                                service: event.service,
+                                                                consumer: event.consumer,
+                                                                resource: event.resource,
+                                                                startDateTime: event.startDateTime ?? "no data",
+                                                                endDateTime: event.endDateTime ?? "no data",
+                                                                startTime: event.startTime,
+                                                                endTime: event.endTime,
+                                                                maxSeats: event.maxSeats,
+                                                                cost: event.cost,
+                                                                isExternal: event.isExternal,
+                                                                isDeleted: event.isDeleted,
+                                                                rRule: event.rRule ?? "no data",
+                                                                paymentStatus: event.paymentStatus,
+                                                                label: event.label,
+                                                                bookingId: event.bookingId,
+                                                                source: event.source ?? "no data",
+                                                                parentId: event.parentId ?? "no data",
+                                                                title: event.title ?? "no data",
+                                                                location: AnywhereAppointmentModule.EventLocation(videoMeeting: event.location),
+                                                                notes: event.notes,
+                                                                createdBy: event.createdBy,
+                                                                createdTime: event.createdTime ?? 0,
+                                                                updatedTime: event.updatedTime ?? 0)
+    EventViewSDK.configurePlugIn(withBrand: .Anytime, user: nil)
+    EventViewSDK.showEventView(eventViewRoute: .updateEvent(event: appointmentEvent),
+                               source: self,
+                               delegate: self,
+                               presentationMode: .interactively(shouldBeMaximized: true))
   }
 
   public func didTapCalendar(on date: Date, atTime timeInMins: Int, duration: Int, notifyCompletion: @escaping () -> Void) {
@@ -119,5 +125,19 @@ extension EventsListViewController: DatePickerDelegate {
 
   public func didUpdatePickerHeight(to height: CGFloat) {
       print("New Height: \(height)")
+  }
+}
+
+extension EventsListViewController: AppointmentDelegate {
+  public func delete(event: AnywhereAppointmentModule.EventModel,
+                     forActionType actionType: AnywhereAppointmentModule.EventDeleteActionType,
+                     completion: @escaping (Swift.Result<String, Error>) -> Void) {
+    // TODO: delete event
+  }
+
+  public func actionFor(event: AnywhereAppointmentModule.EventModel,
+                        withActionType actionType: AnywhereAppointmentModule.EventActionType,
+                        completion: @escaping (Swift.Result<String, Error>) -> Void) {
+    // TODO: action
   }
 }

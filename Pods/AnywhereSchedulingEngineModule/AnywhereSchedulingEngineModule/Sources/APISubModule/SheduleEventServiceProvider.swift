@@ -257,9 +257,7 @@ final class SheduleEventServiceProvider: SheduleEventServiceProviderProtocol {
                     }
                 }
             }
-            
-            
-            
+
             var fetchParam = EventFetchParam()
             fetchParam.providerIds = nonFetchedIds
             fetchParam.startTime = startTimeDate.milliSec

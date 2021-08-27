@@ -207,10 +207,6 @@ class EventsApiService: BaseApiProvider, EventsApiProtocol {
                     promise.reject(self.handleResponse($0).error ?? APIError.unknown)
                     return
                 }
-                
-                
-                
-                
                 promise.fulfill(data)
             }
         }

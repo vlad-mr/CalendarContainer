@@ -1,8 +1,8 @@
 CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = NO
-FRAMEWORK_SEARCH_PATHS = $(inherited) "${PODS_CONFIGURATION_BUILD_DIR}/InterfaceModule" "${PODS_CONFIGURATION_BUILD_DIR}/SwiftDate"
+FRAMEWORK_SEARCH_PATHS = $(inherited) "${PODS_CONFIGURATION_BUILD_DIR}/InterfaceModule" "${PODS_CONFIGURATION_BUILD_DIR}/SwiftDate-static"
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
-HEADER_SEARCH_PATHS = $(inherited) "${PODS_CONFIGURATION_BUILD_DIR}/InterfaceModule/InterfaceModule.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/SwiftDate/SwiftDate.framework/Headers"
-OTHER_CFLAGS = $(inherited) -isystem "${PODS_CONFIGURATION_BUILD_DIR}/SwiftDate/SwiftDate.framework/Headers" -isystem "${PODS_CONFIGURATION_BUILD_DIR}/InterfaceModule/InterfaceModule.framework/Headers" -iframework "${PODS_CONFIGURATION_BUILD_DIR}/SwiftDate" -iframework "${PODS_CONFIGURATION_BUILD_DIR}/InterfaceModule"
+HEADER_SEARCH_PATHS = $(inherited) "${PODS_CONFIGURATION_BUILD_DIR}/InterfaceModule/InterfaceModule.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/SwiftDate-static/SwiftDate.framework/Headers"
+OTHER_CFLAGS = $(inherited) -isystem "${PODS_CONFIGURATION_BUILD_DIR}/SwiftDate-static/SwiftDate.framework/Headers" -isystem "${PODS_CONFIGURATION_BUILD_DIR}/InterfaceModule/InterfaceModule.framework/Headers" -iframework "${PODS_CONFIGURATION_BUILD_DIR}/SwiftDate-static" -iframework "${PODS_CONFIGURATION_BUILD_DIR}/InterfaceModule"
 OTHER_LDFLAGS = $(inherited) -ObjC -framework "Foundation" -framework "InterfaceModule" -framework "SwiftDate"
 OTHER_SWIFT_FLAGS = $(inherited) -D COCOAPODS
 PODS_BUILD_DIR = ${BUILD_DIR}

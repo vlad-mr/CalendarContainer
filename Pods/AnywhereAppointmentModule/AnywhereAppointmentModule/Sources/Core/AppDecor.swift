@@ -22,45 +22,42 @@ enum AppDecor {
     }
     
     struct NavBarIcons {
-        static let hamburgerMenu = UIImage(named: "Hamburger menu")
-        static let downArrow = UIImage(named: "DownArrow")
-        static let currentDate = UIImage(named: "Current date")
-        static let addNew = UIImage(named: "Add new")
-        static let upArrow = UIImage(named: "UpArrow")
-//        static let backArrow = UIImage(named: "common_back_arrow")
-        static let backArrow = UIImage(named: "common_back_arrow",from: .init(for: EventViewSDK.self))
+        static let hamburgerMenu = UIImage.bundledImage(named: "Hamburger menu")
+
+        static let downArrow = UIImage.bundledImage(named: "DownArrow")
+        static let currentDate = UIImage.bundledImage(named: "Current date")
+        static let addNew = UIImage.bundledImage(named: "Add new")
+        static let upArrow = UIImage.bundledImage(named: "UpArrow")
+            
+        static let backArrow = UIImage.bundledImage(named: "common_back_arrow")
     }
     
     enum Icons {
-//        static let selectedCell = UIImage(named: "SelectedCell")
-//        static let unselectedCell = UIImage(named: "UnselectedCell")
-        static let selectedCell = UIImage(named: "SelectedCell", from: .init(for: EventViewSDK.self))
-        static let unselectedCell = UIImage(named: "UnselectedCell", from: .init(for: EventViewSDK.self))
-        
-        static let searchIcon = UIImage(named: "Search")
-        static let grayRightArrow = UIImage(named: "rightArrow")
-        static let textFieldIcon = UIImage(named: "EventNameIcon")
-        static let startTime = UIImage(named: "StartTimeIcon")
-        static let endTime = UIImage(named: "EndTimeIcon")
-
-        static let accepted = UIImage(named: "accepted")
-        static let declined = UIImage(named: "cancelled")
-        static let pending = UIImage(named: "pending")
-        static let locationIcon = UIImage(named: "LocationIcon")
-        
-        static let addNotifications_inactive = UIImage(named: "AddNotificationsIcon-Inactive")
-        static let repeatIcon = UIImage(named: "RepeatIcon")
-        static let timezone = UIImage(named: "TimeZoneIcon")
-        static let dateTime = UIImage(named: "DateTimeIcon")
-        static let addGuests_active = UIImage(named: "AddGuests-Active")
-        static let tickCircle = UIImage(named: "tickCircle")
-        static let crossCircle = UIImage(named: "close")
-        static let setmoreEvent = UIImage(named: "event_setmore")
-        static let inviteNewPerson = UIImage(named: "InviteNewPerson")
-        
+        static let selectedCell = UIImage.bundledImage(named: "SelectedCell")
+        static let unselectedCell = UIImage.bundledImage(named: "UnselectedCell")
+        static let searchIcon = UIImage.bundledImage(named: "Search")
+        static let grayRightArrow = UIImage.bundledImage(named: "rightArrow")
+        static let textFieldIcon = UIImage.bundledImage(named: "EventNameIcon")
+        static let startTime = UIImage.bundledImage(named: "StartTimeIcon")
+        static let endTime = UIImage.bundledImage(named: "EndTimeIcon")
+        static let accepted = UIImage.bundledImage(named: "accepted")
+        static let declined = UIImage.bundledImage(named: "cancelled")
+        static let pending = UIImage.bundledImage(named: "pending")
+        static let locationIcon = UIImage.bundledImage(named: "LocationIcon")
+            
+        static let addNotifications_inactive = UIImage.bundledImage(named: "AddNotificationsIcon-Inactive")
+        static let repeatIcon = UIImage.bundledImage(named: "RepeatIcon")
+        static let timezone = UIImage.bundledImage(named: "TimeZoneIcon")
+        static let dateTime = UIImage.bundledImage(named: "DateTimeIcon")
+        static let addGuests_active = UIImage.bundledImage(named: "AddGuests-Active")
+        static let tickCircle = UIImage.bundledImage(named: "tickCircle")
+        static let crossCircle = UIImage.bundledImage(named: "close")
+        static let setmoreEvent = UIImage.bundledImage(named: "event_setmore")
+        static let inviteNewPerson = UIImage.bundledImage(named: "InviteNewPerson")
+            
         struct Login {
-            static let google = UIImage(named: "google_icon")
-            static let microsoft = UIImage(named: "office_365_icon")
+            static let google = UIImage.bundledImage(named: "google_icon")
+            static let microsoft = UIImage.bundledImage(named: "office_365_icon")
         }
     }
     
@@ -276,14 +273,6 @@ extension AppDecor {
         case 19: return AppDecor.CardColors.mandy
         default: return AppDecor.MainColors.anytimeLightBlue
         }
-    }
-}
-
-extension UIImage {
-    convenience init?(named: String, from bundle: Bundle) {
-        let bundleURL = bundle.resourceURL?.appendingPathComponent("AnywhereAppointmentModule.bundle")
-        let resourceBundle = Bundle(url: bundleURL!)
-        self.init(named: named, in: resourceBundle, compatibleWith: nil)
     }
 }
 

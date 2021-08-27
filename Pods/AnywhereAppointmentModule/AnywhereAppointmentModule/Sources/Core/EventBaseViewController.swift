@@ -9,7 +9,6 @@
 import UIKit
 import MBProgressHUD
 import CustomViewPresenter
-//import AnywhereAppointmentModule
 
 protocol EventBaseVCProtocol: class {
     var eventToDisplay: EventDisplayModel? { get set }
@@ -142,13 +141,9 @@ class EventBaseViewController: UIViewController {
         }
         
         self.view.endEditing(true)
-        var loaderText = ""
         
         if eventActionType == .create {
             let condition = event.rRule != nil
-            loaderText = condition ? "Creating Recurring Event..." : "Creating Single Event..."
-            alertHUD.showLoader(msg: loaderText)
-            
             condition ?
                 self.viewModel?.saveEvent(with: .recurringCreate, event, shouldCheckSlot: shouldCheckSlot) :
                 self.viewModel?.saveEvent(with: .create, event, shouldCheckSlot: shouldCheckSlot)
@@ -157,20 +152,14 @@ class EventBaseViewController: UIViewController {
             
             guard event.parentId != nil else {
                 let condition = eventToDisplay?.rRule == nil && event.rRule != nil
-                loaderText = condition ? "Single Event -> RECURRING..." : "Updating Single Event..."
-                alertHUD.showLoader(msg: loaderText)
-                
                 condition ?
                     self.viewModel?.saveEvent(with: .eventToRecurring, event, shouldCheckSlot: shouldCheckSlot) :
                     self.viewModel?.saveEvent(with: .update, event, shouldCheckSlot: shouldCheckSlot)
-
                 return
             }
 
             switch event.repeatMode {
             case .doNotRepeat:
-                loaderText = "Recurring Event -> SINGLE"
-                self.alertHUD.showLoader(msg: loaderText)
                 self.viewModel?.saveEvent(with: .recurringToEvent, event, shouldCheckSlot: shouldCheckSlot)
             default:
                 
@@ -179,16 +168,12 @@ class EventBaseViewController: UIViewController {
                     let tailUpdateActionText = "Update This End All Futute"
                     let childUpdateActionText = "Update This Event Only"
                     let alertTitleText = "Are you sure you want to update this event?"
-                    let childUpdate = "Child recurring updating..."
-                    let tailUpdate = "Tail updating..."
                     
                     let alertButtons: [UIAlertControllerCommonInputData.Button] = [
                         .init(title: childUpdateActionText, action: {
-                            self.alertHUD.showLoader(msg: childUpdate)
                             self.viewModel?.saveEvent(with: .update, event, shouldCheckSlot: shouldCheckSlot)
                         }),
                         .init(title: tailUpdateActionText, action: {
-                            self.alertHUD.showLoader(msg: tailUpdate)
                             self.viewModel?.saveEvent(with: .tail, event, shouldCheckSlot: shouldCheckSlot)
                         }),
                         .init(title: cancelActionText, action: nil)
@@ -202,9 +187,6 @@ class EventBaseViewController: UIViewController {
                     showDeletionAlert(with: commonInputData)
                     return
                 }
-                
-                loaderText = "Tail updating..."
-                self.alertHUD.showLoader(msg: loaderText)
                 self.viewModel?.saveEvent(with: .tail, event, shouldCheckSlot: shouldCheckSlot)
             }
         }
@@ -259,7 +241,7 @@ extension EventBaseViewController: EventBaseTableViewDelegateProtocol {
     }
     
     func didTapDeleteButton() {
-        let isRecurringMeeting = viewModel?.event?.parentId != nil
+        let isRecurringMeeting = viewModel?.originalEventModel?.parentId != nil
         
         let deleteEventActionText = isRecurringMeeting ? "Delete This Event Only" : "Yes"
         let cancelActionText = isRecurringMeeting ? "Cancel" : "No"
@@ -270,24 +252,20 @@ extension EventBaseViewController: EventBaseTableViewDelegateProtocol {
         
         var alertButtons: [UIAlertControllerCommonInputData.Button] = [
             .init(title: deleteEventActionText, action: {
-                self.alertHUD.showLoader(msg: "Deleting event..")
-                self.viewModel?.deleteEvent(with: .child)
-                
+                self.viewModel?.deleteEvent(with: .event)
             }),
             .init(title: cancelActionText, action: nil)
         ]
         
         if isRecurringMeeting {
             alertButtons.insert(
-                .init(title: deleteAllActionText, action: {
-                    self.alertHUD.showLoader(msg: "Deleting future events..")
+                .init(title: deleteAllActionText, action: {                    
                     self.viewModel?.deleteEvent(with: .tail)
                 }),
                 at: 1)
             alertButtons.insert(
                 .init(title: wholeDelete, action: {
-                    self.alertHUD.showLoader(msg: "Deleting whole recurring event..")
-                    self.viewModel?.deleteEvent(with: .whole)
+                    self.viewModel?.deleteEvent(with: .recurring)
                 }),
                 at: 2)
         }
@@ -380,6 +358,11 @@ extension EventBaseViewController: EventBaseVMDelegateProtocol {
             alertHUD.showText(msg: "", detailMsg: error.localizedDescription, duration: 1)
         }
         alertHUD.hide(animated: true, afterDelay: 2)
+    }
+    
+    func didStartAction(_ loaderText: String) {
+        alertHUD.hideHud()
+        alertHUD.showLoader(msg: loaderText)
     }
     
     func didCompleteAction(_ result: Result<String, Error>) {

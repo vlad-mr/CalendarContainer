@@ -32,6 +32,32 @@ extension UIFont {
     }
 }
 
+extension UIColor {
+    class func bundledColor(named: String, from bundle: Bundle = Bundle(for: EventViewSDK.self)) -> UIColor? {
+        let color = UIColor(named: named)
+        if color == nil {
+            return UIColor(named: named, in: bundle, compatibleWith: nil)
+        }
+        return color
+    }
+}
+
+extension UIImage {
+    class func bundledImage(named: String, from bundle: Bundle = Bundle(for: EventViewSDK.self)) -> UIImage? {
+        let image = UIImage(named: named)
+        if image == nil {
+            return UIImage(named: named, in: bundle, compatibleWith: nil)
+        } // Replace MyBasePodClass with yours
+        return image
+    }
+    
+    convenience init?(named: String, from bundle: Bundle) {
+        let bundleURL = bundle.resourceURL?.appendingPathComponent("AnywhereAppointmentModule.bundle")
+        let resourceBundle = Bundle(url: bundleURL!)
+        self.init(named: named, in: resourceBundle, compatibleWith: nil)
+    }
+}
+
 extension UIImageView {
     
     func setImage(forName name: String?, font: UIFont = AppDecor.Fonts.medium.withSize(20)) {
