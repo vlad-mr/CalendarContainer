@@ -31,7 +31,7 @@ public final class EventsListDataSource: FullCalendarDataSource {
 
   private lazy var calendarItems: [Date: [CalendarItem]] = [
     Date().dateAt(.startOfDay): self.getCalendarItems(forDate: Date())
-  ] 
+  ]
 
   public var activeCalendarView: FullCalendarView?
   public var activeDates: [Date] {
