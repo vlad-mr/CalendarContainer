@@ -92,11 +92,11 @@ public class EventParrentConfiguration: NSManagedObject {
         self.source = eventModel.source
         self.parentId = eventModel.parentId
         self.title = eventModel.title ?? ""
-        self.location = eventModel.location?.teleport
+        self.location = eventModel.location?.videoMeeting
         self.notes = eventModel.notes
         self.createdBy = eventModel.createdBy
 
-        self.metaData = eventModel.metaData?.describingValue
+        self.metaData = "eventModel.metaData?.describingValue"
         self.createdTime = eventModel.createdTime!
         self.updatedTime = eventModel.updatedTime!
     }

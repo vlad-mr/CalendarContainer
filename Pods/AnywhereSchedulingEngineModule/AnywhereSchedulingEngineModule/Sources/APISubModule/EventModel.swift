@@ -36,7 +36,7 @@ public extension EventFetchResponse {
 }
 
 public struct EventLocation: Codable {
-    public var teleport: String? // HAVE TO CONFIRM on why we are receiving an empty location
+    public var videoMeeting: String?
 }
 
 public enum EventSource: String, Codable {
@@ -70,9 +70,12 @@ public enum EventSource: String, Codable {
 }
 
 public enum AppBrand: String, Codable {
-    case Anytime
-    case YoCoBoard
-    case SetMore
+    case SetMore = "110003eb-76c1-4b81-a96a-4cdf91bf70fb"
+    case Anytime = "0dab9518-34d4-4725-a847-ca7ff65168a2"
+    case YoCoBoard = "d56194e1-b98b-4068-86f8-d442777d2a16"
+    case AnytimeOld = "Anytime"
+    case YoCoBoardOld = "YoCoBoard"
+    case SetMoreOld = "SetMore"
 }
 
 public extension AppBrand {
@@ -117,12 +120,51 @@ public struct EventModel: Codable {
     public var title: String? = ""
 
     public let location: EventLocation?
-    public let metaData: JSONAny?
+//    public let metaData: JSONAny?
     
     public var notes: String?
     public let createdBy: String? // The user who created the event
     public let createdTime: Double?
     public let updatedTime: Double?
+    
+    public init(id: String, calendar: String, merchant: String, brand: AppBrand, type: FetchEventType?, provider: [String], service: [String], consumer: [String], resource: [String], startDateTime: String?, endDateTime: String?, startTime: Double, endTime: Double, maxSeats: Int, cost: Int, isExternal: Bool, isDeleted: Bool, rRule: String?, paymentStatus: String?, label: String?, bookingId: String?, source: String?, parentId: String?, title: String?, location: EventLocation?, notes: String?, createdBy: String?, createdTime: Double?, updatedTime: Double?) {
+        self.id = id
+        self.calendar = calendar
+        self.merchant = merchant
+        self.brand = brand
+        self.type = type
+                
+        self.provider = provider
+        self.service = service
+        self.consumer = consumer
+        self.resource = resource
+        
+        self.startDateTime = startDateTime
+        self.endDateTime = endDateTime
+        self.startTime = startTime
+        self.endTime = endTime
+        
+        self.maxSeats = maxSeats
+        self.cost = cost
+        self.isExternal = isExternal
+        self.isDeleted = isDeleted
+
+        self.rRule = rRule
+        self.paymentStatus = paymentStatus
+        self.label = label
+        self.bookingId = bookingId
+        self.source = source
+        self.parentId = parentId
+        self.title = title
+        self.location = location
+
+        self.notes = notes
+        self.createdBy = createdBy
+        self.createdTime = createdTime
+        self.updatedTime = updatedTime
+        
+//        self.metaData = metaData
+    }
 }
 
 public extension EventModel {
@@ -153,13 +195,13 @@ public extension EventModel {
             parentId: nil,
             title: self.title,
             location: self.location,
-            metaData: self.metaData,
+//            metaData: self.metaData,
             notes: self.notes,
             createdBy: self.createdBy,
             createdTime: self.createdTime,
             updatedTime: self.updatedTime)
     }
-        
+  
     init(fromEvent event: Event) {
         self.id = event.id
         self.calendar = event.calendar
@@ -180,7 +222,7 @@ public extension EventModel {
         self.maxSeats = event.maxSeats.intValue
         self.cost = event.cost.intValue
         self.isExternal = event.isExternal
-//        self.isDeleted = event.isDeleted
+        self.isDeleted = event.isDeleted
         
         self.rRule = event.rRule
         self.paymentStatus = event.paymentStatus
@@ -191,7 +233,7 @@ public extension EventModel {
         self.title = event.title
         
         if let eventLocation = event.location {
-            self.location = EventLocation(teleport: eventLocation)
+            self.location = EventLocation(videoMeeting: eventLocation)
         } else {
             self.location = nil
         }
@@ -201,7 +243,7 @@ public extension EventModel {
         self.createdTime = event.createdTime
         self.updatedTime = event.updatedTime
         
-        self.metaData = JSONAny.initialize(fromJsonString: event.metaData ?? "")
+//        self.metaData = JSONAny.initialize(fromJsonString: event.metaData ?? "")
     }
 }
 

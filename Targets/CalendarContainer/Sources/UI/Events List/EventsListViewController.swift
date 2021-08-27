@@ -70,6 +70,7 @@ public final class EventsListViewController: DrawerPresentableViewController {
 
   private func update(with events: [EventModel]) {
     self.events = events
+    currentDataSource?.update(self.events)
     calendarView.reloadCalendar()
   }
 

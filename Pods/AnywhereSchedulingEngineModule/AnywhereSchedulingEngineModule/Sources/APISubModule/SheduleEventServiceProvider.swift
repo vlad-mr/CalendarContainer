@@ -32,6 +32,28 @@ public struct EventFetchParam: Codable {
     var cursorStr: String? = nil
     var isGroup: Bool = true
     var limit: Int = 30
+    
+    public init() {
+    }
+    
+    public init(calendarIds: [String]?, providerIds: [String]?, serviceIds: [String]?, consumerIds: [String]?, resourceIds: [String]?, eventIds: [String]?, merchantId: String?, startTime: Double = 0, endTime: Double = 0, type: FetchEventType? = .event, parentId: String?, cursorStr: String?, isGroup: Bool = true, limit: Int = 30) {
+  
+        self.calendarIds = calendarIds
+        self.providerIds = providerIds
+        self.serviceIds = serviceIds
+        self.consumerIds = consumerIds
+        self.resourceIds = resourceIds
+        self.eventIds = eventIds
+        
+        self.merchantId = merchantId
+        self.startTime = startTime
+        self.endTime = endTime
+        self.type = type
+        self.parentId = parentId
+        self.cursorStr = cursorStr
+        self.isGroup = isGroup
+        self.limit = limit
+    }
 }
 
 public enum FetchEventType: String, Codable {
@@ -215,14 +237,28 @@ final class SheduleEventServiceProvider: SheduleEventServiceProviderProtocol {
             guard !ids.isEmpty else {
                 return Promise<EventFetchResponse> { promise in
                     promise.reject(APIError.missingData)
-            } }
+            }}
             
             let nonFetchedIds = ids.filter { !FetchedDatesInfo.shared.areDatesAlreadyFetched(from: startTimeDate, to: endTimedate, for: $0) }
             
             guard !nonFetchedIds.isEmpty else {
                 return Promise<EventFetchResponse> { promise in
-                    promise.reject(APIError.missingData)
-            } }
+                    let predicate = CoreDataHelper.getEventFetchPredicate(forProvider: ids,
+                                                                          forStartTime: startTimeDate.milliSec,
+                                                                          endTime: endTimedate.milliSec)
+                    firstly {
+                        service.getEventsFromLocalStore(predicate)
+                    }.done { models in
+                        if let events = models {
+                            promise.fulfill(EventFetchResponse(next_cursor: nil, events: events))
+                        } else {
+                            promise.fulfill(EventFetchResponse(next_cursor: nil, events: []))
+                        }
+                    }
+                }
+            }
+            
+            
             
             var fetchParam = EventFetchParam()
             fetchParam.providerIds = nonFetchedIds
@@ -235,26 +271,35 @@ final class SheduleEventServiceProvider: SheduleEventServiceProviderProtocol {
             
             var tempParam = param
             
-            if let ids = param.providerIds {
-                
-                guard !ids.isEmpty else {
-                    return Promise<EventFetchResponse> { promise in
-                        promise.reject(APIError.missingData)
-                } }
-                
-                let start = Date(milliseconds: Int(param.startTime))
-                let end = Date(milliseconds: Int(param.endTime))
-                
-                let nonFetchedIds = ids.filter { !FetchedDatesInfo.shared.areDatesAlreadyFetched(from: start, to: end, for: $0) }
-                
-                guard !nonFetchedIds.isEmpty else {
-                    return Promise<EventFetchResponse> { promise in
-                        promise.reject(APIError.missingData)
-                    }
-                }
-
-                tempParam.providerIds = nonFetchedIds
-            }
+//            if let ids = param.providerIds {
+//                
+//                guard !ids.isEmpty else {
+//                    return Promise<EventFetchResponse> { promise in
+//                        promise.reject(APIError.missingData)
+//                } }
+//                
+//                let start = Date(milliseconds: Int(param.startTime))
+//                let end = Date(milliseconds: Int(param.endTime))
+//                
+//                let nonFetchedIds = ids.filter { !FetchedDatesInfo.shared.areDatesAlreadyFetched(from: start, to: end, for: $0) }
+//                
+//                guard !nonFetchedIds.isEmpty else {
+//                    return Promise<EventFetchResponse> { promise in
+//                        let predicate = CoreDataHelper.getEventsFetchPredicate(forProvider: ids)
+//                        firstly {
+//                            service.getEventsFromLocalStore(predicate)
+//                        }.done { models in
+//                            if let events = models {
+//                                promise.fulfill(EventFetchResponse(next_cursor: nil, events: events))
+//                            } else {
+//                                promise.fulfill(EventFetchResponse(next_cursor: nil, events: []))
+//                            }
+//                        }
+//                    }
+//                }
+//
+//                tempParam.providerIds = nonFetchedIds
+//            }
             
             let paramDict = tempParam.dictionary ?? [:]
             return service.fetchEvents(withParam: paramDict, shouldRefresh: shouldRefresh, shouldLoadNext: shouldLoadNext)

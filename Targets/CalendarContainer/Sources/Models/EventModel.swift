@@ -45,17 +45,18 @@ public struct EventModel {
   public let updatedTime: Double?
 }
 
-public enum AppBrand: String, Codable {
-    case anytime
-    case yoco
-    case setmore
+public enum AppBrand {
+  case anytime
+  case yoco
+  case setmore
+  case id(String)
 }
 
 public enum FetchEventType: String {
-    case appointment = "APPOINTMENT"
-    case event = "EVENT"
-    case groupe = "GROUP"
-    case offhours = "OFFHOURS"
-    case session = "SESSION"
-    case reminder = "REMINDER"
+  case appointment = "APPOINTMENT"
+  case event = "EVENT"
+  case group = "GROUP"
+  case offhours = "OFFHOURS"
+  case session = "SESSION"
+  case reminder = "REMINDER"
 }

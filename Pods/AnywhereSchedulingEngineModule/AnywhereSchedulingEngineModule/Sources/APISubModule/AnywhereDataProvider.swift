@@ -24,6 +24,8 @@ public protocol AnywhereDataProviderType {
   func saveParrents(_ events: [EventModel]) -> Promise<[EventModel]>
   func saveParrents(_ parrentModels: ParrentConfigClass) -> Promise<Void>
   func deleteParrentConfigurationFromLocalStore(withId id: String?) -> Promise<Void>
+    
+  func getEvents(_ predicate: NSPredicate) -> Promise<[EventModel]?>
 }
 
 public enum DataStackError: String, Error {
@@ -42,27 +44,29 @@ final class AnywhereDataProvider: AnywhereDataProviderType {
         promise.reject(DataStackError.missingData)
         return
       }
-
-      let context = NSManagedObjectContext.mr_()
-
-      if !isClear, shouldRefresh {
-        context.performAndWait {
-          let predicate = CoreDataHelper.getEventFetchPredicate(forStartTime: Double(startTime), endTime: Double(endTime))
-          isClear = Event.mr_deleteAll(matching: predicate, in: context)
-          Logger.debug("Events deleted: \(isClear)")
-        }
-      }
-
-      context.performAndWait {
-        for eventModel in response.events where eventModel.brand.isAllowed {
-
-          let event = Event.mr_findFirstOrCreate(byAttribute: "id", withValue: eventModel.id, in: context)
-          event.setEvent(eventModel)
-        }
-      }
-      context.mr_saveToPersistentStore { (_, _) in
+        
         promise.fulfill(response)
-      }
+
+//      let context = NSManagedObjectContext.mr_()
+//
+//      if !isClear, shouldRefresh {
+//        context.performAndWait {
+//          let predicate = CoreDataHelper.getEventFetchPredicate(forStartTime: Double(startTime), endTime: Double(endTime))
+//          isClear = Event.mr_deleteAll(matching: predicate, in: context)
+//          Logger.debug("Events deleted: \(isClear)")
+//        }
+//      }
+//
+//      context.performAndWait {
+//        for eventModel in response.events where eventModel.brand.isAllowed {
+//
+//          let event = Event.mr_findFirstOrCreate(byAttribute: "id", withValue: eventModel.id, in: context)
+//          event.setEvent(eventModel)
+//        }
+//      }
+//      context.mr_saveToPersistentStore { (_, _) in
+//        promise.fulfill(response)
+//      }
     }
   }
 
@@ -223,4 +227,20 @@ final class AnywhereDataProvider: AnywhereDataProviderType {
       }
     }
   }
+
+    func getEvents(_ predicate: NSPredicate) -> Promise<[EventModel]?> {
+        return Promise<[EventModel]?> { promise in
+            let context = NSManagedObjectContext.mr_()
+
+            context.performAndWait {
+                let events = (Event.mr_findAll(with: predicate, in: context) as? [Event])?.compactMap({ EventModel(fromEvent: $0)})
+                
+//                let events = Event.mr_findAll(with: predicate, in: context)?
+//                    .map({ Event(entity: $0.entity, insertInto: context) })
+//                    .map({ EventModel(fromEvent: $0)})
+                
+                promise.fulfill(events)
+            }
+        }
+    }
 }

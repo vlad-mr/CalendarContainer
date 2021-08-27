@@ -49,6 +49,7 @@ public protocol SheduleEventServiceProtocol {
     func deleteEventsFromLocalStore(withCalendarIds calendarId: [String]) -> Promise<Void>
     func deleteEventsFromLocalStore(withParentIds parentIds: [String], andAfter date: Date) -> Promise<Void>
     func deleteParrentConfigurationFromLocalStore(withId id: String?) -> Promise<Void>
+    func getEventsFromLocalStore(_ predicate: NSPredicate) -> Promise<[EventModel]?>
 }
 
 final class SheduleEventService: SheduleEventServiceProtocol {
@@ -81,27 +82,29 @@ final class SheduleEventService: SheduleEventServiceProtocol {
             }.then { response in
                 self.saveEvent(forResponse: response.data, shouldRefresh: shouldRefresh)
             }.done { eventResponse in
-                for event in eventResponse.events where !event.isExternal {
-                    if let parentId = event.parentId {
-                        self.getParrentConfigurationOfRecurringEvent(withId: parentId)
-                            .catch { promise.reject($0) }
-                    }
-                }
-                if let cursor = eventResponse.next_cursor, shouldLoadNext {
-                    var newEventFetchParam = param
-                    newEventFetchParam["cursorStr"] = cursor
-                    self.fetchMoreEvents(withParam: newEventFetchParam, promise: promise)
-                } else {
-                    if let start = param["startTime"] as? Int, let end = param["endTime"] as? Int {
-                        let startDate = Date(milliseconds: start)
-                        let endDate = Date(milliseconds: end)
-                        
-                        eventResponse.events
-                            .flatMap({ $0.provider })
-                            .forEach { FetchedDatesInfo.shared.addFetchedDates(from: startDate, to: endDate, for: $0) }
-                    }
-                    promise.fulfill(eventResponse)
-                }
+//                for event in eventResponse.events where !event.isExternal {
+//                    if let parentId = event.parentId {
+//                        self.getParrentConfigurationOfRecurringEvent(withId: parentId)
+//                            .catch { promise.reject($0) }
+//                    }
+//                }
+//                if let cursor = eventResponse.next_cursor, shouldLoadNext {
+//                    var newEventFetchParam = param
+//                    newEventFetchParam["cursorStr"] = cursor
+//                    self.fetchMoreEvents(withParam: newEventFetchParam, promise: promise)
+//                } else {
+//                    if let start = param["startTime"] as? Int, let end = param["endTime"] as? Int {
+//                        let startDate = Date(milliseconds: start)
+//                        let endDate = Date(milliseconds: end)
+//
+//                        eventResponse.events
+//                            .flatMap({ $0.provider })
+//                            .forEach { FetchedDatesInfo.shared.addFetchedDates(from: startDate, to: endDate, for: $0) }
+//                    }
+//                    promise.fulfill(eventResponse)
+//                }
+                promise.fulfill(eventResponse)
+
             }.catch {
                 promise.reject($0)
                 Logger.warning("Error in fetching events \($0)")
@@ -481,5 +484,8 @@ final class SheduleEventService: SheduleEventServiceProtocol {
     
     func deleteParrentConfigurationFromLocalStore(withId id: String?) -> Promise<Void> {
         dataStackProvider.deleteParrentConfigurationFromLocalStore(withId: id)
+    }
+    func getEventsFromLocalStore(_ predicate: NSPredicate) -> Promise<[EventModel]?> {
+        dataStackProvider.getEvents(predicate)
     }
 }

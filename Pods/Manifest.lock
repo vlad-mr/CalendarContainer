@@ -29,6 +29,14 @@ PODS:
   - AnywhereSchedulingEngineModule/Core (0.0.2):
     - AnywhereInterfaceModule
     - AnywhereSchedulingEngineModule/APISubModule
+    - AnywhereSchedulingEngineModule/TeleportApiSubModule
+    - MagicalRecord
+    - Moya
+    - PromiseKit
+    - SwiftDate
+    - SwiftyBeaver
+  - AnywhereSchedulingEngineModule/TeleportApiSubModule (0.0.2):
+    - AnywhereInterfaceModule
     - MagicalRecord
     - Moya
     - PromiseKit
@@ -58,7 +66,7 @@ PODS:
 
 DEPENDENCIES:
   - "AnywhereAppointmentModule (from `git@github.com:Adaptavant/Anywhere-IOS-Module.git`, branch `appointmentModule/eventModule`)"
-  - "AnywhereSchedulingEngineModule (from `git@github.com:Adaptavant/Anywhere-IOS-Module.git`, branch `appointmentModule/eventModule`)"
+  - "AnywhereSchedulingEngineModule (from `git@github.com:Adaptavant/Anywhere-IOS-Module.git`, branch `appointmentModule/eventModuleCopy`)"
   - InterfaceModule
   - SwiftDate (from `https://github.com/Vignesh-Thangamariappan/SwiftDate.git`)
 
@@ -80,7 +88,7 @@ EXTERNAL SOURCES:
     :branch: appointmentModule/eventModule
     :git: "git@github.com:Adaptavant/Anywhere-IOS-Module.git"
   AnywhereSchedulingEngineModule:
-    :branch: appointmentModule/eventModule
+    :branch: appointmentModule/eventModuleCopy
     :git: "git@github.com:Adaptavant/Anywhere-IOS-Module.git"
   SwiftDate:
     :git: https://github.com/Vignesh-Thangamariappan/SwiftDate.git
@@ -90,7 +98,7 @@ CHECKOUT OPTIONS:
     :commit: 65fe68d23be92602c190140bb88a1880699372ee
     :git: "git@github.com:Adaptavant/Anywhere-IOS-Module.git"
   AnywhereSchedulingEngineModule:
-    :commit: 65fe68d23be92602c190140bb88a1880699372ee
+    :commit: 7ece00edc4cfb6ce09e2c0bb4d0d78d9a5abbdb7
     :git: "git@github.com:Adaptavant/Anywhere-IOS-Module.git"
   SwiftDate:
     :commit: 3c03ac3de625985b8fd46fa78c6256af00f161c0
@@ -100,7 +108,7 @@ SPEC CHECKSUMS:
   Alamofire: e447a2774a40c996748296fa2c55112fdbbc42f9
   AnywhereAppointmentModule: b76bf80b92f414edd0336fe4e898eba7a6dca161
   AnywhereInterfaceModule: 8d9adee73f3f9947a422f0f1e49780b84a75bf09
-  AnywhereSchedulingEngineModule: e6a00efc1c6df160aed3281baa8a70839b3b0b8e
+  AnywhereSchedulingEngineModule: ef90fbe6c2f0860d503a8f86eb7d328db9ef2aec
   CustomViewPresenter: 511924042c31928def10aca6dae50bb09524e17d
   InterfaceModule: 5f7cd6245cde3d9d3850be3e204d79fdc32260a1
   MagicalRecord: 53bed74b4323b930992a725be713e53b37d19755
@@ -110,6 +118,6 @@ SPEC CHECKSUMS:
   SwiftDate: 72d28954e8e1c6c1c0f917ccc8005e4f83c7d4b2
   SwiftyBeaver: 84069991dd5dca07d7069100985badaca7f0ce82
 
-PODFILE CHECKSUM: 1d32f26c0ae6117a3d269fdf0121afd7ae4e165f
+PODFILE CHECKSUM: 38050396941801cf4249f3368cb1b08311182ade
 
-COCOAPODS: 1.10.1
+COCOAPODS: 1.10.2

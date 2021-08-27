@@ -66,12 +66,11 @@ struct CoreDataHelper {
         
         return NSCompoundPredicate(andPredicateWithSubpredicates: [queryPredicate, timebasedQuery])
     }
-    
     static func getEventFetchPredicate(forProvider keys: [String], forStartTime startTime: Double, endTime: Double) -> NSPredicate {
-        let queryPredicates = keys.map {
-            getEventFetchPredicate(forProvider: $0, forStartTime: startTime, endTime: endTime)
-        }
-        return NSCompoundPredicate(type: .or, subpredicates: queryPredicates)
-    }
 
+        let queryPredicates = getEventsFetchPredicate(forProvider: keys)
+        let timebasedQuery = getEventFetchPredicate(forStartTime: startTime, endTime: endTime)
+
+        return NSCompoundPredicate(type: .and, subpredicates: [queryPredicates, timebasedQuery])
+    }
 }

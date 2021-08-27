@@ -44,6 +44,7 @@ public enum SchedulingServiceBuilder {
 struct Configuration {
     var baseURL: URL = URL(string: "google.com")!
     var accessToken: String? = ""
+    var apiVersion: String = "v1"
     let isLiveEnvironment: Bool = false
     var accountTimezoneId: String = ""
     static var current: Configuration = Configuration()

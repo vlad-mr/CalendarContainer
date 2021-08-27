@@ -31,7 +31,7 @@ public final class ApiResponseValidator {
     public class func validateResponse<T>(_ response: SchedulingEngineApiResponse<T>) -> Promise<T> {
      
         return Promise<T> { promise in
-            guard response.status, let requiredData = response.data else {
+            guard response.response, let requiredData = response.data else {
                 if let error = response.error, let apiError = APIError(rawValue: error) {
                     promise.reject(apiError)
                 } else {

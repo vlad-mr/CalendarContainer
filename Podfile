@@ -6,7 +6,7 @@ use_frameworks!(:linkage => :static)
 inhibit_all_warnings! 
 
 target 'CalendarContainer' do
-  pod 'AnywhereSchedulingEngineModule', :git => 'git@github.com:Adaptavant/Anywhere-IOS-Module.git', :branch => 'appointmentModule/eventModule'
+  pod 'AnywhereSchedulingEngineModule', :git => 'git@github.com:Adaptavant/Anywhere-IOS-Module.git', :branch => 'appointmentModule/eventModuleCopy'
   pod 'AnywhereAppointmentModule', :git => 'git@github.com:Adaptavant/Anywhere-IOS-Module.git', :branch => 'appointmentModule/eventModule'
   # pod 'AnywhereCalendarSDK', :git => 'git@github.com:Adaptavant/iOS-Calendar-SDK.git', :branch => 'dev_redesign'
 end

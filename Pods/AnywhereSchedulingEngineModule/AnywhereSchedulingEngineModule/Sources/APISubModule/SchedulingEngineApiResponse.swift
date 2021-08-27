@@ -9,7 +9,7 @@
 import Foundation
 
 public struct SchedulingEngineApiResponse<Response: Codable>: Codable {
-    public let status: Bool
+    public let response: Bool
     public let data: Response?
     public let error: String?
     public let msg: String?

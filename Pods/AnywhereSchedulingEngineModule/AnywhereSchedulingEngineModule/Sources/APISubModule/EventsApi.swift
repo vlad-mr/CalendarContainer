@@ -27,7 +27,7 @@ enum EventsApi {
 }
 
 extension EventsApi: TargetType {
-    var baseURL: URL { Configuration.current.baseURL }
+    var baseURL: URL { Configuration.current.baseURL.appendingPathComponent(Configuration.current.apiVersion) }
 
     var path: String {
         switch self {
@@ -92,7 +92,7 @@ extension EventsApi: TargetType {
             ]
             
             let jsonData = SchedulingEngineApiResponse<[EventModel]>(
-                status: true,
+                response: true,
                 data: models,
                 error: nil,
                 msg: nil)
@@ -106,7 +106,7 @@ extension EventsApi: TargetType {
             getEventModel()
         ])
         let jsonData = SchedulingEngineApiResponse<EventFetchResponse>(
-            status: true,
+            response: true,
             data: resp,
             error: nil,
             msg: nil)
@@ -207,6 +207,10 @@ class EventsApiService: BaseApiProvider, EventsApiProtocol {
                     promise.reject(self.handleResponse($0).error ?? APIError.unknown)
                     return
                 }
+                
+                
+                
+                
                 promise.fulfill(data)
             }
         }
@@ -370,8 +374,8 @@ extension EventsApi {
     func getEventModel() -> EventModel {
         let appUserId = UUID().uuidString
         let accountId = UUID().uuidString
-        let defaultEvent = EventModel(id: UUID().uuidString, calendar: UUID().uuidString, merchant: accountId, brand: .Anytime, provider: [], service: [], consumer: [], resource: [], startTime: 0, endTime: 0, maxSeats: 0, bookingId: nil, location: nil, metaData: nil, createdBy: appUserId, createdTime: 123, updatedTime: 1233)
-
+        
+        let defaultEvent = EventModel(id: UUID().uuidString, calendar: UUID().uuidString, merchant: accountId, brand: .Anytime, type: .event, provider: [], service: [], consumer: [], resource: [], startDateTime: nil, endDateTime: nil, startTime: 0, endTime: 0, maxSeats: 0, cost: 0, isExternal: false, isDeleted: false, rRule: nil, paymentStatus: nil, label: nil, bookingId: nil, source: nil, parentId: nil, title: nil, location: nil, notes: nil, createdBy: appUserId, createdTime: 123, updatedTime: 1233)
         return defaultEvent
     }
 }

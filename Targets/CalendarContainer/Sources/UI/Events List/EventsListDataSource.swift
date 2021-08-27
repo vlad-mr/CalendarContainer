@@ -13,21 +13,34 @@ public final class EventsListDataSource: FullCalendarDataSource {
   private var events: [EventModel] = []
 
   public func update(_ events: [EventModel]) {
-    self.events = events
+    self.events = events.sorted { $0.startTime < $1.startTime }
+    calendarItems.removeAll()
+    for event in self.events {
+      if calendarItems[event.startTime.date.dateAt(.startOfDay)] == nil {
+        calendarItems[event.startTime.date.dateAt(.startOfDay)] = Array<CalendarItem>()
+      }
+      let item = AnywhereCalendarItem(withId: event.id,
+                                      title: event.title ?? event.label,
+                                      startDate: event.startTime.date.dateRoundedAt(at: .toCeil10Mins),
+                                      endDate: event.endTime.date.dateByAdding(2, .hour).dateRoundedAt(.toCeil10Mins).date,
+                                      color: .blue,
+                                      source: .google)
+      calendarItems[event.startTime.date.dateAt(.startOfDay)]!.append(item)
+    }
   }
 
   private lazy var calendarItems: [Date: [CalendarItem]] = [
     Date().dateAt(.startOfDay): self.getCalendarItems(forDate: Date())
-  ]
+  ] 
 
   public var activeCalendarView: FullCalendarView?
   public var activeDates: [Date] {
-    let date = Date().dateAt(.startOfDay)
-    var newDates = [Date]()
-    for day in 0..<7 {
-      newDates.append(date.dateByAdding(day, .day).date)
+//    let date = Date().dateAt(.startOfDay)
+    var newDates = Set<Date>()
+    for event in events {
+      newDates.insert(event.startTime.date.dateAt(.startOfDay))
     }
-    return newDates
+    return Array(newDates).sorted(by: { $0 < $1 })
   }
 
   public func numberOfItems(inSection section: Int) -> Int {

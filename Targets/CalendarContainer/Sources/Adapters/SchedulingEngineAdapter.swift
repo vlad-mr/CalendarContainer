@@ -36,7 +36,7 @@ public final class SchedulingEngineAdapter {
       ],
       "startTime": 1627257652397,
       "endTime": 1635206452397,
-      "limit": 200,
+      "limit": 50,
       "isGroup": true
     }
     """
@@ -48,7 +48,7 @@ public final class SchedulingEngineAdapter {
 
   // MARK: - Private
 
-  private var baseUrl = URL(string: "https://alpha-dot-staging-schedulingengine.el.r.appspot.com/schedule/v1")!
+  private var baseUrl = URL(string: "https://alpha-dot-staging-schedulingengine.el.r.appspot.com/schedule")!
   private var token = "empty"
   private lazy var apiProvider = SchedulingServiceBuilder.buildProvider(url: baseUrl, token: token)
   private lazy var dataProvider = AnywhereDataStackBuilder.buildProvider()
@@ -67,7 +67,7 @@ public final class SchedulingEngineAdapter {
                       endTime: dto.endTime,
                       maxSeats: dto.maxSeats,
                       bookingId: dto.bookingId,
-                      location: dto.location?.teleport,
+                      location: dto.location?.videoMeeting,
                       createdBy: dto.createdBy,
                       createdTime: dto.createdTime,
                       updatedTime: dto.updatedTime)
@@ -80,6 +80,20 @@ extension AnywhereSchedulingEngineModule.AppBrand {
     case .Anytime: return .anytime
     case .YoCoBoard: return .yoco
     case .SetMore: return .setmore
+    default: return .id(rawValue)
+    }
+  }
+}
+
+extension AnywhereSchedulingEngineModule.FetchEventType {
+  var map: FetchEventType {
+    switch self {
+    case .appointment: return .appointment
+    case .event: return .event
+    case .groupe: return .group
+    case .offhours: return .offhours
+    case .session: return .session
+    case .reminder: return .reminder
     }
   }
 }
